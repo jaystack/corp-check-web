@@ -1,0 +1,27 @@
+{
+  "name": "corp-check-web",
+  "version": "1.0.0",
+  "description": "Webpage for corp-check",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaystack/corp-check-web.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jaystack/corp-check-web/issues"
+  },
+  "homepage": "https://github.com/jaystack/corp-check-web#readme",
+  "dependencies": {
+    "next": "^3.2.1",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  }
+}
