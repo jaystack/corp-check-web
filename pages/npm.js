@@ -13,7 +13,7 @@ export default class extends React.PureComponent {
       <div>
         <Head />
         <Tab pathname={this.props.pathname}>
-          <Input size="massive" fluid action="Go" placeholder="NPM package" />
+          <Input size="massive" fluid action={{ content: 'Go', color: 'teal' }} placeholder="npm package" />
         </Tab>
       </div>
     );

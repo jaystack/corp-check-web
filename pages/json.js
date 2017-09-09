@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from '../components/Head';
 import Tab from '../components/Tab';
-import { Form, TextArea, Button } from 'semantic-ui-react';
+import { Form, TextArea, Button, Checkbox } from 'semantic-ui-react';
 
 export default class extends React.PureComponent {
   static async getInitialProps({ pathname }) {
@@ -22,7 +22,10 @@ export default class extends React.PureComponent {
               />
             </Form.Field>
             <Form.Field>
-              <Button size="big">Go</Button>
+              <Checkbox label="Production only" />
+            </Form.Field>
+            <Form.Field>
+              <Button color="teal" size="big">Go</Button>
             </Form.Field>
           </Form>
         </Tab>
