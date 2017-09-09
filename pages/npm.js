@@ -1,17 +1,20 @@
 import React from 'react';
 import Head from '../components/Head';
+import Tab from '../components/Tab';
+import { Input } from 'semantic-ui-react';
 
 export default class extends React.PureComponent {
   static async getInitialProps({ pathname }) {
-    console.log(pathname)
-    return {  };
+    return { pathname };
   }
 
   render() {
     return (
       <div>
         <Head />
-        
+        <Tab pathname={this.props.pathname}>
+          <Input size="massive" fluid action="Go" placeholder="NPM package" />
+        </Tab>
       </div>
     );
   }
