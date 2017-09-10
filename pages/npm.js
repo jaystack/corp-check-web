@@ -4,14 +4,14 @@ import Head from '../components/Head';
 import Tab from '../components/Tab';
 import Result from '../components/Result';
 import { Input } from 'semantic-ui-react';
-import { validateByName, getResult } from '../api';
+import { validateByName } from '../api';
 
 export default class extends React.PureComponent {
   state = { value: '' };
 
   handleSubmit = async () => {
     const { cid } = await validateByName(this.state.value);
-    Router.push({ pathname: '/result', query: { cid } });
+    if (cid) Router.push({ pathname: '/result', query: { cid } });
   };
 
   handleKeyUp = evt => {
@@ -23,8 +23,8 @@ export default class extends React.PureComponent {
   };
 
   render() {
-    const { value, status } = this.state;
     const { url } = this.props;
+    const { value } = this.state;
     return (
       <div>
         <Head />

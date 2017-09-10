@@ -12,7 +12,10 @@ const resolvePackage = pkg => {
 const prepareQuery = query => stringify(JSON.parse(JSON.stringify(query)));
 
 const invoke = method => (path, { query = {}, body }) =>
-  fetch(`${endpoint}/${path}?${prepareQuery(query)}`, body ? { method, body } : { method }).then(res => res.json());
+  fetch(
+    `${endpoint}/${path}?${prepareQuery(query)}`,
+    body ? { method, body: JSON.stringify(body) } : { method }
+  ).then(res => res.json());
 
 const api = {
   get: invoke('GET'),
@@ -22,6 +25,9 @@ const api = {
 };
 
 export const validateByName = name => api.get('validation', { query: resolvePackage(name) });
+
+export const validateByJson = (packageJSON, isProduction = false) =>
+  api.post('validation', { body: { packageJSON, isProduction } });
 
 export const getResult = async cid => {
   if (!cid) return { completed: false };
