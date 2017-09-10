@@ -33,5 +33,9 @@ export const getResult = async cid => {
   if (!cid) return { completed: false };
   const result = await api.get('package', { query: { cid } });
   console.log(result);
-  return { completed: result.item.validationState.state === 'Completed', name: result.item.packageName };
+  return {
+    completed: result.item.validationState.state === 'Completed',
+    name: result.item.packageName,
+    version: result.item.packageVersion
+  };
 };

@@ -22,14 +22,17 @@ export default class extends React.PureComponent {
         <Head />
         <Grid centered columns={2}>
           <Grid.Column>
-            <Segment loading={!completed}>
-              <Label as="a" color="red" ribbon>Rejected</Label>
+            <Segment loading={completed}>
+              <Label size="massive" as="a" color="red" ribbon>Rejected</Label>
+              <h1 style={{ display: 'inline' }}>{result.name}{result.version ? '@' + result.version : ''}</h1>
               <br />
-              <Label as="a" color="orange" ribbon>Accepted</Label>
               <br />
-              <Label as="a" color="green" ribbon>Recommended</Label>
-              <h1>{result.name}</h1>
-              {completed ? 'Completed' : 'Pending'}
+              <Label size="massive" as="a" color="orange" ribbon>Accepted</Label>
+              <br />
+              <br />
+              <Label size="massive" as="a" color="green" ribbon>Recommended</Label>
+              <br />
+              <br />
             </Segment>
           </Grid.Column>
         </Grid>
