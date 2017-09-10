@@ -6,12 +6,14 @@ import { Form, TextArea, Button, Checkbox, Message } from 'semantic-ui-react';
 import { validateByJson } from '../api';
 
 export default class extends React.PureComponent {
-  state = { value: '', isProduction: false, error: null };
+  state = { value: '', isProduction: false, error: null, inProgress: false };
 
   handleSubmit = async () => {
     const { value, isProduction } = this.state;
+    this.setState({ inProgress: true });
     const { cid } = await validateByJson(JSON.parse(value), isProduction);
     if (cid) Router.push({ pathname: '/result', query: { cid } });
+    this.setState({ inProgress: false });
   };
 
   handleChange = evt => {
@@ -31,12 +33,12 @@ export default class extends React.PureComponent {
 
   render() {
     const { url } = this.props;
-    const { value, error } = this.state;
+    const { value, error, inProgress } = this.state;
     console.log(error);
     return (
       <div>
         <Head />
-        <Tab pathname={url.pathname}>
+        <Tab pathname={url.pathname} inProgress={inProgress}>
           <Form error={!!error}>
             <Form.Field error={!!error}>
               <TextArea
@@ -52,7 +54,7 @@ export default class extends React.PureComponent {
               <Checkbox label="Production only" onChange={this.handleSwitchProduction} />
             </Form.Field>
             <Form.Field>
-              <Button color="teal" size="big" onClick={this.handleSubmit} disabled={!value || !!error}>Go</Button>
+              <Button color="teal" size="big" onClick={this.handleSubmit} disabled={!value || !!error}>Check</Button>
             </Form.Field>
           </Form>
         </Tab>
