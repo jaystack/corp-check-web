@@ -7,7 +7,7 @@ export default class extends React.PureComponent {
     return (
       <Grid centered columns={2}>
         <Grid.Column>
-          <Segment>
+          <Segment loading={!completed} padded='very'>
             {completed ? 'Completed' : 'Pending'}
           </Segment>
         </Grid.Column>
