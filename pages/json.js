@@ -10,7 +10,7 @@ export default class extends React.PureComponent {
 
   handleSubmit = async () => {
     const { value, isProduction } = this.state;
-    const { cid } = await validateByJson(value, isProduction);
+    const { cid } = await validateByJson(JSON.parse(value), isProduction);
     if (cid) Router.push({ pathname: '/result', query: { cid } });
   };
 
@@ -47,7 +47,7 @@ export default class extends React.PureComponent {
                 style={{ minHeight: '300px', width: '100%', fontFamily: 'Courier New' }}
               />
             </Form.Field>
-            {error ? <Message error header="Error" content={error} /> : null}
+            {/* {error ? <Message error header="Error" content={error} /> : null} */}
             <Form.Field>
               <Checkbox label="Production only" onChange={this.handleSwitchProduction} />
             </Form.Field>
