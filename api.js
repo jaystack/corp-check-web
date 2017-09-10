@@ -32,5 +32,6 @@ export const validateByJson = (packageJSON, isProduction = false) =>
 export const getResult = async cid => {
   if (!cid) return { completed: false };
   const result = await api.get('package', { query: { cid } });
-  return result.item.validationState.state === 'Completed' ? { completed: true } : { completed: false };
+  console.log(result);
+  return { completed: result.item.validationState.state === 'Completed', name: result.item.packageName };
 };

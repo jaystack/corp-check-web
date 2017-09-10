@@ -2,7 +2,6 @@ import React from 'react';
 import Router from 'next/router';
 import Head from '../components/Head';
 import Tab from '../components/Tab';
-import Result from '../components/Result';
 import { Input } from 'semantic-ui-react';
 import { validateByName } from '../api';
 
