@@ -36,7 +36,7 @@ export default class extends React.PureComponent {
       } catch (error) {
         this.setState({ results: [], isFetchingSuggestions: false });
       }
-    }, 500);
+    }, 300);
   };
 
   render() {

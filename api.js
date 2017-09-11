@@ -15,7 +15,7 @@ const prepareQuery = query => stringify(JSON.parse(JSON.stringify(query)));
 export const getNpmSuggestions = keyword => {
   if (!keyword) return [];
   const q = encodeURIComponent(keyword.replace(/\//g, ' '));
-  return fetch(`https://api.npms.io/v2/search/suggestions?${prepareQuery({ q, size: 10 })}`)
+  return fetch(`https://api.npms.io/v2/search/suggestions?${prepareQuery({ q, size: 5 })}`)
     .then(res => res.json())
     .then(json => json.map(({ package: { name, version, description } }) => ({ title: name, version, description })))
     .catch(error => []);
