@@ -3,7 +3,6 @@ import { stringify } from 'querystring';
 
 const fullPackage = /^(@[a-zA-Z0-9-]+\/)?([a-zA-Z0-9-]+)(@(\d.\d.\d))?$/;
 const endpoint = 'http://localhost:3001';
-//const npmSearchEndpoint = 'http://npmsearch.com/query';
 
 const resolvePackage = pkg => {
   const [, scope = '', name, , version] = fullPackage.exec(pkg);
@@ -11,9 +10,6 @@ const resolvePackage = pkg => {
 };
 
 const prepareQuery = query => stringify(JSON.parse(JSON.stringify(query)));
-
-/* export const searchNpm = keyword =>
-  fetch(`${npmSearchEndpoint}?${prepareQuery({ q: keyword, fields: 'name,version' })}`).then(res => res.json()); */
 
 export const searchNpm = keyword =>
   fetch(
