@@ -3,6 +3,7 @@ import { stringify } from 'querystring';
 
 const fullPackage = /^(@[a-zA-Z0-9-]+\/)?([a-zA-Z0-9-]+)(@(\d.\d.\d))?$/;
 const endpoint = 'http://localhost:3001';
+//const npmSearchEndpoint = 'http://npmsearch.com/query';
 
 const resolvePackage = pkg => {
   const [, scope = '', name, , version] = fullPackage.exec(pkg);
@@ -10,6 +11,19 @@ const resolvePackage = pkg => {
 };
 
 const prepareQuery = query => stringify(JSON.parse(JSON.stringify(query)));
+
+/* export const searchNpm = keyword =>
+  fetch(`${npmSearchEndpoint}?${prepareQuery({ q: keyword, fields: 'name,version' })}`).then(res => res.json()); */
+
+export const searchNpm = keyword =>
+  fetch(
+    `https://ac.cnstrc.com/autocomplete/${keyword}?autocomplete_key=CD06z4gVeqSXRiDL2ZNK&i=be28c228-0e87-471b-b0ba-6490ee3a4500&s=218&query=${keyword}`
+  )
+    .then(res => res.json())
+    .then(json => [
+      ...json.sections.packages.map(pkg => ({ title: pkg.value, description: pkg.data.description })),
+      ...json.sections.standard.map(standard => ({ title: standard.value }))
+    ]);
 
 const invoke = method => (path, { query = {}, body }) =>
   fetch(

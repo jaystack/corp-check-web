@@ -2,41 +2,55 @@ import React from 'react';
 import Router from 'next/router';
 import Head from '../components/Head';
 import Tab from '../components/Tab';
-import { Input } from 'semantic-ui-react';
-import { validateByName } from '../api';
+import { Search } from 'semantic-ui-react';
+import { validateByName, searchNpm } from '../api';
 
 export default class extends React.PureComponent {
-  state = { value: '', inProgress: false };
+  state = { value: '', results: [], isFetchingValidation: false, isFetchingSuggestions: false };
 
   handleSubmit = async () => {
-    this.setState({ inProgress: true });
-    const { cid } = await validateByName(this.state.value);
-    if (cid) Router.push({ pathname: '/result', query: { cid } });
-    this.setState({ inProgress: false });
+    this.setState({ isFetchingValidation: true });
+    try {
+      const { cid } = await validateByName(this.state.value);
+      if (cid) Router.push({ pathname: '/result', query: { cid } });
+    } catch (error) {
+    } finally {
+      this.setState({ isFetchingValidation: false });
+    }
   };
 
   handleKeyUp = evt => {
     if (evt.keyCode === 13) this.handleSubmit();
   };
 
-  handleChange = evt => {
-    this.setState({ value: evt.target.value });
+  handleChange = async (evt, { value }) => {
+    this.setState({ value, isFetchingSuggestions: true });
+    try {
+      const results = value.length >= 3 ? await searchNpm(value) : [];
+      this.setState({ results, isFetchingSuggestions: false });
+    } catch (error) {
+      this.setState({ results: [], isFetchingSuggestions: false });
+    }
   };
 
   render() {
     const { url } = this.props;
-    const { value, inProgress } = this.state;
+    const { value, results, isFetchingValidation, isFetchingSuggestions } = this.state;
     return (
       <div>
         <Head />
-        <Tab pathname={url.pathname} inProgress={inProgress}>
-          <Input
-            size="massive"
+        <Tab pathname={url.pathname} inProgress={isFetchingValidation}>
+          <Search
+            size="large"
             fluid
+            className="search-fluid-fix"
+            results={results}
             value={value}
-            onChange={this.handleChange}
+            onSearchChange={this.handleChange}
+            loading={isFetchingSuggestions}
             onKeyUp={this.handleKeyUp}
-            action={{ content: 'Check', color: 'teal', onClick: this.handleSubmit }}
+            action={{ content: 'Check', color: 'teal', onClick: this.handleSubmit, disabled: !value }}
+            onResultSelect={this.handleSubmit}
             placeholder="npm package"
           />
         </Tab>
