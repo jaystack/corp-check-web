@@ -26,13 +26,17 @@ export default class extends React.PureComponent {
   };
 
   handleChange = async (evt, { value }) => {
-    this.setState({ value, isFetchingSuggestions: true });
-    try {
-      const results = await getNpmSuggestions(value);
-      this.setState({ results, isFetchingSuggestions: false });
-    } catch (error) {
-      this.setState({ results: [], isFetchingSuggestions: false });
-    }
+    this.setState({ value });
+    if (this.timer) clearTimeout(this.timer);
+    this.timer = setTimeout(async () => {
+      this.setState({ isFetchingSuggestions: true });
+      try {
+        const results = await getNpmSuggestions(value);
+        this.setState({ results, isFetchingSuggestions: false });
+      } catch (error) {
+        this.setState({ results: [], isFetchingSuggestions: false });
+      }
+    }, 500);
   };
 
   render() {
@@ -52,7 +56,6 @@ export default class extends React.PureComponent {
             minCharacters={3}
             loading={isFetchingSuggestions}
             onKeyUp={this.handleKeyUp}
-            action={{ content: 'Check', color: 'teal', onClick: this.handleSubmit, disabled: !value }}
             onResultSelect={this.handleSubmit}
             placeholder="npm package"
           />

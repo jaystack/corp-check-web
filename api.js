@@ -15,14 +15,9 @@ const prepareQuery = query => stringify(JSON.parse(JSON.stringify(query)));
 export const getNpmSuggestions = keyword => {
   if (!keyword) return [];
   const q = encodeURIComponent(keyword.replace(/\//g, ' '));
-  return fetch(
-    `https://ac.cnstrc.com/autocomplete/${q}?autocomplete_key=CD06z4gVeqSXRiDL2ZNK&i=be28c228-0e87-471b-b0ba-6490ee3a4500&s=218&query=${q}`
-  )
+  return fetch(`https://api.npms.io/v2/search/suggestions?${prepareQuery({ q, size: 10 })}`)
     .then(res => res.json())
-    .then(json => [
-      ...json.sections.packages.map(pkg => ({ title: pkg.value, description: pkg.data.description })),
-      ...json.sections.standard.map(standard => ({ title: standard.value }))
-    ])
+    .then(json => json.map(({ package: { name, version, description } }) => ({ title: name, version, description })))
     .catch(error => []);
 };
 
