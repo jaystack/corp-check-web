@@ -16,7 +16,7 @@ export default class extends React.PureComponent {
   }
 
   async retryFetchResult() {
-    if (this.state.result.completed || this.props.url.pathname !== 'result') return;
+    if (this.state.result.completed || this.props.url.pathname !== '/result') return;
     try {
       const result = await getResult(this.props.url.query.cid);
       if (result.completed) {
