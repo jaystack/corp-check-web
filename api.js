@@ -11,21 +11,25 @@ const resolvePackage = pkg => {
 
 const prepareQuery = query => stringify(JSON.parse(JSON.stringify(query)));
 
-export const searchNpm = keyword =>
-  fetch(
-    `https://ac.cnstrc.com/autocomplete/${keyword}?autocomplete_key=CD06z4gVeqSXRiDL2ZNK&i=be28c228-0e87-471b-b0ba-6490ee3a4500&s=218&query=${keyword}`
+export const getNpmSuggestions = keyword => {
+  if (!keyword) return [];
+  const q = encodeURIComponent(keyword.replace(/\//g, ' '));
+  return fetch(
+    `https://ac.cnstrc.com/autocomplete/${q}?autocomplete_key=CD06z4gVeqSXRiDL2ZNK&i=be28c228-0e87-471b-b0ba-6490ee3a4500&s=218&query=${q}`
   )
     .then(res => res.json())
     .then(json => [
       ...json.sections.packages.map(pkg => ({ title: pkg.value, description: pkg.data.description })),
       ...json.sections.standard.map(standard => ({ title: standard.value }))
-    ]);
+    ])
+    .catch(error => []);
+};
 
 const invoke = method => (path, { query = {}, body }) =>
   fetch(
     `${endpoint}/${path}?${prepareQuery(query)}`,
     body ? { method, body: JSON.stringify(body) } : { method }
-  ).then(res => res.json());
+  ).then(res => res.json()).catch(err => console.log("err", err));
 
 const api = {
   get: invoke('GET'),

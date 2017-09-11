@@ -2,18 +2,21 @@ import React from 'react';
 import Router from 'next/router';
 import Head from '../components/Head';
 import Tab from '../components/Tab';
-import { Search } from 'semantic-ui-react';
-import { validateByName, searchNpm } from '../api';
+import { Search, Message } from 'semantic-ui-react';
+import { validateByName, getNpmSuggestions } from '../api';
 
 export default class extends React.PureComponent {
-  state = { value: '', results: [], isFetchingValidation: false, isFetchingSuggestions: false };
+  state = { value: '', results: [], isFetchingValidation: false, isFetchingSuggestions: false, validationError: null };
 
   handleSubmit = async () => {
     this.setState({ isFetchingValidation: true });
     try {
       const { cid } = await validateByName(this.state.value);
+      this.setState({ validationError: null });
       if (cid) Router.push({ pathname: '/result', query: { cid } });
     } catch (error) {
+      console.log('ERROR', error);
+      this.setState({ validationError: error.message });
     } finally {
       this.setState({ isFetchingValidation: false });
     }
@@ -26,7 +29,7 @@ export default class extends React.PureComponent {
   handleChange = async (evt, { value }) => {
     this.setState({ value, isFetchingSuggestions: true });
     try {
-      const results = value.length >= 3 ? await searchNpm(value) : [];
+      const results = await getNpmSuggestions(value);
       this.setState({ results, isFetchingSuggestions: false });
     } catch (error) {
       this.setState({ results: [], isFetchingSuggestions: false });
@@ -35,7 +38,7 @@ export default class extends React.PureComponent {
 
   render() {
     const { url } = this.props;
-    const { value, results, isFetchingValidation, isFetchingSuggestions } = this.state;
+    const { value, results, isFetchingValidation, isFetchingSuggestions, validationError } = this.state;
     return (
       <div>
         <Head />
@@ -47,12 +50,17 @@ export default class extends React.PureComponent {
             results={results}
             value={value}
             onSearchChange={this.handleChange}
+            minCharacters={3}
             loading={isFetchingSuggestions}
             onKeyUp={this.handleKeyUp}
             action={{ content: 'Check', color: 'teal', onClick: this.handleSubmit, disabled: !value }}
             onResultSelect={this.handleSubmit}
             placeholder="npm package"
           />
+          {validationError &&
+            <Message negative>
+              <p>{validationError}</p>
+            </Message>}
         </Tab>
       </div>
     );
