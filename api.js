@@ -5,6 +5,7 @@ const fullPackage = /^(@[a-zA-Z0-9-]+\/)?([a-zA-Z0-9-]+)(@(\d.\d.\d))?$/;
 const endpoint = 'http://localhost:3001';
 
 const resolvePackage = pkg => {
+  if (!fullPackage.test(pkg)) throw new Error('Invalid package name');
   const [, scope = '', name, , version] = fullPackage.exec(pkg);
   return { name: scope + name, version };
 };
@@ -25,11 +26,19 @@ export const getNpmSuggestions = keyword => {
     .catch(error => []);
 };
 
-const invoke = method => (path, { query = {}, body }) =>
-  fetch(
+const invoke = method => async (path, { query = {}, body }) => {
+  const response = await fetch(
     `${endpoint}/${path}?${prepareQuery(query)}`,
     body ? { method, body: JSON.stringify(body) } : { method }
-  ).then(res => res.json()).catch(err => console.log("err", err));
+  );
+  try {
+    const json = await response.json();
+    if (!response.ok) throw new Error(json.message);
+    return json;
+  } catch (error) {
+    throw error;
+  }
+};
 
 const api = {
   get: invoke('GET'),

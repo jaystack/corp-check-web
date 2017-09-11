@@ -15,7 +15,6 @@ export default class extends React.PureComponent {
       this.setState({ validationError: null });
       if (cid) Router.push({ pathname: '/result', query: { cid } });
     } catch (error) {
-      console.log('ERROR', error);
       this.setState({ validationError: error.message });
     } finally {
       this.setState({ isFetchingValidation: false });
