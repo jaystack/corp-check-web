@@ -40,14 +40,27 @@ export const validateByName = name => api.get('validation', { query: resolvePack
 export const validateByJson = (packageJSON, isProduction = false) =>
   api.post('validation', { body: { packageJSON, isProduction } });
 
+const getQualificationByScore = score => {
+  if (score === null) return null;
+  if (score >= 0.9) return 'green';
+  else if (score < 0.9 && score > 0.5) return 'orange';
+  else return 'red';
+};
+
 export const getResult = async cid => {
   if (!cid) return { completed: false };
   const result = await api.get('package', { query: { cid } });
   console.log(result);
+  const data = result.item.validationData ? JSON.parse(result.item.validationData) : {};
+  const score = data && data.stats && data.stats[result.item.packageName]
+    ? data.stats[result.item.packageName].score.final
+    : null;
   return {
     completed: result.item.validationState.state === 'Completed',
     name: result.item.packageName,
-    version: result.item.packageVersion
+    version: result.item.packageVersion,
+    data,
+    qualification: getQualificationByScore(score)
   };
 };
 
