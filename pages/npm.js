@@ -39,6 +39,11 @@ export default class extends React.PureComponent {
     }, 300);
   };
 
+  handleKeyUp = evt => {
+    const { results, value } = this.state;
+    if (evt.keyCode === 13 && results.length === 0 && value.length > 0) this.submit(value);
+  };
+
   render() {
     const { url } = this.props;
     const { value, results, isFetchingValidation, isFetchingSuggestions, validationError } = this.state;
@@ -56,6 +61,7 @@ export default class extends React.PureComponent {
             minCharacters={3}
             loading={isFetchingSuggestions}
             onResultSelect={this.handleResultSelect}
+            onKeyUp={this.handleKeyUp}
             placeholder="npm package"
           />
           {validationError &&
