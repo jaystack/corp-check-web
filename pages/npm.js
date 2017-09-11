@@ -22,7 +22,6 @@ export default class extends React.PureComponent {
   }
 
   handleResultSelect = (evt, { result }) => {
-    console.log('select', result);
     this.setState({ value: result.title }, () => this.submit(result.title));
   };
 
