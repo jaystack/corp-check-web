@@ -1,7 +1,8 @@
 import React from 'react';
-import { Label, Grid, Segment } from 'semantic-ui-react';
+import { Grid, Segment, Message } from 'semantic-ui-react';
 import Head from '../components/Head';
-import { getResult } from '../api';
+import Result from '../components/Result';
+import { getResult, sleep } from '../api';
 
 export default class extends React.PureComponent {
   static async getInitialProps({ query }) {
@@ -11,28 +12,44 @@ export default class extends React.PureComponent {
 
   constructor(props) {
     super(props);
-    this.state = { completed: props.result.completed };
+    this.state = { result: props.result, error: null };
+  }
+
+  async retryFetchResult() {
+    if (this.state.result.completed) return;
+    try {
+      const result = await getResult(this.props.url.query.cid);
+      if (result.completed) {
+        this.setState({ result });
+      } else {
+        await sleep(3000);
+        this.retryFetchResult();
+      }
+    } catch (error) {
+      this.setState({ error: error.message });
+    } finally {
+      await sleep(3000);
+      this.retryFetchResult();
+    }
+  }
+
+  componentDidMount() {
+    this.retryFetchResult();
   }
 
   render() {
-    const { result } = this.props;
-    const { completed } = this.state;
+    const { result, error } = this.state;
     return (
       <div>
         <Head />
         <Grid centered columns={2}>
           <Grid.Column>
-            <Segment loading={!completed}>
-              <Label size="massive" as="a" color="red" ribbon>Rejected</Label>
-              <h1 style={{ display: 'inline' }}>{result.name}{result.version ? '@' + result.version : ''}</h1>
-              <br />
-              <br />
-              <Label size="massive" as="a" color="orange" ribbon>Accepted</Label>
-              <br />
-              <br />
-              <Label size="massive" as="a" color="green" ribbon>Recommended</Label>
-              <br />
-              <br />
+            <Segment loading={!result.completed && !error} padded={!result.completed && 'very'}>
+              {result.completed && <Result result={result} />}
+              {error &&
+                <Message negative>
+                  <p>{error}</p>
+                </Message>}
             </Segment>
           </Grid.Column>
         </Grid>
