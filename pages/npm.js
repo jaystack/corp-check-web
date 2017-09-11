@@ -8,10 +8,10 @@ import { validateByName, getNpmSuggestions } from '../api';
 export default class extends React.PureComponent {
   state = { value: '', results: [], isFetchingValidation: false, isFetchingSuggestions: false, validationError: null };
 
-  handleSubmit = async name => {
+  async submit(name) {
     this.setState({ isFetchingValidation: true });
     try {
-      const { cid } = await validateByName(name || this.state.value);
+      const { cid } = await validateByName(name);
       this.setState({ validationError: null });
       if (cid) Router.push({ pathname: '/result', query: { cid } });
     } catch (error) {
@@ -19,14 +19,11 @@ export default class extends React.PureComponent {
     } finally {
       this.setState({ isFetchingValidation: false });
     }
-  };
+  }
 
   handleResultSelect = (evt, { result }) => {
-    this.handleSubmit(result.title);
-  };
-
-  handleKeyUp = evt => {
-    if (evt.keyCode === 13) this.handleSubmit();
+    console.log('select', result);
+    this.setState({ value: result.title }, () => this.submit(result.title));
   };
 
   handleChange = async (evt, { value }) => {
@@ -59,8 +56,7 @@ export default class extends React.PureComponent {
             onSearchChange={this.handleChange}
             minCharacters={3}
             loading={isFetchingSuggestions}
-            onKeyUp={this.handleKeyUp}
-            onResultSelect={() => this.handleSubmit()}
+            onResultSelect={this.handleResultSelect}
             placeholder="npm package"
           />
           {validationError &&

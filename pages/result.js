@@ -20,16 +20,13 @@ export default class extends React.PureComponent {
     try {
       const result = await getResult(this.props.url.query.cid);
       if (result.completed) {
-        this.setState({ result });
+        this.setState({ result, error: null });
       } else {
         await sleep(3000);
         this.retryFetchResult();
       }
     } catch (error) {
       this.setState({ error: error.message });
-    } finally {
-      await sleep(3000);
-      this.retryFetchResult();
     }
   }
 
