@@ -2,7 +2,8 @@ import 'isomorphic-fetch';
 import { stringify } from 'querystring';
 
 const fullPackage = /^(@[a-zA-Z0-9-]+\/)?([a-zA-Z0-9-]+)(@(\d.\d.\d))?$/;
-const endpoint = 'http://localhost:3001';
+//const endpoint = 'http://localhost:3001';
+const endpoint = 'https://nriy2mztj9.execute-api.eu-central-1.amazonaws.com/dev';
 
 const resolvePackage = pkg => {
   if (!fullPackage.test(pkg)) throw new Error('Invalid package name');
@@ -22,10 +23,11 @@ export const getNpmSuggestions = keyword => {
 };
 
 const invoke = method => async (path, { query = {}, body }) => {
-  const response = await fetch(
-    `${endpoint}/${path}?${prepareQuery(query)}`,
-    body ? { method, body: JSON.stringify(body) } : { method }
-  );
+  const response = await fetch(`${endpoint}/${path}?${prepareQuery(query)}`, {
+    method,
+    headers: { 'Content-Type': 'application/json' },
+    ...(body ? { body: JSON.stringify(body) } : {})
+  });
   try {
     const json = await response.json();
     if (!response.ok) throw new Error(json.message);

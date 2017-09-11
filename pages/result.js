@@ -22,7 +22,7 @@ export default class extends React.PureComponent {
         <Head />
         <Grid centered columns={2}>
           <Grid.Column>
-            <Segment loading={completed}>
+            <Segment loading={!completed}>
               <Label size="massive" as="a" color="red" ribbon>Rejected</Label>
               <h1 style={{ display: 'inline' }}>{result.name}{result.version ? '@' + result.version : ''}</h1>
               <br />

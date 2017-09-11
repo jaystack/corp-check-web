@@ -6,14 +6,20 @@ import { Form, TextArea, Button, Checkbox, Message } from 'semantic-ui-react';
 import { validateByJson } from '../api';
 
 export default class extends React.PureComponent {
-  state = { value: '', isProduction: false, error: null, inProgress: false };
+  state = { value: '', isProduction: false, error: null, isFetchingValidation: false, validationError: null };
 
   handleSubmit = async () => {
     const { value, isProduction } = this.state;
-    this.setState({ inProgress: true });
-    const { cid } = await validateByJson(JSON.parse(value), isProduction);
-    if (cid) Router.push({ pathname: '/result', query: { cid } });
-    this.setState({ inProgress: false });
+    this.setState({ isFetchingValidation: true });
+    try {
+      const { cid } = await validateByJson(JSON.parse(value), isProduction);
+      this.setState({ validationError: null });
+      if (cid) Router.push({ pathname: '/result', query: { cid } });
+    } catch (error) {
+      this.setState({ validationError: error.message });
+    } finally {
+      this.setState({ isFetchingValidation: false });
+    }
   };
 
   handleChange = evt => {
@@ -33,13 +39,17 @@ export default class extends React.PureComponent {
 
   render() {
     const { url } = this.props;
-    const { value, error, inProgress } = this.state;
+    const { value, error, isFetchingValidation, validationError } = this.state;
     console.log(error);
     return (
       <div>
         <Head />
-        <Tab pathname={url.pathname} inProgress={inProgress}>
+        <Tab pathname={url.pathname} inProgress={isFetchingValidation}>
           <Form error={!!error}>
+            {validationError &&
+              <Message negative>
+                <p>{validationError}</p>
+              </Message>}
             <Form.Field error={!!error}>
               <TextArea
                 value={value}
@@ -49,7 +59,6 @@ export default class extends React.PureComponent {
                 style={{ minHeight: '300px', width: '100%', fontFamily: 'Courier New' }}
               />
             </Form.Field>
-            {/* {error ? <Message error header="Error" content={error} /> : null} */}
             <Form.Field>
               <Checkbox label="Production only" onChange={this.handleSwitchProduction} />
             </Form.Field>
