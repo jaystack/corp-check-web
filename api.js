@@ -2,12 +2,19 @@ import 'isomorphic-fetch';
 import { stringify } from 'querystring';
 
 const fullPackage = /^(@[a-zA-Z0-9-]+\/)?([a-zA-Z0-9-]+)(@(\d.\d.\d))?$/;
+const partialPackage = /^(@[a-zA-Z0-9-]+\/)?([a-zA-Z0-9-]+)@([\d.]*)$/;
 //const endpoint = 'http://localhost:3001';
 const endpoint = 'https://nriy2mztj9.execute-api.eu-central-1.amazonaws.com/dev';
 
 const resolvePackage = pkg => {
   if (!fullPackage.test(pkg)) throw new Error('Invalid package name');
   const [, scope = '', name, , version] = fullPackage.exec(pkg);
+  return { name: scope + name, version };
+};
+
+export const resolvePartialPackage = pkg => {
+  if (!partialPackage.test(pkg)) return { name: pkg, version: null };
+  const [, scope = '', name, version] = partialPackage.exec(pkg);
   return { name: scope + name, version };
 };
 
@@ -72,3 +79,6 @@ export const getNpmSuggestions = keyword => {
     .then(json => json.map(({ package: { name, version, description } }) => ({ title: name, version, description })))
     .catch(error => []);
 };
+
+export const getVersions = (name, version) =>
+  api.get('versions', { query: { name, version } }).then(versions => versions.map(title => ({ title })));
