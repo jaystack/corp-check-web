@@ -50,7 +50,6 @@ const getQualificationByScore = score => {
 export const getResult = async cid => {
   if (!cid) return { completed: false };
   const result = await api.get('package', { query: { cid } });
-  console.log(result);
   const data = result.item.validationData ? JSON.parse(result.item.validationData) : {};
   const score = data && data.stats && data.stats[result.item.packageName]
     ? data.stats[result.item.packageName].score.final
