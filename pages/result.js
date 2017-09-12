@@ -4,6 +4,8 @@ import Head from '../components/Head';
 import Result from '../components/Result';
 import { getResult, sleep } from '../api';
 
+const RETRY = 1500;
+
 export default class extends React.PureComponent {
   static async getInitialProps({ query }) {
     const result = await getResult(query.cid);
@@ -22,7 +24,7 @@ export default class extends React.PureComponent {
       if (result.completed) {
         this.setState({ result, error: null });
       } else {
-        await sleep(3000);
+        await sleep(RETRY);
         this.retryFetchResult();
       }
     } catch (error) {

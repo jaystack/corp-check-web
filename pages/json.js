@@ -40,7 +40,6 @@ export default class extends React.PureComponent {
   render() {
     const { url } = this.props;
     const { value, error, isFetchingValidation, validationError } = this.state;
-    console.log(error);
     return (
       <div>
         <Head />
