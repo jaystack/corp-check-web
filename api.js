@@ -81,4 +81,4 @@ export const getNpmSuggestions = keyword => {
 };
 
 export const getVersions = (name, version) =>
-  api.get('versions', { query: { name, version } }).then(versions => versions.map(title => ({ title })));
+  api.get('versions', { query: { name, version } }).then(versions => versions.map(title => ({ title })).slice(0, 10));
