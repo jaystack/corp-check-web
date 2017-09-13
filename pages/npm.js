@@ -37,8 +37,8 @@ export default class extends React.PureComponent {
   };
 
   handleKeyUp = evt => {
-    const { results, value } = this.state;
-    if (evt.keyCode === 13 && results.length === 0 && value.length > 0) this.submit(value);
+    const { value } = this.state;
+    if (evt.keyCode === 13 && this.refs.search.state.selectedIndex === -1 && value.length > 0) this.submit(value);
   };
 
   render() {
@@ -49,6 +49,7 @@ export default class extends React.PureComponent {
         <Head />
         <Tab pathname={url.pathname} inProgress={isFetchingValidation}>
           <Search
+            ref="search"
             size="large"
             fluid
             className="search-fluid-fix"
@@ -60,6 +61,7 @@ export default class extends React.PureComponent {
             onResultSelect={this.handleResultSelect}
             onKeyUp={this.handleKeyUp}
             placeholder="npm package"
+            showNoResults={false}
           />
           {validationError &&
             <Message negative>
