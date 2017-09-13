@@ -35,7 +35,7 @@ export default class extends React.PureComponent {
       } catch (error) {
         this.setState({ results: [], isFetchingSuggestions: false });
       }
-    }, 300);
+    }, 0);
   }
 
   fetchVersionSuggestions(name, version) {

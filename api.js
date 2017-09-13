@@ -6,6 +6,8 @@ const partialPackage = /^(@[a-zA-Z0-9-]+\/)?([a-zA-Z0-9-]+)@([\d.]*)$/;
 //const endpoint = 'http://localhost:3001';
 const endpoint = 'https://nriy2mztj9.execute-api.eu-central-1.amazonaws.com/dev';
 
+// https://ofcncog2cu-dsn.algolia.net/1/indexes/*/queries?x-algolia-application-id=OFCNCOG2CU&x-algolia-api-key=f54e21fa3a2a0160595bb058179bfb1e
+
 const resolvePackage = pkg => {
   if (!fullPackage.test(pkg)) throw new Error('Invalid package name');
   const [, scope = '', name, , version] = fullPackage.exec(pkg);
@@ -74,9 +76,31 @@ export const sleep = time => new Promise(resolve => setTimeout(resolve, time));
 
 export const getNpmSuggestions = keyword => {
   if (!keyword) return [];
-  return fetch(`https://api.npms.io/v2/search/suggestions?${prepareQuery({ q: keyword, size: 5 })}`)
+  return fetch(
+    `https://ofcncog2cu-dsn.algolia.net/1/indexes/*/queries?x-algolia-application-id=OFCNCOG2CU&x-algolia-api-key=f54e21fa3a2a0160595bb058179bfb1e`,
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        requests: [
+          {
+            indexName: 'npm-search',
+            params: prepareQuery({
+              query: keyword,
+              optionalFacetFilters: `concatenatedName:${keyword}`,
+              hitsPerPage: '5',
+              maxValuesPerFacet: '10',
+              page: '0',
+              attributesToRetrieve: '["name","description","versions"]',
+              facets: '["keywords","keywords"]',
+              tagFilters: ''
+            })
+          }
+        ]
+      })
+    }
+  )
     .then(res => res.json())
-    .then(json => json.map(({ package: { name, version, description } }) => ({ title: name, version, description })))
+    .then(json => json.results[0].hits.map(({ name, description }) => ({ title: name, description })))
     .catch(error => []);
 };
 
