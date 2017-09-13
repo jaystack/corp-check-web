@@ -1,7 +1,7 @@
 import 'isomorphic-fetch';
 import { stringify } from 'querystring';
 
-const fullPackage = /^(@[a-zA-Z0-9-]+\/)?([a-zA-Z0-9-]+)(@(\d.\d.\d))?$/;
+const fullPackage = /^(@[a-zA-Z0-9-]+\/)?([a-zA-Z0-9-]+)(@(\d.\d.\d|latest))?$/;
 const partialPackage = /^(@[a-zA-Z0-9-]+\/)?([a-zA-Z0-9-]+)@([\d.]*|l|la|lat|late|lates|latest)$/;
 //const endpoint = 'http://localhost:3001';
 const endpoint = 'https://nriy2mztj9.execute-api.eu-central-1.amazonaws.com/dev';
@@ -9,7 +9,7 @@ const endpoint = 'https://nriy2mztj9.execute-api.eu-central-1.amazonaws.com/dev'
 const resolvePackage = pkg => {
   if (!fullPackage.test(pkg)) throw new Error('Invalid package name');
   const [, scope = '', name, , version] = fullPackage.exec(pkg);
-  return { name: scope + name, version };
+  return { name: scope + name, version: version === 'latest' ? undefined : version };
 };
 
 export const resolvePartialPackage = pkg => {
@@ -26,13 +26,9 @@ const invoke = method => async (path, { query = {}, body }) => {
     headers: { 'Content-Type': 'application/json' },
     ...(body ? { body: JSON.stringify(body) } : {})
   });
-  try {
-    const json = await response.json();
-    if (!response.ok) throw new Error(json.message);
-    return json;
-  } catch (error) {
-    throw error;
-  }
+  const json = await response.json();
+  if (!response.ok) throw new Error(json.message);
+  return json;
 };
 
 const api = {
