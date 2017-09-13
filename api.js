@@ -2,11 +2,9 @@ import 'isomorphic-fetch';
 import { stringify } from 'querystring';
 
 const fullPackage = /^(@[a-zA-Z0-9-]+\/)?([a-zA-Z0-9-]+)(@(\d.\d.\d))?$/;
-const partialPackage = /^(@[a-zA-Z0-9-]+\/)?([a-zA-Z0-9-]+)@([\d.]*)$/;
+const partialPackage = /^(@[a-zA-Z0-9-]+\/)?([a-zA-Z0-9-]+)@([\d.]*|l|la|lat|late|lates|latest)$/;
 //const endpoint = 'http://localhost:3001';
 const endpoint = 'https://nriy2mztj9.execute-api.eu-central-1.amazonaws.com/dev';
-
-// https://ofcncog2cu-dsn.algolia.net/1/indexes/*/queries?x-algolia-application-id=OFCNCOG2CU&x-algolia-api-key=f54e21fa3a2a0160595bb058179bfb1e
 
 const resolvePackage = pkg => {
   if (!fullPackage.test(pkg)) throw new Error('Invalid package name');
@@ -74,7 +72,7 @@ export const getResult = async cid => {
 
 export const sleep = time => new Promise(resolve => setTimeout(resolve, time));
 
-export const getNpmSuggestions = keyword => {
+export const getNpmSuggestions = (keyword, version) => {
   if (!keyword) return [];
   return fetch(
     `https://ofcncog2cu-dsn.algolia.net/1/indexes/*/queries?x-algolia-application-id=OFCNCOG2CU&x-algolia-api-key=f54e21fa3a2a0160595bb058179bfb1e`,
@@ -100,9 +98,20 @@ export const getNpmSuggestions = keyword => {
     }
   )
     .then(res => res.json())
-    .then(json => json.results[0].hits.map(({ name, description }) => ({ title: name, description })))
+    .then(json => {
+      const hits = json.results[0].hits;
+      if (version === null) return hits.map(({ name, description }) => ({ title: name, description }));
+      const exactHit = hits.find(({ name }) => name === keyword);
+      if (!exactHit) return [];
+      const pattern = new RegExp(`^${version.replace(/\./g, '\\.')}`);
+      return [...Object.keys(exactHit.versions || {}), 'latest']
+        .reverse()
+        .filter(version => pattern.test(version))
+        .slice(0, 10)
+        .map(version => ({ title: `${keyword}@${version}` }));
+    })
     .catch(error => []);
 };
 
-export const getVersions = (name, version) =>
-  api.get('versions', { query: { name, version } }).then(versions => versions.map(title => ({ title })).slice(0, 10));
+/* export const getNpmVersionSuggestions = (name, version) =>
+  api.get('versions', { query: { name, version } }).then(versions => versions.map(title => ({ title })).slice(0, 10)); */

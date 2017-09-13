@@ -3,7 +3,7 @@ import Router from 'next/router';
 import Head from '../components/Head';
 import Tab from '../components/Tab';
 import { Search, Message } from 'semantic-ui-react';
-import { validateByName, getNpmSuggestions, resolvePartialPackage, getVersions } from '../api';
+import { validateByName, getNpmSuggestions, resolvePartialPackage, getNpmVersionSuggestions } from '../api';
 
 export default class extends React.PureComponent {
   state = { value: '', results: [], isFetchingValidation: false, isFetchingSuggestions: false, validationError: null };
@@ -25,37 +25,15 @@ export default class extends React.PureComponent {
     this.setState({ value: result.title }, () => this.submit(result.title));
   };
 
-  fetchPackageSuggestions(value) {
-    if (this.timer) clearTimeout(this.timer);
-    this.timer = setTimeout(async () => {
-      this.setState({ isFetchingSuggestions: true });
-      try {
-        const results = await getNpmSuggestions(value);
-        this.setState({ results, isFetchingSuggestions: false });
-      } catch (error) {
-        this.setState({ results: [], isFetchingSuggestions: false });
-      }
-    }, 0);
-  }
-
-  fetchVersionSuggestions(name, version) {
-    if (this.timer) clearTimeout(this.timer);
-    this.timer = setTimeout(async () => {
-      this.setState({ isFetchingSuggestions: true });
-      try {
-        const results = await getVersions(name, version);
-        this.setState({ results, isFetchingSuggestions: false });
-      } catch (error) {
-        this.setState({ results: [], isFetchingSuggestions: false });
-      }
-    }, 300);
-  }
-
   handleChange = async (evt, { value }) => {
-    this.setState({ value });
+    this.setState({ value, isFetchingSuggestions: true });
     const { name, version } = resolvePartialPackage(value);
-    if (version === null) this.fetchPackageSuggestions(name);
-    else this.fetchVersionSuggestions(name, version)
+    try {
+      const results = await getNpmSuggestions(name, version);
+      this.setState({ results, isFetchingSuggestions: false });
+    } catch (error) {
+      this.setState({ results: [], isFetchingSuggestions: false });
+    }
   };
 
   handleKeyUp = evt => {
