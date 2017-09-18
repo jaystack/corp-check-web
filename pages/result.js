@@ -1,6 +1,5 @@
 import React from 'react';
 import { Grid, Segment, Message } from 'semantic-ui-react';
-import Head from '../components/Head';
 import Result from '../components/Result';
 import { getResult, sleep } from '../api';
 
@@ -14,45 +13,54 @@ export default class extends React.PureComponent {
 
   constructor(props) {
     super(props);
-    this.state = { result: props.result, error: null };
+    this.state = {
+      result: props.result,
+      error: props.result.state === 'SUCCEEDED' || props.result.state === 'PENDING' ? null : 'Something went wrong'
+    };
   }
 
-  async retryFetchResult() {
-    if (this.state.result.completed || this.props.url.pathname !== '/result') return;
+  fetchResult = async () => {
     try {
       const result = await getResult(this.props.url.query.cid);
-      if (result.completed) {
-        this.setState({ result, error: null });
-      } else {
-        await sleep(RETRY);
-        this.retryFetchResult();
-      }
+      if (result.state === 'PENDING') return;
+      this.stopRetry();
+      this.setState({ result, error: result.state === 'FAILED' ? 'Something went wrong' : null });
     } catch (error) {
+      this.stopRetry();
       this.setState({ error: error.message });
     }
+  };
+
+  startRetry() {
+    this.timer = setInterval(this.fetchResult, RETRY);
+  }
+
+  stopRetry() {
+    clearTimeout(this.timer);
   }
 
   componentDidMount() {
-    this.retryFetchResult();
+    if (!this.state.result.completed) this.startRetry();
+  }
+
+  componentWillUnmount() {
+    this.stopRetry();
   }
 
   render() {
     const { result, error } = this.state;
     return (
-      <div>
-        <Head />
-        <Grid centered columns={2}>
-          <Grid.Column>
-            <Segment loading={!result.completed && !error} padded={!result.completed && 'very'}>
-              {result.completed && <Result result={result} />}
-              {error &&
-                <Message negative>
-                  <p>{error}</p>
-                </Message>}
-            </Segment>
-          </Grid.Column>
-        </Grid>
-      </div>
+      <Grid centered columns={2}>
+        <Grid.Column>
+          <Segment loading={!result.completed && !error} padded={!result.completed && 'very'}>
+            {result.completed && <Result result={result} />}
+            {error &&
+              <Message negative>
+                <p>{error}</p>
+              </Message>}
+          </Segment>
+        </Grid.Column>
+      </Grid>
     );
   }
 }

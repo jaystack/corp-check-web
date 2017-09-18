@@ -1,6 +1,5 @@
 import React from 'react';
 import Router from 'next/router';
-import Head from '../components/Head';
 import Tab from '../components/Tab';
 import { Form, TextArea, Button, Checkbox, Message } from 'semantic-ui-react';
 import { validateByJson } from '../api';
@@ -41,32 +40,29 @@ export default class extends React.PureComponent {
     const { url } = this.props;
     const { value, error, isFetchingValidation, validationError } = this.state;
     return (
-      <div>
-        <Head />
-        <Tab pathname={url.pathname} inProgress={isFetchingValidation}>
-          <Form error={!!error}>
-            {validationError &&
-              <Message negative>
-                <p>{validationError}</p>
-              </Message>}
-            <Form.Field error={!!error}>
-              <TextArea
-                value={value}
-                onChange={this.handleChange}
-                autoHeight
-                placeholder="Insert your package.json"
-                style={{ minHeight: '300px', width: '100%', fontFamily: 'Courier New' }}
-              />
-            </Form.Field>
-            <Form.Field>
-              <Checkbox label="Production only" onChange={this.handleSwitchProduction} />
-            </Form.Field>
-            <Form.Field>
-              <Button color="teal" size="big" onClick={this.handleSubmit} disabled={!value || !!error}>Check</Button>
-            </Form.Field>
-          </Form>
-        </Tab>
-      </div>
+      <Tab pathname={url.pathname} inProgress={isFetchingValidation}>
+        <Form error={!!error}>
+          {validationError &&
+            <Message negative>
+              <p>{validationError}</p>
+            </Message>}
+          <Form.Field error={!!error}>
+            <TextArea
+              value={value}
+              onChange={this.handleChange}
+              autoHeight
+              placeholder="Insert your package.json"
+              style={{ minHeight: '300px', width: '100%', fontFamily: 'Courier New' }}
+            />
+          </Form.Field>
+          <Form.Field>
+            <Checkbox label="Production only" onChange={this.handleSwitchProduction} />
+          </Form.Field>
+          <Form.Field>
+            <Button color="teal" size="big" onClick={this.handleSubmit} disabled={!value || !!error}>Check</Button>
+          </Form.Field>
+        </Form>
+      </Tab>
     );
   }
 }

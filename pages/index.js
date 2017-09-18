@@ -1,5 +1,4 @@
 import React from 'react';
-import Head from '../components/Head';
 
 export default class extends React.PureComponent {
   static async getInitialProps({ res, pathname, url }) {
@@ -9,7 +8,7 @@ export default class extends React.PureComponent {
           Location: '/npm'
         });
         res.end();
-      } else if (Router) {
+      } else {
         url.push('/npm');
       }
     }

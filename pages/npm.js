@@ -1,6 +1,5 @@
 import React from 'react';
 import Router from 'next/router';
-import Head from '../components/Head';
 import Tab from '../components/Tab';
 import { Search, Message } from 'semantic-ui-react';
 import { validateByName, getNpmSuggestions, resolvePartialPackage, getNpmVersionSuggestions } from '../api';
@@ -36,7 +35,7 @@ export default class extends React.PureComponent {
     }
   };
 
-  handleKeyUp = evt => {
+  handleKeyDown = evt => {
     const { value } = this.state;
     if (evt.keyCode === 13 && this.refs.search.state.selectedIndex === -1 && value.length > 0) this.submit(value);
   };
@@ -45,30 +44,27 @@ export default class extends React.PureComponent {
     const { url } = this.props;
     const { value, results, isFetchingValidation, isFetchingSuggestions, validationError } = this.state;
     return (
-      <div>
-        <Head />
-        <Tab pathname={url.pathname} inProgress={isFetchingValidation}>
-          <Search
-            ref="search"
-            size="large"
-            fluid
-            className="search-fluid-fix"
-            results={results}
-            value={value}
-            onSearchChange={this.handleChange}
-            minCharacters={3}
-            loading={isFetchingSuggestions}
-            onResultSelect={this.handleResultSelect}
-            onKeyUp={this.handleKeyUp}
-            placeholder="npm package"
-            showNoResults={false}
-          />
-          {validationError &&
-            <Message negative>
-              <p>{validationError}</p>
-            </Message>}
-        </Tab>
-      </div>
+      <Tab pathname={url.pathname} inProgress={isFetchingValidation}>
+        <Search
+          ref="search"
+          size="large"
+          fluid
+          className="search-fluid-fix"
+          results={results}
+          value={value}
+          onSearchChange={this.handleChange}
+          minCharacters={3}
+          loading={isFetchingSuggestions}
+          onResultSelect={this.handleResultSelect}
+          onKeyDown={this.handleKeyDown}
+          placeholder="npm package"
+          showNoResults={false}
+        />
+        {validationError &&
+          <Message negative>
+            <p>{validationError}</p>
+          </Message>}
+      </Tab>
     );
   }
 }

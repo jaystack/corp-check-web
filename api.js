@@ -1,10 +1,11 @@
 import 'isomorphic-fetch';
 import { stringify } from 'querystring';
 
+const env = process ? process.env : window.end;
+const isDev = env.NODE_ENV === 'development'
 const fullPackage = /^(@[a-zA-Z0-9-]+\/)?([a-zA-Z0-9-]+)(@(\d.\d.\d|latest))?$/;
 const partialPackage = /^(@[a-zA-Z0-9-]+\/)?([a-zA-Z0-9-]+)@([\d.]*|l|la|lat|late|lates|latest)$/;
-//const endpoint = 'http://localhost:3001';
-const endpoint = 'https://nriy2mztj9.execute-api.eu-central-1.amazonaws.com/dev';
+const endpoint = isDev ? 'http://localhost:3001' : 'https://nriy2mztj9.execute-api.eu-central-1.amazonaws.com/dev';
 
 const resolvePackage = pkg => {
   if (!fullPackage.test(pkg)) throw new Error('Invalid package name');
@@ -58,7 +59,8 @@ export const getResult = async cid => {
     ? data.stats[result.item.packageName].score.final
     : null;
   return {
-    completed: result.item.validationState.state === 'Completed',
+    completed: ['SUCCEEDED', 'FAILED'].includes(result.item.validationState.state),
+    state: result.item.validationState.state,
     name: result.item.packageName,
     version: result.item.packageVersion,
     data,
