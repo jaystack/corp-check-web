@@ -1,11 +1,12 @@
 import 'isomorphic-fetch';
 import { stringify } from 'querystring';
 
-const env = process ? process.env : window.end;
-const isDev = env.NODE_ENV === 'development'
 const fullPackage = /^(@[a-zA-Z0-9-]+\/)?([a-zA-Z0-9-]+)(@(\d.\d.\d|latest))?$/;
 const partialPackage = /^(@[a-zA-Z0-9-]+\/)?([a-zA-Z0-9-]+)@([\d.]*|l|la|lat|late|lates|latest)$/;
-const endpoint = isDev ? 'http://localhost:3001' : 'https://nriy2mztj9.execute-api.eu-central-1.amazonaws.com/dev';
+
+const getEnv = () => window ? window.env : process.env;
+const isDev = () => getEnv().NODE_ENV === 'development';
+const getEndpoint = () => isDev() ? 'http://localhost:3001' : 'https://nriy2mztj9.execute-api.eu-central-1.amazonaws.com/dev';
 
 const resolvePackage = pkg => {
   if (!fullPackage.test(pkg)) throw new Error('Invalid package name');
@@ -14,7 +15,7 @@ const resolvePackage = pkg => {
 };
 
 export const resolvePartialPackage = pkg => {
-  if (!partialPackage.test(pkg)) return { name: pkg, version: null };
+  if (!partialPackage.test(pkg)) return { name: pkg };
   const [, scope = '', name, version] = partialPackage.exec(pkg);
   return { name: scope + name, version };
 };
@@ -22,7 +23,7 @@ export const resolvePartialPackage = pkg => {
 const prepareQuery = query => stringify(JSON.parse(JSON.stringify(query)));
 
 const invoke = method => async (path, { query = {}, body }) => {
-  const response = await fetch(`${endpoint}/${path}?${prepareQuery(query)}`, {
+  const response = await fetch(`${getEndpoint()}/${path}?${prepareQuery(query)}`, {
     method,
     headers: { 'Content-Type': 'application/json' },
     ...(body ? { body: JSON.stringify(body) } : {})
@@ -70,46 +71,7 @@ export const getResult = async cid => {
 
 export const sleep = time => new Promise(resolve => setTimeout(resolve, time));
 
-export const getNpmSuggestions = (keyword, version) => {
-  if (!keyword) return [];
-  return fetch(
-    `https://ofcncog2cu-dsn.algolia.net/1/indexes/*/queries?x-algolia-application-id=OFCNCOG2CU&x-algolia-api-key=f54e21fa3a2a0160595bb058179bfb1e`,
-    {
-      method: 'POST',
-      body: JSON.stringify({
-        requests: [
-          {
-            indexName: 'npm-search',
-            params: prepareQuery({
-              query: keyword,
-              optionalFacetFilters: `concatenatedName:${keyword}`,
-              hitsPerPage: '5',
-              maxValuesPerFacet: '10',
-              page: '0',
-              attributesToRetrieve: '["name","description","versions"]',
-              facets: '["keywords","keywords"]',
-              tagFilters: ''
-            })
-          }
-        ]
-      })
-    }
-  )
-    .then(res => res.json())
-    .then(json => {
-      const hits = json.results[0].hits;
-      if (version === null) return hits.map(({ name, description }) => ({ title: name, description }));
-      const exactHit = hits.find(({ name }) => name === keyword);
-      if (!exactHit) return [];
-      const pattern = new RegExp(`^${version.replace(/\./g, '\\.')}`);
-      return [...Object.keys(exactHit.versions || {}), 'latest']
-        .reverse()
-        .filter(version => pattern.test(version))
-        .slice(0, 10)
-        .map(version => ({ title: `${keyword}@${version}` }));
-    })
-    .catch(error => []);
+export const getNpmSuggestions = (name, version) => {
+  if (!name) return [];
+  return api.get('suggestions', { query: { name, version } });
 };
-
-/* export const getNpmVersionSuggestions = (name, version) =>
-  api.get('versions', { query: { name, version } }).then(versions => versions.map(title => ({ title })).slice(0, 10)); */

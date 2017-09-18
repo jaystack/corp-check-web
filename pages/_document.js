@@ -15,11 +15,11 @@ export default class MyDocument extends Document {
           <title>corp-check</title>
           <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.12/semantic.min.css" />
           <link rel="stylesheet" href="/static/styles.css" />
+          <script dangerouslySetInnerHTML={{ __html: `console.log('GET ENV'); window.env = ${JSON.stringify(process.env)}` }}/>
         </Head>
         <body>
           <Main />
           <NextScript />
-          <script dangerouslySetInnerHTML={{ __html: `window.env = ${JSON.stringify(process.env)}` }}/>
         </body>
       </html>
     );
