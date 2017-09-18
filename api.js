@@ -1,23 +1,24 @@
 import 'isomorphic-fetch';
 import { stringify } from 'querystring';
 
-const fullPackage = /^(@[a-zA-Z0-9-]+\/)?([a-zA-Z0-9-]+)(@(\d.\d.\d|latest))?$/;
-const partialPackage = /^(@[a-zA-Z0-9-]+\/)?([a-zA-Z0-9-]+)@([\d.]*|l|la|lat|late|lates|latest)$/;
+const dummyPackagePattern = /^(@?[^@]*)(@(.*))?$/;
+const fullPackagePattern = /^(@([^@]+)\/)?([^@]+)(@(.*))?$/;
 
-const getEnv = () => window ? window.env : process.env;
+const getEnv = () => (window ? window.env : process.env);
 const isDev = () => getEnv().NODE_ENV === 'development';
-const getEndpoint = () => isDev() ? 'http://localhost:3001' : 'https://nriy2mztj9.execute-api.eu-central-1.amazonaws.com/dev';
+const getEndpoint = () =>
+  (isDev() ? 'http://localhost:3001' : 'https://nriy2mztj9.execute-api.eu-central-1.amazonaws.com/dev');
 
 const resolvePackage = pkg => {
-  if (!fullPackage.test(pkg)) throw new Error('Invalid package name');
-  const [, scope = '', name, , version] = fullPackage.exec(pkg);
-  return { name: scope + name, version: version === 'latest' ? undefined : version };
+  if (!fullPackagePattern.test(pkg)) return {};
+  const [, rawScope = '', scope, name, rawVersion, version] = fullPackagePattern.exec(pkg);
+  return { name: rawScope + name, version: version === 'latest' ? undefined : version };
 };
 
-export const resolvePartialPackage = pkg => {
-  if (!partialPackage.test(pkg)) return { name: pkg };
-  const [, scope = '', name, version] = partialPackage.exec(pkg);
-  return { name: scope + name, version };
+export const splitNameAndVersion = pkg => {
+  if (!dummyPackagePattern.test(pkg)) return { name: '' };
+  const [, name, , version] = dummyPackagePattern.exec(pkg);
+  return { name, version };
 };
 
 const prepareQuery = query => stringify(JSON.parse(JSON.stringify(query)));

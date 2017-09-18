@@ -2,7 +2,7 @@ import React from 'react';
 import Router from 'next/router';
 import Tab from '../components/Tab';
 import { Search, Message } from 'semantic-ui-react';
-import { validateByName, getNpmSuggestions, resolvePartialPackage, getNpmVersionSuggestions } from '../api';
+import { validateByName, getNpmSuggestions, splitNameAndVersion, getNpmVersionSuggestions } from '../api';
 
 export default class extends React.PureComponent {
   state = { value: '', results: [], isFetchingValidation: false, isFetchingSuggestions: false, validationError: null };
@@ -26,7 +26,7 @@ export default class extends React.PureComponent {
 
   handleChange = async (evt, { value }) => {
     this.setState({ value, isFetchingSuggestions: true });
-    const { name, version } = resolvePartialPackage(value);
+    const { name, version } = splitNameAndVersion(value);
     try {
       const results = await getNpmSuggestions(name, version);
       this.setState({ results, isFetchingSuggestions: false });
