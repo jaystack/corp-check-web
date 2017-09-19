@@ -7,15 +7,19 @@ const RETRY = 1500;
 
 export default class extends React.PureComponent {
   static async getInitialProps({ query }) {
-    const result = await getResult(query.cid);
-    return { result };
+    try {
+      const result = await getResult(query.cid);
+      return { result, error: result.state === 'FAILED' ? 'Something went wrong' : null };
+    } catch (error) {
+      return { result: { completed: true, state: 'FAILED' }, error: error.message };
+    }
   }
 
   constructor(props) {
     super(props);
     this.state = {
       result: props.result,
-      error: props.result.state === 'SUCCEEDED' || props.result.state === 'PENDING' ? null : 'Something went wrong'
+      error: props.error
     };
   }
 
@@ -53,7 +57,7 @@ export default class extends React.PureComponent {
       <Grid centered columns={2}>
         <Grid.Column>
           <Segment loading={!result.completed && !error} padded={!result.completed && 'very'}>
-            {result.completed && <Result result={result} />}
+            {(result.completed && !error) && <Result result={result} />}
             {error &&
               <Message negative>
                 <p>{error}</p>
