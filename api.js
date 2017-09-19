@@ -4,7 +4,7 @@ import { stringify } from 'querystring';
 const dummyPackagePattern = /^(@?[^@]*)(@(.*))?$/;
 const fullPackagePattern = /^(@([^@]+)\/)?([^@]+)(@(.*))?$/;
 
-const getEnv = () => (window ? window.env : process.env);
+const getEnv = () => (global.window ? window.env : process.env);
 const isDev = () => getEnv().NODE_ENV === 'development';
 const getEndpoint = () =>
   (isDev() ? 'http://localhost:3001' : 'https://nriy2mztj9.execute-api.eu-central-1.amazonaws.com/dev');
