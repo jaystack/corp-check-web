@@ -4,6 +4,8 @@ import Tab from '../components/Tab';
 import { Search, Message } from 'semantic-ui-react';
 import { validateByName, getNpmSuggestions, splitNameAndVersion, getNpmVersionSuggestions } from '../api';
 
+const TYPING_TIMEOUT = 300;
+
 export default class extends React.PureComponent {
   state = { value: '', results: [], isFetchingValidation: false, isFetchingSuggestions: false, validationError: null };
 
@@ -25,14 +27,18 @@ export default class extends React.PureComponent {
   };
 
   handleChange = async (evt, { value }) => {
-    this.setState({ value, isFetchingSuggestions: true });
-    const { name, version } = splitNameAndVersion(value);
-    try {
-      const results = await getNpmSuggestions(name, version);
-      this.setState({ results, isFetchingSuggestions: false });
-    } catch (error) {
-      this.setState({ results: [], isFetchingSuggestions: false });
-    }
+    this.setState({ value });
+    if (this.typingTimeout) clearTimeout(this.typingTimeout);
+    this.typingTimeout = setTimeout(async () => {
+      this.setState({ isFetchingSuggestions: true });
+      const { name, version } = splitNameAndVersion(value);
+      try {
+        const results = await getNpmSuggestions(name, version);
+        this.setState({ results, isFetchingSuggestions: false });
+      } catch (error) {
+        this.setState({ results: [], isFetchingSuggestions: false });
+      }
+    }, TYPING_TIMEOUT);
   };
 
   handleKeyDown = evt => {
