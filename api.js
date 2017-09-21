@@ -2,7 +2,7 @@ import 'isomorphic-fetch';
 import { stringify } from 'querystring';
 
 const dummyPackagePattern = /^(@?[^@]*)(@(.*))?$/;
-const fullPackagePattern = /^(@([^@]+)\/)?([^@]+)(@(.*))?$/;
+const fullPackagePattern = /^((@([^@]+)\/)?([^@]+))(@(.*))?$/;
 
 const getEnv = () => (global.window ? window.env : process.env);
 const isDev = () => getEnv().NODE_ENV === 'development';
@@ -11,8 +11,8 @@ const getEndpoint = () =>
 
 const resolvePackage = pkg => {
   if (!fullPackagePattern.test(pkg)) return {};
-  const [, rawScope = '', scope, name, rawVersion, version] = fullPackagePattern.exec(pkg);
-  return { name: rawScope + name, version: version === 'latest' ? undefined : version };
+  const [, fullName, rawScope, scope, name, rawVersion, version] = fullPackagePattern.exec(pkg);
+  return { name: fullName, version: version === 'latest' ? undefined : version };
 };
 
 export const splitNameAndVersion = pkg => {
