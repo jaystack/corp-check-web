@@ -1,0 +1,27 @@
+{
+    "family": "corp-check-web",
+    "containerDefinitions": [
+        {
+            "image": "856324650258.dkr.ecr.eu-central-1.amazonaws.com/corp-check-web:%BUILD_NUMBER%",
+            "name": "corp-check-web",
+            "cpu": 0,
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "corp-check-web",
+                    "awslogs-region": "eu-central-1",
+                    "awslogs-stream-prefix": "corp-check-web_"
+                }
+            },
+            "memory": 512,
+            "memoryReservation": 300,
+            "essential": true,
+            "portMappings": [
+                {
+                    "containerPort": 3000,
+                    "hostPort": 80
+                }
+            ]
+        }
+    ]
+}
