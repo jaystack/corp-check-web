@@ -1,9 +1,10 @@
-import { Segment, Menu, Grid } from 'semantic-ui-react';
+import { Segment, Menu, Grid, Message } from 'semantic-ui-react';
 import Link from 'next/link';
 
 export default ({ pathname, inProgress, children }) => (
   <Grid centered columns={2}>
     <Grid.Column>
+      <Message size="massive" icon="idea" content="Every module is just as weak as it's weakest dependency" />
       <Segment loading={inProgress}>
         <Menu fluid widths={2}>
           <Link prefetch href="/npm">
