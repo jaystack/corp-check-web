@@ -17,6 +17,10 @@
             "memory": 512,
             "memoryReservation": 300,
             "essential": true,
+            "environment": [{
+                    "name": "ENV",
+                    "value": "%ENV%"
+            }],
             "portMappings": [
                 {
                     "containerPort": 3000,
