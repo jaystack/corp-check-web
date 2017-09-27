@@ -4,10 +4,21 @@ import { stringify } from 'querystring';
 const dummyPackagePattern = /^(@?[^@]*)(@(.*))?$/;
 const fullPackagePattern = /^((@([^@]+)\/)?([^@]+))(@(.*))?$/;
 
-const getEnv = () => (global.window ? window.env : process.env);
-const isDev = () => getEnv().NODE_ENV === 'development';
-const getEndpoint = () =>
-  (isDev() ? 'http://localhost:3001' : 'https://nriy2mztj9.execute-api.eu-central-1.amazonaws.com/dev');
+const getEnvVars = () => (global.window ? window.env : process.env);
+const isDev = () => getEnvVars().NODE_ENV === 'development';
+const getEnvironment = () => getEnvVars().ENV;
+const getEndpoint = () => {
+  switch (getEnvironment()) {
+    case 'dev':
+      return 'https://nriy2mztj9.execute-api.eu-central-1.amazonaws.com/dev';
+    case 'stage':
+      return '';
+    case 'prod':
+      return '';
+    default:
+      return 'http://localhost:3001';
+  }
+};
 
 const resolvePackage = pkg => {
   if (!fullPackagePattern.test(pkg)) return {};
