@@ -52,32 +52,19 @@ const api = {
   delete: invoke('DELETE')
 };
 
-export const validateByName = name => api.get('validation', { query: resolvePackage(name) });
+export const validateByName = packageName => api.post('validation', { body: { packageName } });
 
 export const validateByJson = (packageJSON, isProduction = false) =>
   api.post('validation', { body: { packageJSON, isProduction } });
 
-const getQualificationByScore = score => {
-  if (score === null) return null;
-  if (score >= 0.9) return 'green';
-  else if (score < 0.9 && score > 0.5) return 'orange';
-  else return 'red';
-};
-
 export const getResult = async cid => {
   if (!cid) return { completed: false };
   const result = await api.get('package', { query: { cid } });
-  const data = result.item.validationData ? JSON.parse(result.item.validationData) : {};
-  const score = data && data.stats && data.stats[result.item.packageName]
-    ? data.stats[result.item.packageName].score.final
-    : null;
   return {
-    completed: ['SUCCEEDED', 'FAILED'].includes(result.item.validationState.state),
-    state: result.item.validationState.state,
-    name: result.item.packageName,
-    version: result.item.packageVersion,
-    data,
-    qualification: getQualificationByScore(score)
+    completed: ['SUCCEEDED', 'FAILED'].includes(result.state.type),
+    state: result.state.type,
+    name: result.name,
+    ...result.result
   };
 };
 

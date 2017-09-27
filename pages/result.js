@@ -57,7 +57,7 @@ export default class extends React.PureComponent {
       <Grid centered columns={2}>
         <Grid.Column>
           <Segment loading={!result.completed && !error} padded={!result.completed && 'very'}>
-            {(result.completed && !error) && <Result result={result} />}
+            {result.completed && !error && <Result result={result} />}
             {error &&
               <Message negative>
                 <p>{error}</p>
