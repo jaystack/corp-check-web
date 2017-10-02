@@ -13,7 +13,7 @@ export default class Tree extends React.PureComponent {
       <div className="tree">
         <div className="node" style={{ backgroundColor: getNodeColor(nodeScore) }}>
           <span className="name">{nodeName}</span>
-          <span className="score">{nodeScore}</span>
+          <span className="score">{nodeScore * 100}%</span>
         </div>
         <div className="dependencies">
           {dependencies.map(dependency => <Tree key={dependency.nodeName} node={dependency} />)}

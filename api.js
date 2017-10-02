@@ -63,6 +63,7 @@ export const getResult = async cid => {
   return {
     completed: ['SUCCEEDED', 'FAILED'].includes(result.state.type),
     state: result.state.type,
+    date: result.state.date,
     name: result.name,
     ...result.result
   };

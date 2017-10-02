@@ -26,7 +26,7 @@ const getQualificationColor = qualification => {
 
 export default class extends React.PureComponent {
   render() {
-    const { result: { name, qualification, rootEvaluation } = {} } = this.props;
+    const { result: { name, date, qualification, rootEvaluation } = {} } = this.props;
     console.log(rootEvaluation);
     return (
       <div>
@@ -49,7 +49,7 @@ export default class extends React.PureComponent {
             </Grid.Column>
           </Grid.Row>
         </Grid>
-
+        <Label size="big"><Icon name="calendar" />Evaluated at {new Date(date).toLocaleString()}</Label>
         <Divider />
         <div className="tree-container">
           <Tree node={rootEvaluation} />
