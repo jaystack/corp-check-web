@@ -1,5 +1,5 @@
 import React from 'react';
-import { Label, Grid, Divider, Statistic, Icon } from 'semantic-ui-react';
+import { Label, Header, Grid, Divider, Statistic, Icon } from 'semantic-ui-react';
 import Tree from './Tree';
 
 const getQualificationLabel = qualification => {
@@ -31,15 +31,15 @@ export default class extends React.PureComponent {
     return (
       <div>
         <Grid divided="vertically">
-          <Grid.Row columns={2}>
-            <Grid.Column>
+          <Grid.Row>
+            <Grid.Column width={10}>
               {qualification &&
                 <Label size="massive" as="a" color={getQualificationColor(qualification)} ribbon>
                   {getQualificationLabel(qualification)}
                 </Label>}
-              <h1 style={{ display: 'inline' }}>{name}</h1>
+              <Header size="huge" style={{ display: 'inline' }}>{name}</Header>
             </Grid.Column>
-            <Grid.Column textAlign="right">
+            <Grid.Column width={6} textAlign="right">
               <Statistic>
                 <Statistic.Value>
                   {rootEvaluation.nodeScore * 100}%
