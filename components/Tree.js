@@ -1,20 +1,41 @@
 import React from 'react';
-import * as d3 from 'd3-scale';
+import { Popup, Label } from 'semantic-ui-react';
+import getColorByScore from '../utils/getColorByScore';
 
-const getNodeColor = d3
-  .scaleLinear()
-  .domain([0, 0.5, 1])
-  .range(['rgb(219, 40, 40)', 'rgb(242, 113, 28)', 'rgb(33, 186, 69)']);
+const flatArray = array => array.reduce((prev, next) => [...prev, ...next], []);
+
+const getPopupContent = evaluations =>
+  flatArray(
+    evaluations.map(({ name, logs }, i) =>
+      logs.map(({ message, type }, j) => (
+        <Label basic key={`${i}-${j}`} color={type === 'ERROR' ? 'red' : ''} className="evaluation-log">
+          {name.toUpperCase()} {type} <Label.Detail>{message}</Label.Detail>
+        </Label>
+      ))
+    )
+  );
 
 export default class Tree extends React.PureComponent {
+  renderNode() {
+    const { nodeName, nodeVersion, nodeScore } = this.props.node;
+    return (
+      <div className="node" style={{ backgroundColor: getColorByScore(nodeScore) }}>
+        <span className="name">{nodeName}@{nodeVersion}</span>
+        <span className="score">{nodeScore * 100}%</span>
+      </div>
+    );
+  }
+
   render() {
-    const { nodeName, nodeScore, dependencies } = this.props.node;
+    const { dependencies, evaluations } = this.props.node;
+    const popupContent = getPopupContent(evaluations);
     return (
       <div className="tree">
-        <div className="node" style={{ backgroundColor: getNodeColor(nodeScore) }}>
-          <span className="name">{nodeName}</span>
-          <span className="score">{nodeScore * 100}%</span>
-        </div>
+        {popupContent.length > 0
+          ? <Popup trigger={this.renderNode()}>
+              {popupContent}
+            </Popup>
+          : this.renderNode()}
         <div className="dependencies">
           {dependencies.map(dependency => <Tree key={dependency.nodeName} node={dependency} />)}
         </div>

@@ -49,11 +49,11 @@ export default class extends React.PureComponent {
             </Grid.Column>
           </Grid.Row>
         </Grid>
-        <Container textAlign="right">
+        <div className="date-container">
           <Label size="big">
             <Icon name="calendar" />Evaluated at<Label.Detail>{new Date(date).toLocaleString()}</Label.Detail>
           </Label>
-        </Container>
+        </div>
         <Divider />
         <div className="tree-container">
           <Tree node={rootEvaluation} />
