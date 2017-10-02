@@ -1,12 +1,13 @@
 import React from 'react';
 import { Label, Header, Grid, Divider, Statistic, Icon, Container } from 'semantic-ui-react';
 import Tree from './Tree';
+import getPercentage from '../utils/getPercentage';
 
 const getQualificationLabel = qualification => {
   switch (qualification) {
     case 'RECOMMENDED':
       return 'Recommended';
-    case 'ACCPETED':
+    case 'ACCEPTED':
       return 'Accepted';
     case 'REJECTED':
       return 'Rejected';
@@ -17,7 +18,7 @@ const getQualificationColor = qualification => {
   switch (qualification) {
     case 'RECOMMENDED':
       return 'green';
-    case 'ACCPETED':
+    case 'ACCEPTED':
       return 'orange';
     case 'REJECTED':
       return 'red';
@@ -33,17 +34,18 @@ export default class extends React.PureComponent {
         <Grid divided="vertically">
           <Grid.Row>
             <Grid.Column width={10}>
-              {qualification &&
+              {qualification && (
                 <Label size="massive" as="a" color={getQualificationColor(qualification)} ribbon>
                   {getQualificationLabel(qualification)}
-                </Label>}
-              <Header size="huge" style={{ display: 'inline' }}>{name}</Header>
+                </Label>
+              )}
+              <Header size="huge" style={{ display: 'inline' }}>
+                {name}
+              </Header>
             </Grid.Column>
             <Grid.Column width={6} textAlign="right">
               <Statistic>
-                <Statistic.Value>
-                  {rootEvaluation.nodeScore * 100}%
-                </Statistic.Value>
+                <Statistic.Value>{getPercentage(rootEvaluation.nodeScore)}%</Statistic.Value>
                 <Statistic.Label>SCORE</Statistic.Label>
               </Statistic>
             </Grid.Column>
