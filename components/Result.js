@@ -1,5 +1,5 @@
 import React from 'react';
-import { Label, Header, Grid, Divider, Statistic, Icon } from 'semantic-ui-react';
+import { Label, Header, Grid, Divider, Statistic, Icon, Container } from 'semantic-ui-react';
 import Tree from './Tree';
 
 const getQualificationLabel = qualification => {
@@ -49,7 +49,11 @@ export default class extends React.PureComponent {
             </Grid.Column>
           </Grid.Row>
         </Grid>
-        <Label size="big"><Icon name="calendar" />Evaluated at {new Date(date).toLocaleString()}</Label>
+        <Container textAlign="right">
+          <Label size="big">
+            <Icon name="calendar" />Evaluated at<Label.Detail>{new Date(date).toLocaleString()}</Label.Detail>
+          </Label>
+        </Container>
         <Divider />
         <div className="tree-container">
           <Tree node={rootEvaluation} />
