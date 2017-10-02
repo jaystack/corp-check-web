@@ -54,7 +54,7 @@ export default class extends React.PureComponent {
   render() {
     const { result, error } = this.state;
     return (
-      <Grid centered columns={2}>
+      <Grid centered columns={2} className="result-grid">
         <Grid.Column>
           <Segment loading={!result.completed && !error} padded={!result.completed && 'very'}>
             {result.completed && !error && <Result result={result} />}

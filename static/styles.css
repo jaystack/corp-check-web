@@ -5,3 +5,39 @@
 .search-fluid-fix input {
   border-radius: .28571429rem !important;
 }
+
+.result-grid {
+  /* margin: 20px 20px 20px 40px !important; */
+}
+
+.tree-container {
+  overflow-x: auto;
+}
+
+.tree {
+  display: flex;
+}
+
+.tree .node {
+  margin: 3px;
+  display: flex;
+  padding: 2px 5px 5px 5px;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  opacity: 0.9;
+  cursor: pointer;
+}
+
+.tree .node:hover {
+  opacity: 1;
+}
+
+.tree .node .name {
+  margin-top: 3px;
+}
+
+.tree .node .score {
+  margin-left: 5px;
+  font-size: 10px;
+}

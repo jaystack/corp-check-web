@@ -1,6 +1,6 @@
 import React from 'react';
-import { Label } from 'semantic-ui-react';
-import getTreeElements from '../utils/getTreeElements';
+import { Label, Divider, Statistic } from 'semantic-ui-react';
+import Tree from './Tree';
 
 const getQualificationLabel = qualification => {
   switch (qualification) {
@@ -25,12 +25,9 @@ const getQualificationColor = qualification => {
 };
 
 export default class extends React.PureComponent {
-
   render() {
     const { result: { name, qualification, rootEvaluation } = {} } = this.props;
-    //console.log(rootEvaluation);
-    //const elements = getTreeElements(rootEvaluation);
-    //console.log(elements);
+    console.log(rootEvaluation);
     return (
       <div>
         {qualification &&
@@ -38,8 +35,12 @@ export default class extends React.PureComponent {
             {getQualificationLabel(qualification)}
           </Label>}
         <h1 style={{ display: 'inline' }}>{name}</h1>
-        <br />
-        <br />
+        <Divider />
+        <Statistic size="huge" label="Score" value={rootEvaluation.nodeScore} />
+        <Divider />
+        <div className="tree-container">
+          <Tree node={rootEvaluation} />
+        </div>
       </div>
     );
   }
