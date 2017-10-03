@@ -22,13 +22,13 @@ const getEndpoint = () => {
 
 const resolvePackage = pkg => {
   if (!fullPackagePattern.test(pkg)) return {};
-  const [, fullName, rawScope, scope, name, rawVersion, version] = fullPackagePattern.exec(pkg);
+  const [ , fullName, rawScope, scope, name, rawVersion, version ] = fullPackagePattern.exec(pkg);
   return { name: fullName, version: version === 'latest' ? undefined : version };
 };
 
 export const splitNameAndVersion = pkg => {
   if (!dummyPackagePattern.test(pkg)) return { name: '' };
-  const [, name, , version] = dummyPackagePattern.exec(pkg);
+  const [ , name, , version ] = dummyPackagePattern.exec(pkg);
   return { name, version };
 };
 
@@ -52,16 +52,16 @@ const api = {
   delete: invoke('DELETE')
 };
 
-export const validateByName = packageName => api.post('validation', { body: { packageName } });
+export const validateByName = (packageName, ruleSet) => api.post('validation', { body: { packageName, ruleSet } });
 
-export const validateByJson = (packageJSON, isProduction = false) =>
-  api.post('validation', { body: { packageJSON, isProduction } });
+export const validateByJson = (packageJSON, isProduction, ruleSet) =>
+  api.post('validation', { body: { packageJSON, isProduction, ruleSet } });
 
 export const getResult = async cid => {
   if (!cid) return { completed: false };
   const result = await api.get('package', { query: { cid } });
   return {
-    completed: ['SUCCEEDED', 'FAILED'].includes(result.state.type),
+    completed: [ 'SUCCEEDED', 'FAILED' ].includes(result.state.type),
     state: result.state.type,
     date: result.state.date,
     name: result.name,

@@ -1,9 +1,17 @@
+.search-fluid-fix {
+  margin-bottom: 10px !important;
+}
+
 .search-fluid-fix > div {
   width: 100%;
 }
 
 .search-fluid-fix input {
   border-radius: .28571429rem !important;
+}
+
+.production-only {
+  margin-top: 15px !important;
 }
 
 .result-page {
