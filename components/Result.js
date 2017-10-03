@@ -28,7 +28,6 @@ const getQualificationColor = qualification => {
 export default class extends React.PureComponent {
   render() {
     const { result: { name, date, qualification, rootEvaluation } = {} } = this.props;
-    console.log(rootEvaluation);
     return (
       <div>
         <Grid divided="vertically">
