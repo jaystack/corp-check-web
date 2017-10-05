@@ -43,7 +43,6 @@ export default class extends React.PureComponent {
         <Form.TextArea
           value={value}
           onChange={this.handleTextChange}
-          autoHeight
           placeholder={placeholder || 'Insert your content'}
           style={{
             minHeight: '300px',

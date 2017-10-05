@@ -12,7 +12,7 @@ const getLogColor = type => {
     case 'WARNING':
       return 'orange';
     default:
-      return '';
+      return 'black';
   }
 };
 

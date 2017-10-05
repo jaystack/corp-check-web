@@ -54,8 +54,8 @@ const api = {
 
 export const validateByName = (packageName, ruleSet) => api.post('validation', { body: { packageName, ruleSet } });
 
-export const validateByJson = (packageJSON, isProduction, ruleSet) =>
-  api.post('validation', { body: { packageJSON, isProduction, ruleSet } });
+export const validateByJson = (packageJSON, packageLock, ruleSet, isProduction) =>
+  api.post('validation', { body: { packageJSON, packageLock, ruleSet, isProduction } });
 
 export const getResult = async cid => {
   if (!cid) return { completed: false };

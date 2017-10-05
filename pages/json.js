@@ -10,17 +10,23 @@ import { validateByJson } from '../api';
 export default class extends React.PureComponent {
   state = {
     packageJson: '',
+    packageLock: '',
+    ruleSet: '',
     isProduction: false,
     isFetchingValidation: false,
-    validationError: null,
-    ruleSet: ''
+    validationError: null
   };
 
   handleSubmit = async () => {
-    const { packageJson, isProduction, ruleSet } = this.state;
+    const { packageJson, packageLock, ruleSet, isProduction } = this.state;
     this.setState({ isFetchingValidation: true });
     try {
-      const { cid } = await validateByJson(packageJson, isProduction, ruleSet && isValidJson(ruleSet) ? ruleSet : null);
+      const { cid } = await validateByJson(
+        packageJson,
+        packageLock && isValidJson(packageLock) ? packageLock : null,
+        ruleSet && isValidJson(ruleSet) ? ruleSet : null,
+        isProduction
+      );
       this.setState({ validationError: null });
       if (cid) Router.push({ pathname: '/result', query: { cid } });
     } catch (error) {
@@ -38,9 +44,18 @@ export default class extends React.PureComponent {
     this.setState({ isProduction: checked });
   };
 
+  handlePackageLockChange = packageLock => {
+    this.setState({ packageLock });
+  };
+
   handleRuleSetChange = ruleSet => {
     this.setState({ ruleSet });
   };
+
+  isButtonDisabled() {
+    const { packageJson, packageLock, ruleSet } = this.state;
+    return !packageJson || !isValidJson(packageJson) || !isValidJson(packageLock) || !isValidJson(ruleSet);
+  }
 
   render() {
     const { url } = this.props;
@@ -62,6 +77,13 @@ export default class extends React.PureComponent {
           </Form.Field>
           <Form.Field>
             <CollapsableTextUploader
+              title="package-lock.json"
+              placeholder="Insert your package-lock.json"
+              onChange={this.handlePackageLockChange}
+            />
+          </Form.Field>
+          <Form.Field>
+            <CollapsableTextUploader
               title="Rules"
               placeholder="Describe your rules"
               onChange={this.handleRuleSetChange}
@@ -76,7 +98,7 @@ export default class extends React.PureComponent {
               size="big"
               content="Check"
               onClick={this.handleSubmit}
-              disabled={!packageJson || !isValidJson(packageJson) || !isValidJson(ruleSet)}
+              disabled={this.isButtonDisabled()}
             />
           </Form.Field>
         </Form>
