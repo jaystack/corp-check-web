@@ -12,9 +12,9 @@ const getEndpoint = () => {
     case 'dev':
       return 'https://nriy2mztj9.execute-api.eu-central-1.amazonaws.com/dev';
     case 'stage':
-      return '';
+      return 'https://ol8w3589yc.execute-api.eu-central-1.amazonaws.com/stage';
     case 'prod':
-      return '';
+      return 'https://6r92ru84n2.execute-api.eu-central-1.amazonaws.com/prod';
     default:
       return 'http://localhost:3001';
   }
