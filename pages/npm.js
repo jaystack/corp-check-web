@@ -2,7 +2,7 @@ import React from 'react';
 import Router from 'next/router';
 import Tab from '../components/Tab';
 import RuleSet from '../components/RuleSet';
-import { Search, Message } from 'semantic-ui-react';
+import { Search, Message, Form } from 'semantic-ui-react';
 import isValidJson from '../utils/isValidJson';
 import { validateByName, getNpmSuggestions, splitNameAndVersion, getNpmVersionSuggestions } from '../api';
 
@@ -56,8 +56,8 @@ export default class extends React.PureComponent {
     if (evt.keyCode === 13 && this.refs.search.state.selectedIndex === -1 && value.length > 0) this.submit(value);
   };
 
-  handleRuleSetChange = evt => {
-    this.setState({ ruleSet: evt.target.value });
+  handleRuleSetChange = ruleSet => {
+    this.setState({ ruleSet });
   };
 
   render() {
@@ -85,7 +85,11 @@ export default class extends React.PureComponent {
             <p>{validationError}</p>
           </Message>
         )}
-        <RuleSet value={ruleSet} onChange={this.handleRuleSetChange} />
+        <Form>
+          <Form.Field>
+            <RuleSet onChange={this.handleRuleSetChange} />
+          </Form.Field>
+        </Form>
       </Tab>
     );
   }

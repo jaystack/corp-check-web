@@ -3,13 +3,13 @@ import Router from 'next/router';
 import Tab from '../components/Tab';
 import RuleSet from '../components/RuleSet';
 import TextUploader from '../components/TextUploader';
-import { Form, TextArea, Button, Checkbox, Message } from 'semantic-ui-react';
+import { Form, TextArea, Button, Message } from 'semantic-ui-react';
 import isValidJson from '../utils/isValidJson';
 import { validateByJson } from '../api';
 
 export default class extends React.PureComponent {
   state = {
-    value: '',
+    packageJson: '',
     isProduction: false,
     isFetchingValidation: false,
     validationError: null,
@@ -17,10 +17,10 @@ export default class extends React.PureComponent {
   };
 
   handleSubmit = async () => {
-    const { value, isProduction, ruleSet } = this.state;
+    const { packageJson, isProduction, ruleSet } = this.state;
     this.setState({ isFetchingValidation: true });
     try {
-      const { cid } = await validateByJson(value, isProduction, ruleSet && isValidJson(ruleSet) ? ruleSet : null);
+      const { cid } = await validateByJson(packageJson, isProduction, ruleSet && isValidJson(ruleSet) ? ruleSet : null);
       this.setState({ validationError: null });
       if (cid) Router.push({ pathname: '/result', query: { cid } });
     } catch (error) {
@@ -30,47 +30,50 @@ export default class extends React.PureComponent {
     }
   };
 
-  handlePackageJsonChange = value => {
-    this.setState({ value });
+  handlePackageJsonChange = packageJson => {
+    this.setState({ packageJson });
   };
 
   handleSwitchProduction = (_, { checked }) => {
     this.setState({ isProduction: checked });
   };
 
-  handleRuleSetChange = evt => {
-    this.setState({ ruleSet: evt.target.value });
+  handleRuleSetChange = ruleSet => {
+    this.setState({ ruleSet });
   };
 
   render() {
     const { url } = this.props;
-    const { value, error, isFetchingValidation, validationError, ruleSet } = this.state;
+    const { packageJson, isFetchingValidation, validationError, ruleSet } = this.state;
     return (
       <Tab pathname={url.pathname} inProgress={isFetchingValidation}>
-        <Form error={!!error}>
+        <Form>
           {validationError && (
             <Message negative>
               <p>{validationError}</p>
             </Message>
           )}
-          <TextUploader
-            label="package.json"
-            placeholder="Insert your package.json"
-            onChange={this.handlePackageJsonChange}
-          />
-          <RuleSet value={ruleSet} onChange={this.handleRuleSetChange} inForm />
-          <Form.Field className="production-only">
-            <Checkbox label="Production only" onChange={this.handleSwitchProduction} />
+          <Form.Field>
+            <TextUploader
+              label="package.json"
+              placeholder="Insert your package.json"
+              onChange={this.handlePackageJsonChange}
+            />
           </Form.Field>
           <Form.Field>
-            <Button
+            <RuleSet onChange={this.handleRuleSetChange} inForm />
+          </Form.Field>
+          <Form.Field className="production-only">
+            <Form.Checkbox label="Production only" onChange={this.handleSwitchProduction} />
+          </Form.Field>
+          <Form.Field>
+            <Form.Button
               color="teal"
               size="big"
+              content="Check"
               onClick={this.handleSubmit}
-              disabled={!value || !!error || !isValidJson(ruleSet)}
-            >
-              Check
-            </Button>
+              disabled={!packageJson || !isValidJson(packageJson) || !isValidJson(ruleSet)}
+            />
           </Form.Field>
         </Form>
       </Tab>

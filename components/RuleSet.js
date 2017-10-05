@@ -1,25 +1,11 @@
 import React from 'react';
 import { Accordion, Form, TextArea } from 'semantic-ui-react';
+import TextUploader from './TextUploader';
 import isValidJson from '../utils/isValidJson';
 
 export default class extends React.PureComponent {
-  renderFormField() {
-    const { value = '', onChange = () => {} } = this.props;
-    return (
-      <Form.Field error={!isValidJson(value)}>
-        <TextArea
-          value={value}
-          onChange={onChange}
-          autoHeight
-          placeholder="Describe your own rules"
-          style={{ minHeight: '300px', width: '100%', fontFamily: 'Courier New' }}
-        />
-      </Form.Field>
-    );
-  }
-
   render() {
-    const { inForm = false } = this.props;
+    const { onChange = () => {} } = this.props;
     return (
       <Accordion
         panels={[
@@ -27,7 +13,7 @@ export default class extends React.PureComponent {
             title: 'Rules',
             content: (
               <Accordion.Content key="textarea">
-                {inForm ? this.renderFormField() : <Form>{this.renderFormField()}</Form>}
+                <TextUploader onChange={onChange} placeholder="Describe your rules" />
               </Accordion.Content>
             )
           }

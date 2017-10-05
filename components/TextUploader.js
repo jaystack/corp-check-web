@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import { Form } from 'semantic-ui-react';
 import Upload from './Upload';
 
@@ -35,7 +36,7 @@ export default class extends React.PureComponent {
     const { label, placeholder } = this.props;
     const { value, error } = this.state;
     return (
-      <div className="text-uploader">
+      <div className={classnames('text-uploader', error && 'error')}>
         <div className="button-container">
           <Upload onChange={this.handleFileChange} />
         </div>
@@ -50,7 +51,8 @@ export default class extends React.PureComponent {
             fontFamily: 'Courier New',
             border: '0',
             padding: '0px',
-            marginTop: '10px'
+            marginTop: '10px',
+            backgroundColor: 'transparent'
           }}
         />
       </div>
