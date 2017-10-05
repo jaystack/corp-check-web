@@ -22,7 +22,7 @@ export default class extends React.PureComponent {
     const { ruleSet } = this.state;
     this.setState({ isFetchingValidation: true });
     try {
-      const { cid } = await validateByName(name, ruleSet && isValidJson(ruleSet) ? JSON.parse(ruleSet) : null);
+      const { cid } = await validateByName(name, ruleSet && isValidJson(ruleSet) ? ruleSet : null);
       this.setState({ validationError: null });
       if (cid) Router.push({ pathname: '/result', query: { cid } });
     } catch (error) {

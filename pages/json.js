@@ -2,7 +2,7 @@ import React from 'react';
 import Router from 'next/router';
 import Tab from '../components/Tab';
 import RuleSet from '../components/RuleSet';
-import Json from '../components/Json';
+import TextUploader from '../components/TextUploader';
 import { Form, TextArea, Button, Checkbox, Message } from 'semantic-ui-react';
 import isValidJson from '../utils/isValidJson';
 import { validateByJson } from '../api';
@@ -21,11 +21,7 @@ export default class extends React.PureComponent {
     const { value, isProduction, ruleSet } = this.state;
     this.setState({ isFetchingValidation: true });
     try {
-      const { cid } = await validateByJson(
-        JSON.parse(value),
-        isProduction,
-        ruleSet && isValidJson(ruleSet) ? JSON.parse(ruleSet) : null
-      );
+      const { cid } = await validateByJson(value, isProduction, ruleSet && isValidJson(ruleSet) ? ruleSet : null);
       this.setState({ validationError: null });
       if (cid) Router.push({ pathname: '/result', query: { cid } });
     } catch (error) {
@@ -59,6 +55,7 @@ export default class extends React.PureComponent {
     const { value, error, isFetchingValidation, validationError, ruleSet } = this.state;
     return (
       <Tab pathname={url.pathname} inProgress={isFetchingValidation}>
+        {/* <TextUploader /> */}
         <Form error={!!error}>
           {validationError && (
             <Message negative>

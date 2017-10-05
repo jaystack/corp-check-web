@@ -5,6 +5,7 @@ import { Input } from 'semantic-ui-react';
 
 export default class extends React.PureComponent {
   static propTypes = {
+    placeholder: PropTypes.string,
     onChange: PropTypes.func
   };
 
@@ -36,7 +37,7 @@ export default class extends React.PureComponent {
         <Input
           onClick={this.handleClick}
           action={{ icon: 'attach', onClick: this.handleClick }}
-          placeholder="Select file"
+          placeholder={this.props.placeholder || 'Select file'}
           readOnly
           value={this.state.name}
         />
