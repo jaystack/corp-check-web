@@ -1,7 +1,7 @@
 import React from 'react';
 import Router from 'next/router';
 import Tab from '../components/Tab';
-import RuleSet from '../components/RuleSet';
+import CollapsableTextUploader from '../components/CollapsableTextUploader';
 import { Search, Message, Form } from 'semantic-ui-react';
 import isValidJson from '../utils/isValidJson';
 import { validateByName, getNpmSuggestions, splitNameAndVersion, getNpmVersionSuggestions } from '../api';
@@ -87,7 +87,11 @@ export default class extends React.PureComponent {
         )}
         <Form>
           <Form.Field>
-            <RuleSet onChange={this.handleRuleSetChange} />
+            <CollapsableTextUploader
+              title="Rules"
+              placeholder="Describe your rules"
+              onChange={this.handleRuleSetChange}
+            />
           </Form.Field>
         </Form>
       </Tab>

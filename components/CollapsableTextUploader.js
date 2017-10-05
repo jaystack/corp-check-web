@@ -5,15 +5,15 @@ import isValidJson from '../utils/isValidJson';
 
 export default class extends React.PureComponent {
   render() {
-    const { onChange = () => {} } = this.props;
+    const { title = '', placeholder = '', onChange = () => {} } = this.props;
     return (
       <Accordion
         panels={[
           {
-            title: 'Rules',
+            title,
             content: (
               <Accordion.Content key="textarea">
-                <TextUploader onChange={onChange} placeholder="Describe your rules" />
+                <TextUploader onChange={onChange} placeholder={placeholder} />
               </Accordion.Content>
             )
           }

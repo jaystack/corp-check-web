@@ -1,8 +1,8 @@
 import React from 'react';
 import Router from 'next/router';
 import Tab from '../components/Tab';
-import RuleSet from '../components/RuleSet';
 import TextUploader from '../components/TextUploader';
+import CollapsableTextUploader from '../components/CollapsableTextUploader';
 import { Form, TextArea, Button, Message } from 'semantic-ui-react';
 import isValidJson from '../utils/isValidJson';
 import { validateByJson } from '../api';
@@ -61,7 +61,11 @@ export default class extends React.PureComponent {
             />
           </Form.Field>
           <Form.Field>
-            <RuleSet onChange={this.handleRuleSetChange} inForm />
+            <CollapsableTextUploader
+              title="Rules"
+              placeholder="Describe your rules"
+              onChange={this.handleRuleSetChange}
+            />
           </Form.Field>
           <Form.Field className="production-only">
             <Form.Checkbox label="Production only" onChange={this.handleSwitchProduction} />
