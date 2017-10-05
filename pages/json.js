@@ -2,6 +2,7 @@ import React from 'react';
 import Router from 'next/router';
 import Tab from '../components/Tab';
 import RuleSet from '../components/RuleSet';
+import Json from '../components/Json';
 import { Form, TextArea, Button, Checkbox, Message } from 'semantic-ui-react';
 import isValidJson from '../utils/isValidJson';
 import { validateByJson } from '../api';
