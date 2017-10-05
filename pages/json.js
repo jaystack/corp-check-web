@@ -11,7 +11,6 @@ export default class extends React.PureComponent {
   state = {
     value: '',
     isProduction: false,
-    error: null,
     isFetchingValidation: false,
     validationError: null,
     ruleSet: ''
@@ -31,15 +30,8 @@ export default class extends React.PureComponent {
     }
   };
 
-  handleJsonChange = evt => {
-    try {
-      if (evt.target.value) JSON.parse(evt.target.value);
-      this.setState({ error: null });
-    } catch (error) {
-      this.setState({ error: 'Invalid JSON' });
-    } finally {
-      this.setState({ value: evt.target.value });
-    }
+  handlePackageJsonChange = value => {
+    this.setState({ value });
   };
 
   handleSwitchProduction = (_, { checked }) => {
@@ -55,22 +47,17 @@ export default class extends React.PureComponent {
     const { value, error, isFetchingValidation, validationError, ruleSet } = this.state;
     return (
       <Tab pathname={url.pathname} inProgress={isFetchingValidation}>
-        {/* <TextUploader /> */}
         <Form error={!!error}>
           {validationError && (
             <Message negative>
               <p>{validationError}</p>
             </Message>
           )}
-          <Form.Field error={!!error}>
-            <TextArea
-              value={value}
-              onChange={this.handleJsonChange}
-              autoHeight
-              placeholder="Insert your package.json"
-              style={{ minHeight: '300px', width: '100%', fontFamily: 'Courier New' }}
-            />
-          </Form.Field>
+          <TextUploader
+            label="package.json"
+            placeholder="Insert your package.json"
+            onChange={this.handlePackageJsonChange}
+          />
           <RuleSet value={ruleSet} onChange={this.handleRuleSetChange} inForm />
           <Form.Field className="production-only">
             <Checkbox label="Production only" onChange={this.handleSwitchProduction} />

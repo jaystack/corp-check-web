@@ -10,6 +10,11 @@
   border-radius: .28571429rem !important;
 }
 
+.text-uploader {
+  border: 1px solid rgba(34, 36, 38, .15);
+  padding: 10px;
+}
+
 .production-only {
   margin-top: 15px !important;
 }
