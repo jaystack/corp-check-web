@@ -1,0 +1,49 @@
+body > header {
+    margin-bottom: 30px;
+    border-bottom: 6px solid #F8DC3D;
+    padding-top: 1px;
+    min-height: 150px;
+
+    background-color: #2E2E2C;
+}
+
+body > div {
+    min-height: calc(100vh - 316px);
+}
+
+body > div + div {
+    height: 0;
+    display: none;
+}
+
+body > footer {
+    position: relative;
+    border-top: 15px solid #212121;
+    border-bottom: 3px solid #F8DC3D;
+    margin-top: 25px;
+    padding-top: 66px;
+    padding-bottom: 55px;
+    background-color: #2E2E2C;
+    color: #fff;
+}
+
+h2#logo {
+    margin: 14px 0 0 0;
+    width: 112px;
+    height: 112px;
+    background: url('./images/logo.png'); 
+}
+
+h2#logo a {
+    display: block;
+    height: 100%;
+    overflow: hidden;
+    text-indent: -3000px;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 0;
+}
+
+nav .container {
+    margin-top: 0;
+}

@@ -29,7 +29,7 @@ export default class extends React.PureComponent {
   render() {
     const { result: { name, date, qualification, rootEvaluation } = {} } = this.props;
     return (
-      <div>
+      <main>
         <Grid divided="vertically">
           <Grid.Row>
             <Grid.Column width={10}>
@@ -59,7 +59,7 @@ export default class extends React.PureComponent {
         <div className="tree-container">
           <Tree node={rootEvaluation} />
         </div>
-      </div>
+      </main>
     );
   }
 }
