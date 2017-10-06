@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Form } from 'semantic-ui-react';
-import Upload from './Upload';
+import FileSelect from './FileSelect';
 
 export default class extends React.PureComponent {
   static propTypes = {
@@ -38,7 +38,7 @@ export default class extends React.PureComponent {
     return (
       <div className={classnames('text-uploader', error && 'error')}>
         <div className="button-container">
-          <Upload onChange={this.handleFileChange} />
+          <FileSelect onChange={this.handleFileChange} />
         </div>
         <Form.TextArea
           value={value}
