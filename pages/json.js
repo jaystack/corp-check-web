@@ -1,5 +1,6 @@
 import React from 'react';
 import Router from 'next/router';
+import Page from '../components/Page';
 import Tab from '../components/Tab';
 import TextUploader from '../components/TextUploader';
 import CollapsableTextUploader from '../components/CollapsableTextUploader';
@@ -61,48 +62,49 @@ export default class extends React.PureComponent {
     const { url } = this.props;
     const { packageJson, isFetchingValidation, validationError, ruleSet } = this.state;
     return (
-      <Tab pathname={url.pathname} inProgress={isFetchingValidation}>
-        <Form>
-          {validationError && (
-            <Message negative>
-              <p>{validationError}</p>
-            </Message>
-          )}
-          <Form.Field>
-            <TextUploader
-              label="package.json"
-              placeholder="Insert your package.json"
-              onChange={this.handlePackageJsonChange}
-            />
-          </Form.Field>
-          <Form.Field>
-            <CollapsableTextUploader
-              title="package-lock.json"
-              placeholder="Insert your package-lock.json"
-              onChange={this.handlePackageLockChange}
-            />
-          </Form.Field>
-          <Form.Field>
-            <CollapsableTextUploader
-              title="Rules"
-              placeholder="Describe your rules"
-              onChange={this.handleRuleSetChange}
-            />
-          </Form.Field>
-          <Form.Field className="production-only">
-            <Form.Checkbox label="Production only" onChange={this.handleSwitchProduction} />
-          </Form.Field>
-          <Form.Field>
-            <Form.Button
-              color="teal"
-              size="big"
-              content="Check"
-              onClick={this.handleSubmit}
-              disabled={this.isButtonDisabled()}
-            />
-          </Form.Field>
-        </Form>
-      </Tab>
+      <Page>
+        <Tab pathname={url.pathname} inProgress={isFetchingValidation}>
+          <Form>
+            {validationError &&
+              <Message negative>
+                <p>{validationError}</p>
+              </Message>}
+            <Form.Field>
+              <TextUploader
+                label="package.json"
+                placeholder="Insert your package.json"
+                onChange={this.handlePackageJsonChange}
+              />
+            </Form.Field>
+            <Form.Field>
+              <CollapsableTextUploader
+                title="package-lock.json"
+                placeholder="Insert your package-lock.json"
+                onChange={this.handlePackageLockChange}
+              />
+            </Form.Field>
+            <Form.Field>
+              <CollapsableTextUploader
+                title="Rules"
+                placeholder="Describe your rules"
+                onChange={this.handleRuleSetChange}
+              />
+            </Form.Field>
+            <Form.Field className="production-only">
+              <Form.Checkbox label="Production only" onChange={this.handleSwitchProduction} />
+            </Form.Field>
+            <Form.Field>
+              <Form.Button
+                color="teal"
+                size="big"
+                content="Check"
+                onClick={this.handleSubmit}
+                disabled={this.isButtonDisabled()}
+              />
+            </Form.Field>
+          </Form>
+        </Tab>
+      </Page>
     );
   }
 }
