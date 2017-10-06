@@ -8,7 +8,7 @@
 }
 
 h2#logo {
-    margin: 14px 0 0 0;
+    margin: 0;
     width: 112px;
     height: 112px;
     background: url('./images/logo.png'); 
@@ -25,7 +25,7 @@ h2#logo a {
 }
 
 nav .container {
-    margin-top: 0;
+    margin-top: 15px;
 }
 
 /* HEADER */
@@ -45,6 +45,35 @@ nav .container {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+}
+
+#root > header .menu {
+    margin-top: 0 !important;
+    justify-content: flex-end;
+}
+
+#root > header .menu a {
+    margin: 0;
+    padding: 1px;
+    color: white !important;
+    background-color: transparent !important;
+    flex-grow: 0 !important;
+}
+
+#root > header .menu a.twitter:hover {
+    color: #5091FB !important;
+}
+
+#root > header .menu a.instagram:hover {
+    color: #51769A !important;
+}
+
+#root > header .menu a.github:hover {
+    color: #456FB7 !important;
+}
+
+.menu i {
+    font-size: 32px;
 }
 
 .slogan {
