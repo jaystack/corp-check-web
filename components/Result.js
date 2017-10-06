@@ -55,10 +55,11 @@ export default class extends React.PureComponent {
         <Grid divided="vertically">
           <Grid.Row>
             <Grid.Column width={10}>
-              {qualification &&
+              {qualification && (
                 <Label size="massive" as="a" color={getQualificationColor(qualification)} ribbon>
                   {getQualificationLabel(qualification)}
-                </Label>}
+                </Label>
+              )}
               <Header size="huge" style={{ display: 'inline' }}>
                 {name}
               </Header>

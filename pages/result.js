@@ -62,10 +62,11 @@ export default class extends React.PureComponent {
               <Grid.Column largeScreen={16} mobile={16}>
                 <Segment loading={!result.completed && !error} padded={!result.completed && 'very'}>
                   {result.completed && !error && <Result result={result} />}
-                  {error &&
+                  {error && (
                     <Message negative>
                       <p>{error}</p>
-                    </Message>}
+                    </Message>
+                  )}
                 </Segment>
               </Grid.Column>
             </Grid>
