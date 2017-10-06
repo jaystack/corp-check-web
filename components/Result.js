@@ -1,5 +1,6 @@
 import React from 'react';
 import { Label, Header, Grid, Divider, Statistic, Icon, Button, Tab } from 'semantic-ui-react';
+import Summary from './Summary';
 import Tree from './Tree';
 import getPercentage from '../utils/getPercentage';
 
@@ -79,7 +80,10 @@ export default class extends React.PureComponent {
         <Tab
           renderActiveOnly={false}
           panes={[
-            { menuItem: 'Summary', pane: <Tab.Pane key="summary">Tab 1 Content</Tab.Pane> },
+            {
+              menuItem: 'Summary',
+              pane: <Tab.Pane key="summary"><Summary rootEvaluation={rootEvaluation} /></Tab.Pane>
+            },
             { menuItem: 'Exposition', pane: <Tab.Pane key="exposition">{this.renderTree()}</Tab.Pane> }
           ]}
         />
