@@ -33,8 +33,8 @@ const getItems = rootEvaluation =>
   );
 
 const getGroupCountBy = name => groups => {
-  const { items } = groups.find(group => group.name === name) || {};
-  return (items || []).reduce((sum, { items }) => sum + items.length, 0);
+  const { items } = groups.find(group => group.name === name) || { items: [] };
+  return items.reduce((sum, { items }) => sum + items.length, 0);
 };
 
 const groupByType = groupBy('type');
