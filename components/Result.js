@@ -1,5 +1,5 @@
 import React from 'react';
-import { Label, Header, Grid, Divider, Statistic, Icon, Container } from 'semantic-ui-react';
+import { Label, Header, Grid, Divider, Statistic, Icon, Button } from 'semantic-ui-react';
 import Tree from './Tree';
 import getPercentage from '../utils/getPercentage';
 
@@ -26,6 +26,14 @@ const getQualificationColor = qualification => {
 };
 
 export default class extends React.PureComponent {
+  expandAll = () => {
+    this.refs.tree.toggle(true, true);
+  };
+
+  collapseAll = () => {
+    this.refs.tree.toggle(false, true);
+  };
+
   render() {
     const { result: { name, date, qualification, rootEvaluation } = {} } = this.props;
     return (
@@ -57,7 +65,11 @@ export default class extends React.PureComponent {
         </div>
         <Divider />
         <div className="tree-container">
-          <Tree node={rootEvaluation} />
+          <Button.Group basic className="expand-collapse-button-group" size="mini">
+            <Button icon="expand" content="Expand all" onClick={this.expandAll} />
+            <Button icon="compress" content="Collapse all" onClick={this.collapseAll} />
+          </Button.Group>
+          <Tree node={rootEvaluation} ref="tree" />
         </div>
       </div>
     );
