@@ -36,12 +36,14 @@ export default class extends React.PureComponent {
 
   renderTree() {
     return (
-      <div className="tree-container">
+      <div>
         <Button.Group basic className="expand-collapse-button-group" size="mini">
           <Button icon="expand" content="Expand all" onClick={this.expandAll} />
           <Button icon="compress" content="Collapse all" onClick={this.collapseAll} />
         </Button.Group>
-        <Tree node={this.props.result.rootEvaluation} ref="tree" />
+        <div className="tree-container">
+          <Tree node={this.props.result.rootEvaluation} ref="tree" />
+        </div>
       </div>
     );
   }
@@ -53,11 +55,10 @@ export default class extends React.PureComponent {
         <Grid divided="vertically">
           <Grid.Row>
             <Grid.Column width={10}>
-              {qualification && (
+              {qualification &&
                 <Label size="massive" as="a" color={getQualificationColor(qualification)} ribbon>
                   {getQualificationLabel(qualification)}
-                </Label>
-              )}
+                </Label>}
               <Header size="huge" style={{ display: 'inline' }}>
                 {name}
               </Header>

@@ -1,5 +1,10 @@
 import React from 'react';
+<<<<<<< HEAD
 import { Grid, Segment, Message, Container } from 'semantic-ui-react';
+=======
+import { Grid, Segment, Message } from 'semantic-ui-react';
+import Page from '../components/Page';
+>>>>>>> 90b67b8998e576e9b2efdb19fbe30607226e45b4
 import Result from '../components/Result';
 import { getResult, sleep } from '../api';
 
@@ -54,21 +59,17 @@ export default class extends React.PureComponent {
   render() {
     const { result, error } = this.state;
     return (
-      <div className="result-page">
-        <Container>
-          <Grid columns={16}>
-            <Grid.Column largeScreen={12} mobile={16}>
-              <Segment loading={!result.completed && !error} padded={!result.completed && 'very'}>
-                {result.completed && !error && <Result result={result} />}
-                {error &&
-                  <Message negative>
-                    <p>{error}</p>
-                  </Message>}
-              </Segment>
-            </Grid.Column>
-          </Grid>
-        </Container>
-      </div>
+      <Page>
+        <div className="result-page">
+          <Segment loading={!result.completed && !error} padded={!result.completed && 'very'}>
+            {result.completed && !error && <Result result={result} />}
+            {error &&
+              <Message negative>
+                <p>{error}</p>
+              </Message>}
+          </Segment>
+        </div>
+      </Page>
     );
   }
 }

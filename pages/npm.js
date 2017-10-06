@@ -1,5 +1,6 @@
 import React from 'react';
 import Router from 'next/router';
+import Page from '../components/Page';
 import Tab from '../components/Tab';
 import CollapsableTextUploader from '../components/CollapsableTextUploader';
 import { Search, Message, Form } from 'semantic-ui-react';
@@ -64,37 +65,38 @@ export default class extends React.PureComponent {
     const { url } = this.props;
     const { value, results, isFetchingValidation, isFetchingSuggestions, validationError, ruleSet } = this.state;
     return (
-      <Tab pathname={url.pathname} inProgress={isFetchingValidation}>
-        <Search
-          ref="search"
-          size="large"
-          fluid
-          className="search-fluid-fix"
-          results={results}
-          value={value}
-          onSearchChange={this.handleSearchChange}
-          minCharacters={3}
-          loading={isFetchingSuggestions}
-          onResultSelect={this.handleResultSelect}
-          onKeyDown={this.handleKeyDown}
-          placeholder="npm package"
-          showNoResults={false}
-        />
-        {validationError && (
-          <Message negative>
-            <p>{validationError}</p>
-          </Message>
-        )}
-        <Form>
-          <Form.Field>
-            <CollapsableTextUploader
-              title="Rules"
-              placeholder="Describe your rules"
-              onChange={this.handleRuleSetChange}
-            />
-          </Form.Field>
-        </Form>
-      </Tab>
+      <Page>
+        <Tab pathname={url.pathname} inProgress={isFetchingValidation}>
+          <Search
+            ref="search"
+            size="large"
+            fluid
+            className="search-fluid-fix"
+            results={results}
+            value={value}
+            onSearchChange={this.handleSearchChange}
+            minCharacters={3}
+            loading={isFetchingSuggestions}
+            onResultSelect={this.handleResultSelect}
+            onKeyDown={this.handleKeyDown}
+            placeholder="npm package"
+            showNoResults={false}
+          />
+          {validationError &&
+            <Message negative>
+              <p>{validationError}</p>
+            </Message>}
+          <Form>
+            <Form.Field>
+              <CollapsableTextUploader
+                title="Rules"
+                placeholder="Describe your rules"
+                onChange={this.handleRuleSetChange}
+              />
+            </Form.Field>
+          </Form>
+        </Tab>
+      </Page>
     );
   }
 }
