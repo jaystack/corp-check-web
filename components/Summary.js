@@ -49,10 +49,12 @@ export default class extends React.PureComponent {
     const showWarnings = errors.length <= 10 || this.state.showWarnings;
     return (
       <Container>
-        <Statistic.Group>
-          <Statistic color="red" value={errorCount} label="Errors" />
-          <Statistic color="orange" value={warningCount} label="Warnings" />
-        </Statistic.Group>
+        <div>
+          <Statistic.Group>
+            <Statistic color="red" value={errorCount} label="Errors" horizontal />
+            <Statistic color="orange" value={warningCount} label="Warnings" horizontal />
+          </Statistic.Group>
+        </div>
         {errors.map(this.renderMessage)}
         {showWarnings
           ? warnings.map(this.renderMessage)
