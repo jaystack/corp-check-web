@@ -5,7 +5,6 @@ export default ({ pathname, inProgress, children }) => (
   <Container>
     <Grid columns={16}>
       <Grid.Column largeScreen={12} mobile={16}>
-        <Message size="massive" icon="idea" content="Every module is just as weak as it's weakest dependency" />
         <Segment loading={inProgress}>
           <Menu fluid widths={2}>
             <Link prefetch href="/npm">

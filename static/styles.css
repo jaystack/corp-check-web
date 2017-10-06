@@ -40,6 +40,23 @@ body > header {
     color: white;
 }
 
+body > header .container {
+    display: flex !important;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.slogan {
+    font-size: 25px;
+    color: #F8DC3D;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.50);
+}
+
+.slogan strong {
+    color: white;
+}
+
 .react-rotating-text-cursor {
     animation: blinking-cursor 0.8s cubic-bezier(0.68, 0.01, 0.01, 0.99) 0s infinite;
   }
