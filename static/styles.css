@@ -1,13 +1,11 @@
 #root > div {
-    min-height: calc(100vh - 316px);
+    min-height: calc(100vh - 343px);
 }
 
 #root > div + div {
     height: 0;
     display: none;
 }
-
-
 
 /* HEADER */
 
@@ -127,7 +125,6 @@ h2#logo a {
     }
 }
 
-
 .slogan strong {
     color: white;
     font-weight: normal;
@@ -156,8 +153,8 @@ h2#logo a {
     border-top: 15px solid #212121;
     border-bottom: 3px solid #F8DC3D;
     margin-top: 25px;
-    padding-top: 66px;
-    padding-bottom: 55px;
+    padding-top: 28px;
+    height: 166px;
     background-color: #2E2E2C;
     color: #fff;
 }
