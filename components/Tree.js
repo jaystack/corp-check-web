@@ -87,7 +87,7 @@ export default class Tree extends React.PureComponent {
         <span className="icon">
           {dependencies.length > 0 && (
             <Icon
-              name={isOpen ? 'chevron circle right' : 'chevron circle left'}
+              name={isOpen ? 'chevron circle left' : 'chevron circle right'}
               size="large"
               onClick={this.handleOpenClick}
             />
