@@ -1,3 +1,7 @@
+.hidden {
+  display: none;
+}
+
 .search-fluid-fix {
   margin-bottom: 10px !important;
 }
@@ -31,6 +35,10 @@
 
 .date-container {
   text-align: right;
+}
+
+.expand-collapse-button-group {
+  margin-bottom: 10px !important;
 }
 
 .tree-container {

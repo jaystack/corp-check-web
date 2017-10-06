@@ -28,12 +28,51 @@ const getPopupContent = evaluations =>
   );
 
 export default class Tree extends React.PureComponent {
-  state = {
-    isOpen: (this.props.depth || 0) < 1
+  static defaultProps = {
+    depth: 0
   };
 
+  state = {
+    isOpen: this.props.depth < 1
+  };
+
+  dependencies = [];
+
+  /**
+   * ANTIPATTERN WARNING
+   * 
+   * This toggle method is even called by outside
+   * of the component. This is antipattern in React.
+   * But that is the simplest way to reach the
+   * expected effect.
+   * 
+   * There are two other solutions:
+   * 
+   * 1) The component has an `isOpenAll` property.
+   *    When it changes, the `isOpen` state follows
+   *    its value. However `isOpenAll` could not be
+   *    independent state of the application, because
+   *    every single node component holds the state of
+   *    the exposition. If any node's `isOpen` property
+   *    changes, then the `isOpenAll` property is
+   *    going to be invalid.
+   * 
+   * 2) The application has a global store, and that
+   *    describes the whole exposition state.
+   */
+
+  toggle(isOpen = !this.state.isOpen, all = false) {
+    if (all) this.dependencies.forEach(dependency => dependency.toggle(isOpen, all));
+    if (isOpen === false && all === true && this.props.depth === 0) return;
+    this.setState({ isOpen });
+  }
+
   handleOpenClick = () => {
-    this.setState({ isOpen: !this.state.isOpen });
+    this.toggle();
+  };
+
+  augmentDependecyRefs = dependency => {
+    this.dependencies = [ ...this.dependencies, dependency ];
   };
 
   renderNode() {
@@ -48,7 +87,7 @@ export default class Tree extends React.PureComponent {
         <span className="icon">
           {dependencies.length > 0 && (
             <Icon
-              name={isOpen ? 'chevron circle right' : 'chevron circle left'}
+              name={isOpen ? 'chevron circle left' : 'chevron circle right'}
               size="large"
               onClick={this.handleOpenClick}
             />
@@ -58,18 +97,25 @@ export default class Tree extends React.PureComponent {
     );
   }
 
-  render() {
-    const { depth = 0, node: { dependencies, evaluations } } = this.props;
+  renderDependencies() {
+    const { depth, node: { dependencies } } = this.props;
     const { isOpen } = this.state;
+    return (
+      <div className="dependencies" className={!isOpen && 'hidden'}>
+        {dependencies.map(dependency => (
+          <Tree key={dependency.nodeName} node={dependency} depth={depth + 1} ref={this.augmentDependecyRefs} />
+        ))}
+      </div>
+    );
+  }
+
+  render() {
+    const { node: { evaluations } } = this.props;
     const popupContent = getPopupContent(evaluations);
     return (
       <div className="tree">
         {popupContent.length > 0 ? <Popup trigger={this.renderNode()}>{popupContent}</Popup> : this.renderNode()}
-        {isOpen && (
-          <div className="dependencies">
-            {dependencies.map(dependency => <Tree key={dependency.nodeName} node={dependency} depth={depth + 1} />)}
-          </div>
-        )}
+        {this.renderDependencies()}
       </div>
     );
   }
