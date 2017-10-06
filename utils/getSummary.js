@@ -1,5 +1,7 @@
 import reduceTree from './reduceTree';
 
+const sortByPathLength = items => items.sort((a, b) => a.path.length - b.path.length);
+
 const sortBy = prop => names => items =>
   items.sort((a, b) => {
     const aIndex = names.indexOf(a[prop]) || Infinity;
@@ -30,6 +32,11 @@ const getItems = rootEvaluation =>
     []
   );
 
+const getGroupCountBy = name => groups => {
+  const { items } = groups.find(group => group.name === name) || {};
+  return (items || []).reduce((sum, { items }) => sum + items.length, 0);
+};
+
 const groupByType = groupBy('type');
 const groupByEvaluation = groupBy('evaluation');
 const sortGroupBy = sortBy('name');
@@ -38,7 +45,18 @@ const sortGroupByEvaluation = sortGroupBy(['license', 'version']);
 
 export default rootEvaluation => {
   const items = getItems(rootEvaluation);
-  return sortGroupByType(
-    groupByType(items).map(({ name, items }) => ({ name, items: sortGroupByEvaluation(groupByEvaluation(items)) }))
+  const groups = sortGroupByType(
+    groupByType(items).map(({ name, items }) => ({
+      name,
+      items: sortGroupByEvaluation(groupByEvaluation(items)).map(({ name, items }) => ({
+        name,
+        items: sortByPathLength(items)
+      }))
+    }))
   );
+  return {
+    groups,
+    errorCount: getGroupCountBy('ERROR')(groups),
+    warningCount: getGroupCountBy('WARNING')(groups)
+  };
 };
