@@ -51,8 +51,13 @@ export default class extends React.PureComponent {
       <Container>
         <div>
           <Statistic.Group>
-            <Statistic color="red" value={errorCount} label="Errors" horizontal />
-            <Statistic color="orange" value={warningCount} label="Warnings" horizontal />
+            <Statistic color="red" value={errorCount} label={errorCount > 1 ? 'Errors' : 'Error'} horizontal />
+            <Statistic
+              color="orange"
+              value={warningCount}
+              label={warningCount > 1 ? 'Warnings' : 'Warning'}
+              horizontal
+            />
           </Statistic.Group>
         </div>
         {errors.map(this.renderMessage)}
