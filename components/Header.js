@@ -7,7 +7,7 @@ export default () => (
     <nav>
       <Container>
         <h2 id="logo">
-          <a href="http://corpjs.com/">CorpJS - Corp Check</a>
+          <a href="/">CorpJS - Corp Check</a>
         </h2>
         <div className="headerInner">
           <div className="slogan">
