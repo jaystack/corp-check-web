@@ -1,49 +1,86 @@
-body > header {
-    margin-bottom: 30px;
-    border-bottom: 6px solid #F8DC3D;
-    padding-top: 1px;
-    min-height: 150px;
-
-    background-color: #2E2E2C;
+.search-fluid-fix {
+  margin-bottom: 10px !important;
 }
 
-body > div {
-    min-height: calc(100vh - 316px);
+.search-fluid-fix > div {
+  width: 100%;
 }
 
-body > div + div {
-    height: 0;
-    display: none;
+.search-fluid-fix input {
+  border-radius: .28571429rem !important;
 }
 
-body > footer {
-    position: relative;
-    border-top: 15px solid #212121;
-    border-bottom: 3px solid #F8DC3D;
-    margin-top: 25px;
-    padding-top: 66px;
-    padding-bottom: 55px;
-    background-color: #2E2E2C;
-    color: #fff;
+.text-uploader {
+  border: 1px solid rgba(34, 36, 38, .15);
+  border-radius: .28571429rem;
+  padding: 10px;
 }
 
-h2#logo {
-    margin: 14px 0 0 0;
-    width: 112px;
-    height: 112px;
-    background: url('./images/logo.png'); 
+.text-uploader.error {
+  border-color: #e0b4b4;
+  background-color: #fff6f6;
 }
 
-h2#logo a {
-    display: block;
-    height: 100%;
-    overflow: hidden;
-    text-indent: -3000px;
-    overflow: hidden;
-    white-space: nowrap;
-    font-size: 0;
+.text-uploader.error textarea {
+  color: #9f3a38;
 }
 
-nav .container {
-    margin-top: 0;
+.production-only {
+  margin-top: 15px !important;
+}
+
+.result-page {
+  margin: 20px auto 20px auto !important;
+  width: 60%;
+}
+
+.date-container {
+  text-align: right;
+}
+
+.tree-container {
+  overflow-x: auto;
+}
+
+.tree {
+  display: flex;
+}
+
+.tree .node {
+  margin: 3px;
+  display: flex;
+  padding: 2px 5px 5px 5px;
+  color: white;
+  font-weight: bold;
+  opacity: 0.9;
+}
+
+.tree .node:hover {
+  opacity: 1;
+}
+
+.tree .node .name {
+  margin-top: 3px;
+}
+
+.tree .node .score {
+  margin-left: 5px;
+  font-size: 10px;
+}
+
+.tree .node .icon {
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.evaluation-log {
+  display: block !important;
+  margin: 0px !important;
+  margin-bottom: 5px !important;
+  border: 0 !important;
+  padding: 2px !important;
+}
+
+.evaluation-log:last-child {
+  margin-bottom: 0px !important;
 }

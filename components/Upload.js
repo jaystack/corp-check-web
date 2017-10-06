@@ -1,31 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { findDOMNode } from 'react-dom';
-import { Input } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 
 export default class extends React.PureComponent {
   static propTypes = {
     onChange: PropTypes.func
   };
 
-  state = {
-    name: '',
-    content: null
-  };
+  getFileInput() {
+    return findDOMNode(this.refs.file);
+  }
 
   handleClick = evt => {
-    findDOMNode(this.refs.file).click();
+    this.getFileInput().click();
   };
 
   handleFileChange = evt => {
     const file = evt.target.files[0];
+    if (!file) return;
     const name = file.name;
     this.setState({ name });
     const reader = new FileReader();
     reader.onload = () => {
       const content = reader.result;
       this.props.onChange(content);
-      this.setState({ content });
+      this.getFileInput().value = '';
+      this.setState({ content, name: '' });
     };
     reader.readAsText(file);
   };
@@ -33,13 +34,7 @@ export default class extends React.PureComponent {
   render() {
     return (
       <div>
-        <Input
-          onClick={this.handleClick}
-          action={{ icon: 'attach', onClick: this.handleClick }}
-          placeholder="Select file"
-          readOnly
-          value={this.state.name}
-        />
+        <Button content="Select file" icon="attach" onClick={this.handleClick}></Button>
         <input type="file" style={{ display: 'none' }} onChange={this.handleFileChange} ref="file" />
       </div>
     );

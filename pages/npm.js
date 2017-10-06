@@ -1,8 +1,8 @@
 import React from 'react';
 import Router from 'next/router';
 import Tab from '../components/Tab';
-import RuleSet from '../components/RuleSet';
-import { Search, Message } from 'semantic-ui-react';
+import CollapsableTextUploader from '../components/CollapsableTextUploader';
+import { Search, Message, Form } from 'semantic-ui-react';
 import isValidJson from '../utils/isValidJson';
 import { validateByName, getNpmSuggestions, splitNameAndVersion, getNpmVersionSuggestions } from '../api';
 
@@ -22,7 +22,7 @@ export default class extends React.PureComponent {
     const { ruleSet } = this.state;
     this.setState({ isFetchingValidation: true });
     try {
-      const { cid } = await validateByName(name, ruleSet && isValidJson(ruleSet) ? JSON.parse(ruleSet) : null);
+      const { cid } = await validateByName(name, ruleSet && isValidJson(ruleSet) ? ruleSet : null);
       this.setState({ validationError: null });
       if (cid) Router.push({ pathname: '/result', query: { cid } });
     } catch (error) {
@@ -56,8 +56,8 @@ export default class extends React.PureComponent {
     if (evt.keyCode === 13 && this.refs.search.state.selectedIndex === -1 && value.length > 0) this.submit(value);
   };
 
-  handleRuleSetChange = evt => {
-    this.setState({ ruleSet: evt.target.value });
+  handleRuleSetChange = ruleSet => {
+    this.setState({ ruleSet });
   };
 
   render() {
@@ -85,7 +85,15 @@ export default class extends React.PureComponent {
             <p>{validationError}</p>
           </Message>
         )}
-        <RuleSet value={ruleSet} onChange={this.handleRuleSetChange} />
+        <Form>
+          <Form.Field>
+            <CollapsableTextUploader
+              title="Rules"
+              placeholder="Describe your rules"
+              onChange={this.handleRuleSetChange}
+            />
+          </Form.Field>
+        </Form>
       </Tab>
     );
   }

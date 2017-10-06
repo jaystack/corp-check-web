@@ -1,30 +1,31 @@
 import React from 'react';
 import Router from 'next/router';
 import Tab from '../components/Tab';
-import RuleSet from '../components/RuleSet';
-import Json from '../components/Json';
-import { Form, TextArea, Button, Checkbox, Message } from 'semantic-ui-react';
+import TextUploader from '../components/TextUploader';
+import CollapsableTextUploader from '../components/CollapsableTextUploader';
+import { Form, TextArea, Button, Message } from 'semantic-ui-react';
 import isValidJson from '../utils/isValidJson';
 import { validateByJson } from '../api';
 
 export default class extends React.PureComponent {
   state = {
-    value: '',
+    packageJson: '',
+    packageLock: '',
+    ruleSet: '',
     isProduction: false,
-    error: null,
     isFetchingValidation: false,
-    validationError: null,
-    ruleSet: ''
+    validationError: null
   };
 
   handleSubmit = async () => {
-    const { value, isProduction, ruleSet } = this.state;
+    const { packageJson, packageLock, ruleSet, isProduction } = this.state;
     this.setState({ isFetchingValidation: true });
     try {
       const { cid } = await validateByJson(
-        JSON.parse(value),
-        isProduction,
-        ruleSet && isValidJson(ruleSet) ? JSON.parse(ruleSet) : null
+        packageJson,
+        packageLock && isValidJson(packageLock) ? packageLock : null,
+        ruleSet && isValidJson(ruleSet) ? ruleSet : null,
+        isProduction
       );
       this.setState({ validationError: null });
       if (cid) Router.push({ pathname: '/result', query: { cid } });
@@ -35,58 +36,70 @@ export default class extends React.PureComponent {
     }
   };
 
-  handleJsonChange = evt => {
-    try {
-      if (evt.target.value) JSON.parse(evt.target.value);
-      this.setState({ error: null });
-    } catch (error) {
-      this.setState({ error: 'Invalid JSON' });
-    } finally {
-      this.setState({ value: evt.target.value });
-    }
+  handlePackageJsonChange = packageJson => {
+    this.setState({ packageJson });
   };
 
   handleSwitchProduction = (_, { checked }) => {
     this.setState({ isProduction: checked });
   };
 
-  handleRuleSetChange = evt => {
-    this.setState({ ruleSet: evt.target.value });
+  handlePackageLockChange = packageLock => {
+    this.setState({ packageLock });
   };
+
+  handleRuleSetChange = ruleSet => {
+    this.setState({ ruleSet });
+  };
+
+  isButtonDisabled() {
+    const { packageJson, packageLock, ruleSet } = this.state;
+    return !packageJson || !isValidJson(packageJson) || !isValidJson(packageLock) || !isValidJson(ruleSet);
+  }
 
   render() {
     const { url } = this.props;
-    const { value, error, isFetchingValidation, validationError, ruleSet } = this.state;
+    const { packageJson, isFetchingValidation, validationError, ruleSet } = this.state;
     return (
       <Tab pathname={url.pathname} inProgress={isFetchingValidation}>
-        <Form error={!!error}>
+        <Form>
           {validationError && (
             <Message negative>
               <p>{validationError}</p>
             </Message>
           )}
-          <Form.Field error={!!error}>
-            <TextArea
-              value={value}
-              onChange={this.handleJsonChange}
-              autoHeight
+          <Form.Field>
+            <TextUploader
+              label="package.json"
               placeholder="Insert your package.json"
-              style={{ minHeight: '300px', width: '100%', fontFamily: 'Courier New' }}
+              onChange={this.handlePackageJsonChange}
             />
           </Form.Field>
-          <RuleSet value={ruleSet} onChange={this.handleRuleSetChange} inForm />
-          <Form.Field className="production-only">
-            <Checkbox label="Production only" onChange={this.handleSwitchProduction} />
+          <Form.Field>
+            <CollapsableTextUploader
+              title="package-lock.json"
+              placeholder="Insert your package-lock.json"
+              onChange={this.handlePackageLockChange}
+            />
           </Form.Field>
           <Form.Field>
-            <Button
+            <CollapsableTextUploader
+              title="Rules"
+              placeholder="Describe your rules"
+              onChange={this.handleRuleSetChange}
+            />
+          </Form.Field>
+          <Form.Field className="production-only">
+            <Form.Checkbox label="Production only" onChange={this.handleSwitchProduction} />
+          </Form.Field>
+          <Form.Field>
+            <Form.Button
               color="teal"
               size="big"
+              content="Check"
               onClick={this.handleSubmit}
-              disabled={!value || !!error || !isValidJson(ruleSet)}
-            >
-              Check
-            </Button>
+              disabled={this.isButtonDisabled()}
+            />
           </Form.Field>
         </Form>
       </Tab>
