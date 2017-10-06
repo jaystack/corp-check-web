@@ -1,5 +1,5 @@
 import React from 'react';
-import { Label, Header, Grid, Divider, Statistic, Icon, Button } from 'semantic-ui-react';
+import { Label, Header, Grid, Divider, Statistic, Icon, Button, Tab } from 'semantic-ui-react';
 import Tree from './Tree';
 import getPercentage from '../utils/getPercentage';
 
@@ -34,6 +34,18 @@ export default class extends React.PureComponent {
     this.refs.tree.toggle(false, true);
   };
 
+  renderTree() {
+    return (
+      <div className="tree-container">
+        <Button.Group basic className="expand-collapse-button-group" size="mini">
+          <Button icon="expand" content="Expand all" onClick={this.expandAll} />
+          <Button icon="compress" content="Collapse all" onClick={this.collapseAll} />
+        </Button.Group>
+        <Tree node={this.props.result.rootEvaluation} ref="tree" />
+      </div>
+    );
+  }
+
   render() {
     const { result: { name, date, qualification, rootEvaluation } = {} } = this.props;
     return (
@@ -63,14 +75,13 @@ export default class extends React.PureComponent {
             <Icon name="calendar" />Evaluated at<Label.Detail>{new Date(date).toLocaleString()}</Label.Detail>
           </Label>
         </div>
-        <Divider />
-        <div className="tree-container">
-          <Button.Group basic className="expand-collapse-button-group" size="mini">
-            <Button icon="expand" content="Expand all" onClick={this.expandAll} />
-            <Button icon="compress" content="Collapse all" onClick={this.collapseAll} />
-          </Button.Group>
-          <Tree node={rootEvaluation} ref="tree" />
-        </div>
+        <Tab
+          renderActiveOnly={false}
+          panes={[
+            { menuItem: 'Summary', pane: <Tab.Pane key="summary">Tab 1 Content</Tab.Pane> },
+            { menuItem: 'Exposition', pane: <Tab.Pane key="exposition">{this.renderTree()}</Tab.Pane> }
+          ]}
+        />
       </div>
     );
   }
