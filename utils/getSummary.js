@@ -32,9 +32,8 @@ const getItems = rootEvaluation =>
     []
   );
 
-const getGroupCountBy = name => groups => {
-  const { items } = groups.find(group => group.name === name) || { items: [] };
-  return items.reduce((sum, { items }) => sum + items.length, 0);
+const getCountBy = name => items => {
+  return items.filter(({ type }) => type === name).length;
 };
 
 const groupByType = groupBy('type');
@@ -43,20 +42,26 @@ const sortGroupBy = sortBy('name');
 const sortGroupByType = sortGroupBy(['ERROR', 'WARNING']);
 const sortGroupByEvaluation = sortGroupBy(['license', 'version']);
 
+const flatGroups = array => array.reduce((prev, { items }) => [...prev, ...items], []);
+
 export default rootEvaluation => {
-  const items = getItems(rootEvaluation);
-  const groups = sortGroupByType(
-    groupByType(items).map(({ name, items }) => ({
-      name,
-      items: sortGroupByEvaluation(groupByEvaluation(items)).map(({ name, items }) => ({
+  const unsortedItems = getItems(rootEvaluation);
+  const sortedItems = flatGroups(
+    sortGroupByType(
+      groupByType(unsortedItems).map(({ name, items }) => ({
         name,
-        items: sortByPathLength(items)
+        items: flatGroups(
+          sortGroupByEvaluation(groupByEvaluation(items)).map(({ name, items }) => ({
+            name,
+            items: sortByPathLength(items)
+          }))
+        )
       }))
-    }))
+    )
   );
   return {
-    groups,
-    errorCount: getGroupCountBy('ERROR')(groups),
-    warningCount: getGroupCountBy('WARNING')(groups)
+    items: sortedItems,
+    errorCount: getCountBy('ERROR')(sortedItems),
+    warningCount: getCountBy('WARNING')(sortedItems)
   };
 };
