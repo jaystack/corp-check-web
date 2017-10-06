@@ -8,7 +8,7 @@ export default () => (
             <Container>
                 <h2 id='logo'><a href='http://corpjs.com/'>CorpJS - Corp Check</a></h2>
                 <div className='headerInner'>
-                    <div className='slogan'>Every  <strong><ReactRotatingText items={['module', 'package', 'system', 'application', 'service']} /></strong> is just as weak as it's weakest dependency</div>
+                    <div className='slogan'>Every  <strong><ReactRotatingText pause={3500} typingInterval={75} items={['module', 'package', 'system', 'application', 'service']} /></strong> is just as weak as it's weakest dependency</div>
                     <Menu icon borderless inverted secondary color='white'>
                         <Menu.Item name='twitter' className='twitter' href='https://twitter.com/Corp_JS' target='_blank'>
                             <Icon name='twitter' />

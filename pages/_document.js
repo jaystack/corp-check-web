@@ -13,6 +13,7 @@ export default class MyDocument extends Document {
       <html>
         <Head>
           <title>corp-check</title>
+          <meta name="viewport" content="width=device-width" />
           <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.12/semantic.min.css" />
           <link rel="stylesheet" href="/static/styles.css" />
           <link rel="stylesheet" href="/static/app.css" />
