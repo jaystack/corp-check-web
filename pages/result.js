@@ -1,10 +1,6 @@
 import React from 'react';
-<<<<<<< HEAD
-import { Grid, Segment, Message, Container } from 'semantic-ui-react';
-=======
 import { Grid, Segment, Message } from 'semantic-ui-react';
 import Page from '../components/Page';
->>>>>>> 90b67b8998e576e9b2efdb19fbe30607226e45b4
 import Result from '../components/Result';
 import { getResult, sleep } from '../api';
 

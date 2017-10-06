@@ -1,7 +1,5 @@
 import Document, { Head, Main, NextScript } from 'next/document';
 import flush from 'styled-jsx/server';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
 
 export default class MyDocument extends Document {
   static getInitialProps({ renderPage }) {
@@ -21,10 +19,8 @@ export default class MyDocument extends Document {
           <script dangerouslySetInnerHTML={{ __html: `console.log('GET ENV'); window.env = ${JSON.stringify(process.env)}` }}/>
         </Head>
         <body>
-          <Header />
           <Main />
           <NextScript />
-          <Footer />
         </body>
       </html>
     );
