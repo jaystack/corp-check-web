@@ -52,14 +52,15 @@ export default class extends React.PureComponent {
   render() {
     const { result: { name, date, qualification, rootEvaluation } = {} } = this.props;
     return (
-      <div>
+      <main>
         <Grid divided="vertically">
           <Grid.Row>
             <Grid.Column width={10}>
-              {qualification &&
+              {qualification && (
                 <Label size="massive" as="a" color={getQualificationColor(qualification)} ribbon>
                   {getQualificationLabel(qualification)}
-                </Label>}
+                </Label>
+              )}
               <Header size="huge" style={{ display: 'inline' }}>
                 {name}
               </Header>
@@ -87,7 +88,7 @@ export default class extends React.PureComponent {
             { menuItem: 'Exposition', pane: <Tab.Pane key="exposition">{this.renderTree()}</Tab.Pane> }
           ]}
         />
-      </div>
+      </main>
     );
   }
 }
