@@ -10,7 +10,8 @@ import {
   getNpmSuggestions,
   splitNameAndVersion,
   getNpmVersionSuggestions,
-  getPopularPackages
+  getPopularPackages,
+  getReadme
 } from '../api';
 
 const TYPING_TIMEOUT = 300;
@@ -18,7 +19,8 @@ const TYPING_TIMEOUT = 300;
 export default class extends React.PureComponent {
   static async getInitialProps() {
     const popularPackages = await getPopularPackages();
-    return { popularPackages };
+    const mdRules = await getReadme();
+    return { popularPackages, mdRules };
   }
 
   state = {
@@ -73,11 +75,16 @@ export default class extends React.PureComponent {
   };
 
   render() {
-    const { url, popularPackages } = this.props;
+    const { url, popularPackages, mdRules } = this.props;
     const { value, results, isFetchingValidation, isFetchingSuggestions, validationError, ruleSet } = this.state;
     return (
       <Page>
-        <Tab pathname={url.pathname} inProgress={isFetchingValidation} popularPackages={popularPackages}>
+        <Tab
+          pathname={url.pathname}
+          inProgress={isFetchingValidation}
+          popularPackages={popularPackages}
+          mdRules={mdRules}
+        >
           <Search
             ref="search"
             size="large"

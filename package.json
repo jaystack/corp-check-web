@@ -27,6 +27,7 @@
     "next": "^3.2.2",
     "react": "^15.6.2",
     "react-dom": "^15.6.2",
+    "react-markdown": "^2.5.0",
     "react-rotating-text": "^1.2.0",
     "semantic-ui-react": "^0.74.2"
   }

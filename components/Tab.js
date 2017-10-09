@@ -1,12 +1,14 @@
 import React from 'react';
-import { Segment, Menu, Grid, Message, Container, List, Label } from 'semantic-ui-react';
 import Link from 'next/link';
+import { Segment, Menu, Grid, Message, Container, List, Label } from 'semantic-ui-react';
+import Markdown from 'react-markdown';
 import getPercentage from '../utils/getPercentage';
 import { getQualificationColor } from '../utils/qualification';
 
 export default class extends React.PureComponent {
   render() {
-    const { pathname, inProgress, children, popularPackages = [] } = this.props;
+    const { pathname, inProgress, children, popularPackages = [], mdRules = '' } = this.props;
+    console.log(mdRules)
     return (
       <Container>
         <Grid columns={16}>
@@ -41,6 +43,13 @@ export default class extends React.PureComponent {
                     </List.Item>
                   ))}
                 </List>
+              </Segment>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Column largeScreen={16} mobile={16}>
+              <Segment>
+                <Markdown source={mdRules} />
               </Segment>
             </Grid.Column>
           </Grid.Row>

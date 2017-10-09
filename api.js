@@ -77,3 +77,8 @@ export const getNpmSuggestions = (name, version) => {
 };
 
 export const getPopularPackages = () => api.get('popular-packages');
+
+export const getReadme = async () => {
+  const response = await fetch('https://raw.githubusercontent.com/jaystack/corp-check-web/master/static/rules.md');
+  return await response.text();
+};
