@@ -5,11 +5,22 @@ import Tab from '../components/Tab';
 import CollapsableTextUploader from '../components/CollapsableTextUploader';
 import { Search, Message, Form } from 'semantic-ui-react';
 import isValidJson from '../utils/isValidJson';
-import { validateByName, getNpmSuggestions, splitNameAndVersion, getNpmVersionSuggestions } from '../api';
+import {
+  validateByName,
+  getNpmSuggestions,
+  splitNameAndVersion,
+  getNpmVersionSuggestions,
+  getPopularPackages
+} from '../api';
 
 const TYPING_TIMEOUT = 300;
 
 export default class extends React.PureComponent {
+  static async getInitialProps() {
+    const popularPackages = await getPopularPackages();
+    return { popularPackages };
+  }
+
   state = {
     value: '',
     results: [],
@@ -62,11 +73,11 @@ export default class extends React.PureComponent {
   };
 
   render() {
-    const { url } = this.props;
+    const { url, popularPackages } = this.props;
     const { value, results, isFetchingValidation, isFetchingSuggestions, validationError, ruleSet } = this.state;
     return (
       <Page>
-        <Tab pathname={url.pathname} inProgress={isFetchingValidation}>
+        <Tab pathname={url.pathname} inProgress={isFetchingValidation} popularPackages={popularPackages}>
           <Search
             ref="search"
             size="large"

@@ -22,19 +22,19 @@ const getEndpoint = () => {
 
 const resolvePackage = pkg => {
   if (!fullPackagePattern.test(pkg)) return {};
-  const [ , fullName, rawScope, scope, name, rawVersion, version ] = fullPackagePattern.exec(pkg);
+  const [, fullName, rawScope, scope, name, rawVersion, version] = fullPackagePattern.exec(pkg);
   return { name: fullName, version: version === 'latest' ? undefined : version };
 };
 
 export const splitNameAndVersion = pkg => {
   if (!dummyPackagePattern.test(pkg)) return { name: '' };
-  const [ , name, , version ] = dummyPackagePattern.exec(pkg);
+  const [, name, , version] = dummyPackagePattern.exec(pkg);
   return { name, version };
 };
 
 const prepareQuery = query => stringify(JSON.parse(JSON.stringify(query)));
 
-const invoke = method => async (path, { query = {}, body }) => {
+const invoke = method => async (path, { query = {}, body } = {}) => {
   const response = await fetch(`${getEndpoint()}/${path}?${prepareQuery(query)}`, {
     method,
     headers: { 'Content-Type': 'application/json' },
@@ -61,7 +61,7 @@ export const getResult = async cid => {
   if (!cid) return { completed: false };
   const result = await api.get('package', { query: { cid } });
   return {
-    completed: [ 'SUCCEEDED', 'FAILED' ].includes(result.state.type),
+    completed: ['SUCCEEDED', 'FAILED'].includes(result.state.type),
     state: result.state.type,
     date: result.state.date,
     name: result.name,
@@ -75,3 +75,5 @@ export const getNpmSuggestions = (name, version) => {
   if (!name) return [];
   return api.get('suggestions', { query: { name, version } });
 };
+
+export const getPopularPackages = () => api.get('popular-packages');

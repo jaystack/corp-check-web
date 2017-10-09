@@ -3,28 +3,7 @@ import { Label, Header, Grid, Divider, Statistic, Icon, Button, Tab } from 'sema
 import Summary from './Summary';
 import Tree from './Tree';
 import getPercentage from '../utils/getPercentage';
-
-const getQualificationLabel = qualification => {
-  switch (qualification) {
-    case 'RECOMMENDED':
-      return 'Recommended';
-    case 'ACCEPTED':
-      return 'Accepted';
-    case 'REJECTED':
-      return 'Rejected';
-  }
-};
-
-const getQualificationColor = qualification => {
-  switch (qualification) {
-    case 'RECOMMENDED':
-      return 'green';
-    case 'ACCEPTED':
-      return 'orange';
-    case 'REJECTED':
-      return 'red';
-  }
-};
+import { getQualificationColor, getQualificationLabel } from '../utils/qualification';
 
 export default class extends React.PureComponent {
   expandAll = () => {
@@ -56,11 +35,10 @@ export default class extends React.PureComponent {
         <Grid divided="vertically">
           <Grid.Row>
             <Grid.Column width={10}>
-              {qualification && (
+              {qualification &&
                 <Label size="massive" as="a" color={getQualificationColor(qualification)} ribbon>
                   {getQualificationLabel(qualification)}
-                </Label>
-              )}
+                </Label>}
               <Header size="huge" style={{ display: 'inline' }}>
                 {name}
               </Header>

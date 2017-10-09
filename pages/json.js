@@ -6,9 +6,14 @@ import TextUploader from '../components/TextUploader';
 import CollapsableTextUploader from '../components/CollapsableTextUploader';
 import { Form, TextArea, Button, Message } from 'semantic-ui-react';
 import isValidJson from '../utils/isValidJson';
-import { validateByJson } from '../api';
+import { validateByJson, getPopularPackages } from '../api';
 
 export default class extends React.PureComponent {
+  static async getInitialProps() {
+    const popularPackages = await getPopularPackages();
+    return { popularPackages };
+  }
+
   state = {
     packageJson: '',
     packageLock: '',
@@ -59,11 +64,11 @@ export default class extends React.PureComponent {
   }
 
   render() {
-    const { url } = this.props;
+    const { url, popularPackages } = this.props;
     const { packageJson, isFetchingValidation, validationError, ruleSet } = this.state;
     return (
       <Page>
-        <Tab pathname={url.pathname} inProgress={isFetchingValidation}>
+        <Tab pathname={url.pathname} inProgress={isFetchingValidation} popularPackages={popularPackages}>
           <Form>
             {validationError &&
               <Message negative>

@@ -21,7 +21,7 @@ export default () => (
             </strong>{' '}
             is just as weak as it's weakest dependency
           </div>
-          <Menu icon borderless inverted secondary color="white">
+          <Menu icon borderless inverted secondary>
             <Menu.Item name="twitter" className="twitter" href="https://twitter.com/Corp_JS" target="_blank">
               <Icon name="twitter" />
             </Menu.Item>
