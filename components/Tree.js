@@ -4,7 +4,7 @@ import { Popup, Label, Icon } from 'semantic-ui-react';
 import getColorByScore from '../utils/getColorByScore';
 import getPercentage from '../utils/getPercentage';
 
-const flatArray = array => array.reduce((prev, next) => [...prev, ...next], []);
+const flatArray = array => array.reduce((prev, next) => [ ...prev, ...next ], []);
 
 const getLogColor = type => {
   switch (type) {
@@ -73,28 +73,29 @@ export default class Tree extends React.PureComponent {
   };
 
   augmentDependecyRefs = dependency => {
-    this.dependencies = [...this.dependencies, dependency];
+    this.dependencies = [ ...this.dependencies, dependency ];
   };
 
   renderNode() {
     const { isOpen } = this.state;
     const { depth, node: { nodeName, nodeVersion, nodeScore, dependencies } } = this.props;
-    return depth > 0
-      ? <div className="node" style={{ backgroundColor: getColorByScore(nodeScore) }}>
-          <span className="name">
-            {nodeName}@{nodeVersion}
-          </span>
-          <span className="score">{getPercentage(nodeScore)}%</span>
-          <span className="icon">
-            {dependencies.length > 0 &&
-              <Icon
-                name={isOpen ? 'chevron circle left' : 'chevron circle right'}
-                size="large"
-                onClick={this.handleOpenClick}
-              />}
-          </span>
-        </div>
-      : dependencies.length === 0 ? <span>No dependencies</span> : null;
+    return (
+      <div className="node" style={{ backgroundColor: getColorByScore(nodeScore) }}>
+        <span className="name">
+          {nodeName}@{nodeVersion}
+        </span>
+        <span className="score">{getPercentage(nodeScore)}%</span>
+        <span className="icon">
+          {dependencies.length > 0 && (
+            <Icon
+              name={isOpen ? 'chevron circle left' : 'chevron circle right'}
+              size="large"
+              onClick={this.handleOpenClick}
+            />
+          )}
+        </span>
+      </div>
+    );
   }
 
   renderDependencies() {
