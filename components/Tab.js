@@ -8,7 +8,6 @@ import { getQualificationColor } from '../utils/qualification';
 export default class extends React.PureComponent {
   render() {
     const { pathname, inProgress, children, popularPackages = [], mdRules = '' } = this.props;
-    console.log(mdRules)
     return (
       <Container>
         <Grid columns={16}>
