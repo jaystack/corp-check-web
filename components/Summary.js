@@ -61,7 +61,7 @@ export default class extends React.PureComponent {
           </Statistic.Group>
         </div>
         {errors.map(this.renderMessage)}
-        {showWarnings ? (
+        {showWarnings || errors.length === 0 ? (
           warnings.map(this.renderMessage)
         ) : (
           warnings.length > 0 && (
