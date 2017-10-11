@@ -3,6 +3,15 @@ import PropTypes from 'prop-types';
 import { Card, Image, Icon, Header, Accordion, List, Message, Popup } from 'semantic-ui-react';
 import getSummary from '../utils/getSummary';
 
+const getMaxPathByEvaluation = evaluation => {
+  switch (evaluation) {
+    case 'npm-scores':
+      return 1;
+    default:
+      return Infinity;
+  }
+};
+
 const getIconOfEvaluation = evaluation => {
   switch (evaluation) {
     case 'license':
@@ -47,6 +56,7 @@ const getEvaluationDisplayName = evaluation => {
 };
 
 const getItemsOf = type => items => (items.find(({ name }) => name === type) || { items: [] }).items;
+const filterByPath = max => items => items.filter(({ path }) => path.length <= max);
 
 const getTypePanel = (evaluation, type, items, color, icon) =>
   (items.length > 0
@@ -66,7 +76,7 @@ const getTypePanel = (evaluation, type, items, color, icon) =>
             <Message size="small" color={color}>
               <List>
                 {items.map(({ message, path }, i) => (
-                  <Popup trigger={<List.Item key={i}>{message}</List.Item>}>{path.join(' > ')}</Popup>
+                  <Popup key={i} trigger={<List.Item>{message}</List.Item>}>{path.join(' > ')}</Popup>
                 ))}
               </List>
             </Message>
@@ -81,9 +91,10 @@ export default class extends React.PureComponent {
   };
 
   renderCards = ({ name, items }) => {
-    const errors = getItemsOf('ERROR')(items);
-    const warnings = getItemsOf('WARNING')(items);
-    const infos = getItemsOf('INFO')(items).filter(({ path }) => path.length === 1);
+    const maxPath = getMaxPathByEvaluation(name);
+    const errors = filterByPath(maxPath)(getItemsOf('ERROR')(items));
+    const warnings = filterByPath(maxPath)(getItemsOf('WARNING')(items));
+    const infos = filterByPath(maxPath)(getItemsOf('INFO')(items));
     return (
       <Card key={name}>
         <Card.Content extra>
