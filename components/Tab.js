@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { Segment, Menu, Grid, Message, Container, List, Label } from 'semantic-ui-react';
+import { Segment, Menu, Grid, Message, Container, List, Label, Header } from 'semantic-ui-react';
 import Markdown from 'react-markdown';
 import getPercentage from '../utils/getPercentage';
 import { getQualificationColor } from '../utils/qualification';
@@ -13,6 +13,12 @@ export default class extends React.PureComponent {
         <Grid columns={16}>
           <Grid.Row>
             <Grid.Column largeScreen={12} mobile={16}>
+              <Segment>
+                <Header as="h3" icon="pin" content="About Corp-Check" />
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse fringilla arcu sem, vitae pulvinar purus auctor nec. Suspendisse tempus ex sed nisi iaculis, sit amet pellentesque diam eleifend. Duis porttitor erat a risus molestie, nec lobortis enim vulputate. Nam tincidunt nunc ac velit tempus gravida sit amet quis dolor. Quisque quis condimentum lorem, at euismod ipsum. Nullam tristique dictum interdum. Praesent orci massa, rhoncus elementum fringilla id, sagittis sit amet est.
+                </p>
+              </Segment>
               <Segment loading={inProgress}>
                 <Menu fluid widths={2}>
                   <Link prefetch href="/npm">
