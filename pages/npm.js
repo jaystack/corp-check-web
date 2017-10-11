@@ -74,6 +74,14 @@ export default class extends React.PureComponent {
     this.setState({ ruleSet });
   };
 
+  handleSubmit = () => {
+    this.submit(this.state.value);
+  };
+
+  isButtonDisabled() {
+    return !this.state.value;
+  }
+
   render() {
     const { url, popularPackages, mdRules } = this.props;
     const { value, results, isFetchingValidation, isFetchingSuggestions, validationError, ruleSet } = this.state;
@@ -110,6 +118,16 @@ export default class extends React.PureComponent {
                 title="Rules"
                 placeholder="Describe your rules"
                 onChange={this.handleRuleSetChange}
+              />
+            </Form.Field>
+            <Form.Field style={{ overflow: 'auto' }}>
+              <Form.Button
+                content="Check"
+                color="teal"
+                size="big"
+                floated="right"
+                onClick={this.handleSubmit}
+                disabled={this.isButtonDisabled()}
               />
             </Form.Field>
           </Form>

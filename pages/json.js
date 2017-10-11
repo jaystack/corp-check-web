@@ -104,11 +104,12 @@ export default class extends React.PureComponent {
             <Form.Field className="production-only">
               <Form.Checkbox label="Production only" onChange={this.handleSwitchProduction} />
             </Form.Field>
-            <Form.Field>
+            <Form.Field style={{ overflow: 'auto' }}>
               <Form.Button
                 color="teal"
                 size="big"
                 content="Check"
+                floated="right"
                 onClick={this.handleSubmit}
                 disabled={this.isButtonDisabled()}
               />
