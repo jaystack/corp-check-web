@@ -17,13 +17,13 @@ export default rootEvaluation => {
   const items = composeLeft(
     flatTree,
     groupByType,
+    sortGroupByType,
     processGroupItems(
       groupByEvaluation,
-      processGroupItems(sortByPathLength),
       sortGroupByEvaluation,
+      processGroupItems(sortByPathLength),
       flatGroups
     ),
-    sortGroupByType,
     flatGroups
   )(rootEvaluation);
   

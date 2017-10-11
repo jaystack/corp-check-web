@@ -59,6 +59,13 @@ export const groupByType = groupByValue('type');
 
 export const groupByEvaluation = groupByValue('evaluation');
 
+export const ensureGroups = names => groups =>
+  names.map(groupName => groups.find(({ name }) => name === groupName) || { name: groupName, items: [] });
+
+export const ensureEvaluationGroups = ensureGroups(['license', 'version', 'npm-scores']);
+
+export const ensureTypeGroups = ensureGroups(['ERROR', 'WARNING', 'INFO']);
+
 export const getCountBy = name => items => {
   return items.filter(({ type }) => type === name).length;
 };

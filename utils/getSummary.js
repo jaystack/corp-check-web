@@ -6,18 +6,26 @@ import {
   groupByType,
   sortGroupByType,
   sortByPathLength,
-  processGroupItems
+  processGroupItems,
+  map,
+  extendErrorCount,
+  extendHasWarning,
+  ensureEvaluationGroups,
+  ensureTypeGroups
 } from './transformations';
 
 export default rootEvaluation => {
   return composeLeft(
     flatTree,
     groupByEvaluation,
+    ensureEvaluationGroups,
+    sortGroupByEvaluation,
     processGroupItems(
       groupByType,
-      processGroupItems(sortByPathLength),
-      sortGroupByType
-    ),
-    sortGroupByEvaluation
+      ensureTypeGroups,
+      sortGroupByType,
+      processGroupItems(sortByPathLength
+      )
+    )
   )(rootEvaluation);
 };

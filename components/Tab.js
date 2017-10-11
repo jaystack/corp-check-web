@@ -1,9 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
-import { Segment, Menu, Grid, Message, Container, List, Label, Header } from 'semantic-ui-react';
+import { Segment, Menu, Grid, Message, Container, Header } from 'semantic-ui-react';
 import Markdown from 'react-markdown';
-import getPercentage from '../utils/getPercentage';
-import { getQualificationColor } from '../utils/qualification';
+import PopularPackages from './PopularPackages';
 
 export default class extends React.PureComponent {
   render() {
@@ -34,20 +33,7 @@ export default class extends React.PureComponent {
             <Grid.Column largeScreen={4} mobile={16}>
               <Segment size="small">
                 <h3>Popular packages</h3>
-                <List divided verticalAlign="middle">
-                  {popularPackages.map(({ name, qualification, score, cid }) => (
-                    <List.Item key={name} as="a" href={`/result?cid=${cid}`}>
-                      <List.Content floated="left">
-                        {name}
-                      </List.Content>
-                      <List.Content floated="right">
-                        <Label circular color={getQualificationColor(qualification)} size="mini">
-                          {getPercentage(score)}%
-                        </Label>
-                      </List.Content>
-                    </List.Item>
-                  ))}
-                </List>
+                <PopularPackages popularPackages={popularPackages} />
               </Segment>
             </Grid.Column>
           </Grid.Row>
