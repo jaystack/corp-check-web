@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Container, Grid, Card, Image, Icon, Header, Accordion } from 'semantic-ui-react';
+import { Card, Image, Icon, Header, Accordion, List, Message, Popup } from 'semantic-ui-react';
 import getSummary from '../utils/getSummary';
 
 const getIconOfEvaluation = evaluation => {
@@ -46,20 +46,32 @@ const getEvaluationDisplayName = evaluation => {
   }
 };
 
-const getCountOf = type => ({ items }) => (items.find(({ name }) => name === type) || { items: [] }).items.length;
+const getItemsOf = type => items => (items.find(({ name }) => name === type) || { items: [] }).items;
 
-const getTypePanel = (evaluation, type, count, color, icon) =>
-  (count
+const getTypePanel = (evaluation, type, items, color, icon) =>
+  (items.length > 0
     ? {
         title: (
           <Accordion.Title key={`${type}-title`}>
             <Icon name={icon} color={color} />
-            <span
-              style={{ userSelect: 'none' }}
-            >{`There ${count > 1 ? 'were' : 'was'} found ${count} ${getEvaluationDisplayName(evaluation)} ${type}${count > 1 ? 's' : ''}`}</span>
+            <span style={{ userSelect: 'none' }}>
+              {`There ${items.length > 1 ? 'were' : 'was'} found ${items.length}`}
+              {' '}
+              <b>{`${getEvaluationDisplayName(evaluation)} ${type}${items.length > 1 ? 's' : ''}`}</b>
+            </span>
           </Accordion.Title>
         ),
-        content: <Accordion.Content key={`${type}-content`}>...</Accordion.Content>
+        content: (
+          <Accordion.Content key={`${type}-content`}>
+            <Message size="small" color={color}>
+              <List>
+                {items.map(({ message, path }, i) => (
+                  <Popup trigger={<List.Item key={i}>{message}</List.Item>}>{path.join(' > ')}</Popup>
+                ))}
+              </List>
+            </Message>
+          </Accordion.Content>
+        )
       }
     : null);
 
@@ -69,17 +81,18 @@ export default class extends React.PureComponent {
   };
 
   renderCards = ({ name, items }) => {
-    const errorCount = getCountOf('ERROR')({ items });
-    const warningCount = getCountOf('WARNING')({ items });
+    const errors = getItemsOf('ERROR')(items);
+    const warnings = getItemsOf('WARNING')(items);
+    const infos = getItemsOf('INFO')(items).filter(({ path }) => path.length === 1);
     return (
       <Card key={name}>
         <Card.Content extra>
           <Icon
-            color={getIconColorByCounts(errorCount, warningCount)}
+            color={getIconColorByCounts(errors.length, warnings.length)}
             circular
             inverted
             size="big"
-            name={getIconByCounts(errorCount, warningCount)}
+            name={getIconByCounts(errors.length, warnings.length)}
             style={{ position: 'absolute' }}
           />
           <Header as="h2" icon color="grey">
@@ -93,13 +106,16 @@ export default class extends React.PureComponent {
           </Card.Description>
         </Card.Content>
         <Card.Content>
-          <Accordion
-            exclusive={false}
-            panels={[
-              getTypePanel(name, 'error', errorCount, 'red', 'announcement'),
-              getTypePanel(name, 'warning', warningCount, 'orange', 'warning sign')
-            ].filter(_ => _)}
-          />
+          {errors.length > 0 || warnings.length > 0 || infos.length > 0
+            ? <Accordion
+                exclusive={false}
+                panels={[
+                  getTypePanel(name, 'error', errors, 'red', 'announcement'),
+                  getTypePanel(name, 'warning', warnings, 'orange', 'warning sign'),
+                  getTypePanel(name, 'info', infos, 'grey', 'info')
+                ].filter(_ => _)}
+              />
+            : <h4>Everything was fine</h4>}
         </Card.Content>
       </Card>
     );
@@ -108,7 +124,6 @@ export default class extends React.PureComponent {
   render() {
     const { rootEvaluation } = this.props;
     const summary = getSummary(rootEvaluation);
-    console.log(summary);
     return (
       <Card.Group stackable itemsPerRow={3}>
         {summary.map(this.renderCards)}
