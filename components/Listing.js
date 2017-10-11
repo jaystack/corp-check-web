@@ -10,7 +10,7 @@ const getIconByType = type => {
     case 'WARNING':
       return 'warning sign';
     default:
-      return '';
+      return 'info circle';
   }
 };
 
@@ -47,6 +47,7 @@ export default class extends React.PureComponent {
     const { items, errorCount, warningCount } = getListing(rootEvaluation);
     const errors = items.filter(({ type }) => type === 'ERROR');
     const warnings = items.filter(({ type }) => type === 'WARNING');
+    const infos = items.filter(({ type }) => type === 'INFO');
     return (
       <Container>
         <div>
@@ -61,13 +62,11 @@ export default class extends React.PureComponent {
           </Statistic.Group>
         </div>
         {errors.map(this.renderMessage)}
-        {showWarnings || errors.length === 0 ? (
-          warnings.map(this.renderMessage)
-        ) : (
-          warnings.length > 0 && (
-            <Button color="orange" content="Show warnings" onClick={this.handleShowWarningsClick} />
-          )
-        )}
+        {showWarnings || errors.length === 0
+          ? warnings.map(this.renderMessage)
+          : warnings.length > 0 &&
+              <Button color="orange" content="Show warnings" onClick={this.handleShowWarningsClick} />}
+        {errors.length === 0 && warnings.length === 0 && infos.map(this.renderMessage)}
       </Container>
     );
   }

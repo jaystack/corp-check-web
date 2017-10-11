@@ -1,29 +1,35 @@
-import { flatTree, groupBy, sortBy, flatGroups, getCountBy } from './transformations';
-
-const groupByType = groupBy('type');
-const groupByEvaluation = groupBy('evaluation');
-const sortGroupBy = sortBy('name');
-const sortGroupByType = sortGroupBy(['ERROR', 'WARNING']);
-const sortGroupByEvaluation = sortGroupBy(['license', 'version']);
+import {
+  composeLeft,
+  flatTree,
+  groupByValue,
+  sortByNames,
+  flatGroups,
+  getCountBy,
+  sortByPathLength,
+  sortGroupByType,
+  groupByType,
+  sortGroupByEvaluation,
+  groupByEvaluation,
+  processGroupItems
+} from './transformations';
 
 export default rootEvaluation => {
-  const flattedItems = flatTree(rootEvaluation);
-  const sortedItems = flatGroups(
-    sortGroupByType(
-      groupByType(flattedItems).map(({ name, items }) => ({
-        name,
-        items: flatGroups(
-          sortGroupByEvaluation(groupByEvaluation(items)).map(({ name, items }) => ({
-            name,
-            items: sortByPathLength(items)
-          }))
-        )
-      }))
-    )
-  );
+  const items = composeLeft(
+    flatTree,
+    groupByType,
+    processGroupItems(
+      groupByEvaluation,
+      processGroupItems(sortByPathLength),
+      sortGroupByEvaluation,
+      flatGroups
+    ),
+    sortGroupByType,
+    flatGroups
+  )(rootEvaluation);
+  
   return {
-    items: sortedItems,
-    errorCount: getCountBy('ERROR')(sortedItems),
-    warningCount: getCountBy('WARNING')(sortedItems)
+    items: items,
+    errorCount: getCountBy('ERROR')(items),
+    warningCount: getCountBy('WARNING')(items)
   };
 };
