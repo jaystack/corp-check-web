@@ -16,10 +16,10 @@ export default class extends React.PureComponent {
               <Segment loading={inProgress}>
                 <Menu fluid widths={2}>
                   <Link prefetch href="/npm">
-                    <Menu.Item name="name" active={pathname === '/npm'}>NPM</Menu.Item>
+                    <Menu.Item name="name" active={pathname === '/npm'}>Enter package name</Menu.Item>
                   </Link>
                   <Link prefetch href="/json">
-                    <Menu.Item name="json" active={pathname === '/json'}>Your package.json</Menu.Item>
+                    <Menu.Item name="json" active={pathname === '/json'}>Upload package.json</Menu.Item>
                   </Link>
                 </Menu>
                 {children}

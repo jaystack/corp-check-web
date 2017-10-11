@@ -97,7 +97,7 @@ export default class extends React.PureComponent {
             loading={isFetchingSuggestions}
             onResultSelect={this.handleResultSelect}
             onKeyDown={this.handleKeyDown}
-            placeholder="npm package"
+            placeholder="Enter package name"
             showNoResults={false}
           />
           {validationError &&
