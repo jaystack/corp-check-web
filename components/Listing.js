@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Container, Statistic, Message, Button } from 'semantic-ui-react';
-import getSummary from '../utils/getSummary';
+import getListing from '../utils/getListing';
 
 const getIconByType = type => {
   switch (type) {
@@ -44,7 +44,7 @@ export default class extends React.PureComponent {
   render() {
     const { rootEvaluation } = this.props;
     const { showWarnings } = this.state;
-    const { items, errorCount, warningCount } = getSummary(rootEvaluation);
+    const { items, errorCount, warningCount } = getListing(rootEvaluation);
     const errors = items.filter(({ type }) => type === 'ERROR');
     const warnings = items.filter(({ type }) => type === 'WARNING');
     return (
