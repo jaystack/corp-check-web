@@ -38,7 +38,7 @@ Example:
 }
 ```
 
-### Version ruleset
+### Version rules
 
 That makes the version validation. It throws error, if unreleased package was found in the first dependencies, and send warning, if they were found deeper.
 
@@ -62,7 +62,7 @@ Example:
 }
 ```
 
-### NpmScores ruleset
+### NpmScores rules
 
 That provides the `popularity`, `quality` and `maintance` scores. The final score of the `npmScores` is calculated by weighted average.
 
