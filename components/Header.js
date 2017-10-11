@@ -19,7 +19,7 @@ export default () => (
                 items={[ 'module', 'package', 'system', 'application', 'service' ]}
               />
             </strong>{' '}
-            is just as weak as it's weakest dependency
+            is just as weak as its weakest dependency
           </div>
           <Menu icon borderless inverted secondary>
             <Menu.Item name="twitter" className="twitter" href="https://twitter.com/Corp_JS" target="_blank">
