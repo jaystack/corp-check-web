@@ -1,6 +1,6 @@
 # Rule configuration
 
-CorpCheck evaluations are made by **evaluators**. Evaluators are functional separated modules that can return error, warning and info logs, and can give sub-scores to the package. These sub-scores are multiplied to each dependency, and these multiplied scores constitute the final score of the evaluated package.
+CorpCheck evaluations are made by **evaluators**. Evaluators are functional separated modules that can return error, warning and info logs, and can give sub-scores to the package. These sub-scores are multiplied to each other, and these multiplied scores constitute the final score of the evaluated package including its dependencies' scores.
 
 Every evaluator is configurable by their rules. They make the entire **ruleset**. The ruleset is defined in `json` format:
 
@@ -21,9 +21,9 @@ That makes the license validation. It throws error, if unallowed license was fou
 The property set is:
 
 - **`include`**: `string[]` - Defines allowed licenses.
-- **`exclude`**: `string[]` - Unallow specified licenses.
-- **`licenseRequired`**: `boolean` - If `true`, the evaluator throws error.
-- **`depth`**: `number` - Determines the depth of the evaluation. `0` is the package itselft, `1` means the first dependencies. Set it `null` to interpret as infinity.
+- **`exclude`**: `string[]` - Unallows specified licenses.
+- **`licenseRequired`**: `boolean` - If `true` and no license found at a package, the evaluator throws error.
+- **`depth`**: `number` - Determines the depth of the evaluation. `0` is the package itselft, `1` means the first dependencies, etc. Set it `null` to interpret as infinity.
 
 Example:
 
@@ -32,8 +32,8 @@ Example:
   "license": {
     "include": ["MIT"],
     "exclude": ["GPL-2.0"],
-    "licenseRequired": false,
-    "depth": 1
+    "licenseRequired": true,
+    "depth": 3
   }
 }
 ```
@@ -46,7 +46,7 @@ The property set is:
 
 - **`minVersion`**: `string[]` - Defines the minimum version that is required from a package.
 - **`isRigorous`**: `boolean` - If `true`, the evaluator throws error if package was found below the `minVersion`.
-- **`rigorousDepth`**: `number` - Determines the depth of the rigorous check. `0` is the package itself, `1` means the first dependencies.
+- **`rigorousDepth`**: `number` - Determines the depth of the rigorous check. `0` is the package itself, `1` means the first dependencies, etc.
 - **`retributionScore`**: `number` - This score is given to the package which is below the `minVersion`, if the checking is not rigorous.
 
 Example:
