@@ -66,7 +66,7 @@ export default class extends React.PureComponent {
           ? warnings.map(this.renderMessage)
           : warnings.length > 0 &&
               <Button color="orange" content="Show warnings" onClick={this.handleShowWarningsClick} />}
-        {errors.length === 0 && warnings.length === 0 && infos.map(this.renderMessage)}
+        {/* errors.length === 0 && warnings.length === 0 && infos.map(this.renderMessage) */}
       </Container>
     );
   }
