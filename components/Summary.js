@@ -65,7 +65,7 @@ const getTypePanel = (evaluation, type, items, color, icon) =>
           <Accordion.Title key={`${type}-title`}>
             <Icon name={icon} color={color} />
             <span style={{ userSelect: 'none' }}>
-              {`There ${items.length > 1 ? 'were' : 'was'} found ${items.length}`}
+              {`We have found ${items.length}`}
               {' '}
               <b>{`${getEvaluationDisplayName(evaluation)} ${type}${items.length > 1 ? 's' : ''}`}</b>
             </span>
