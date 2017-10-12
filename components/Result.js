@@ -54,7 +54,7 @@ export default class extends React.PureComponent {
         </Grid>
         <div className="date-container">
           <Label size="big">
-            <Icon name="calendar" />Checked at<Label.Detail>{new Date(date).toLocaleString()}</Label.Detail>
+            <Icon name="calendar" />CorpChecked at<Label.Detail>{new Date(date).toLocaleString()}</Label.Detail>
           </Label>
         </div>
         <Tab
