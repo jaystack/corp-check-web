@@ -49,7 +49,7 @@ const getDescriptionOfEvaluation = evaluation => {
 const getEvaluationDisplayName = evaluation => {
   switch (evaluation) {
     case 'npm-scores':
-      return 'score';
+      return 'attribute';
     default:
       return evaluation;
   }

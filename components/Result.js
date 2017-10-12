@@ -40,7 +40,13 @@ export default class extends React.PureComponent {
                 <Label size="massive" as="a" color={getQualificationColor(qualification)} ribbon>
                   {getQualificationLabel(qualification)}
                 </Label>}
-              <Header size="huge" style={{ display: 'inline' }}>
+              <Header
+                size="huge"
+                style={{ display: 'inline' }}
+                as="a"
+                href={`https://www.npmjs.com/package/${rootEvaluation.nodeName}`}
+                target="_blank"
+              >
                 {name}
               </Header>
             </Grid.Column>
@@ -69,8 +75,8 @@ export default class extends React.PureComponent {
               pane: <Tab.Pane key="listing"><Listing rootEvaluation={rootEvaluation} /></Tab.Pane>
             },
             {
-              menuItem: 'Exposition',
-              pane: <Tab.Pane key="exposition">{this.renderTree()}</Tab.Pane>
+              menuItem: 'Details',
+              pane: <Tab.Pane key="details">{this.renderTree()}</Tab.Pane>
             }
           ]}
         />
