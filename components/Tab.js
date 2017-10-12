@@ -11,7 +11,7 @@ export default class extends React.PureComponent {
       <Container>
         <Grid columns={16}>
           <Grid.Row>
-            <Grid.Column largeScreen={12} mobile={16}>
+            <Grid.Column largeScreen={12} widescreen={12} mobile={16}>
               <Segment>
                 <Header as="h3" icon="pin" content="About Corp-Check" />
                 <p>
@@ -30,7 +30,7 @@ export default class extends React.PureComponent {
                 {children}
               </Segment>
             </Grid.Column>
-            <Grid.Column largeScreen={4} mobile={16}>
+            <Grid.Column largeScreen={4} widescreen={4} mobile={16}>
               <Segment size="small">
                 <h3>Popular packages</h3>
                 <PopularPackages popularPackages={popularPackages} />
@@ -38,7 +38,7 @@ export default class extends React.PureComponent {
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
-            <Grid.Column largeScreen={16} mobile={16}>
+            <Grid.Column largeScreen={16} widescreen={16} mobile={16}>
               <Segment>
                 <Markdown source={mdRules} />
               </Segment>
