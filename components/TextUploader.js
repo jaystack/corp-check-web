@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { Form } from 'semantic-ui-react';
+import { Form, Button } from 'semantic-ui-react';
 import FileSelect from './FileSelect';
+import isValidJson from '../utils/isValidJson';
 
 export default class extends React.PureComponent {
   static propTypes = {
@@ -32,6 +33,14 @@ export default class extends React.PureComponent {
     this.handleTextChange({ target: { value } });
   };
 
+  handleBeautifyJSON = () => {
+    this.setState({ value: JSON.stringify(JSON.parse(this.state.value), null, 2) });
+  };
+
+  isBeautifyJsonButtonDisabled() {
+    return !this.state.value || !isValidJson(this.state.value);
+  }
+
   render() {
     const { label, placeholder } = this.props;
     const { value, error } = this.state;
@@ -39,6 +48,13 @@ export default class extends React.PureComponent {
       <div className={classnames('text-uploader', error && 'error')}>
         <div className="button-container">
           <FileSelect onChange={this.handleFileChange} />
+          <Button
+            content="Beautify JSON"
+            icon="align left"
+            size="mini"
+            disabled={this.isBeautifyJsonButtonDisabled()}
+            onClick={this.handleBeautifyJSON}
+          />
         </div>
         <Form.TextArea
           value={value}

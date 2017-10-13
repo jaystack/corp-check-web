@@ -14,6 +14,10 @@
   border-radius: .28571429rem !important;
 }
 
+.file-select {
+  display: inline-block;
+}
+
 .text-uploader {
   border: 1px solid rgba(34, 36, 38, .15);
   border-radius: .28571429rem;

@@ -33,8 +33,8 @@ export default class extends React.PureComponent {
 
   render() {
     return (
-      <div>
-        <Button content="Select file" icon="attach" onClick={this.handleClick}></Button>
+      <div className="file-select">
+        <Button content="Select file" icon="file" onClick={this.handleClick} size="mini" />
         <input type="file" style={{ display: 'none' }} onChange={this.handleFileChange} ref="file" />
       </div>
     );
