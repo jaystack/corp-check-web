@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Card, Image, Icon, Header, Accordion, List, Message, Popup } from 'semantic-ui-react';
-import getSummary from '../utils/getSummary';
+import { getSummary, LogType } from 'corp-check-core';
 
 const getMaxPathByEvaluation = evaluation => {
   switch (evaluation) {
@@ -92,9 +92,9 @@ export default class extends React.PureComponent {
 
   renderCards = ({ name, items }) => {
     const maxPath = getMaxPathByEvaluation(name);
-    const errors = filterByPath(maxPath)(getItemsOf('ERROR')(items));
-    const warnings = filterByPath(maxPath)(getItemsOf('WARNING')(items));
-    const infos = filterByPath(maxPath)(getItemsOf('INFO')(items));
+    const errors = filterByPath(maxPath)(getItemsOf(LogType.ERROR)(items));
+    const warnings = filterByPath(maxPath)(getItemsOf(LogType.WARNING)(items));
+    const infos = filterByPath(maxPath)(getItemsOf(LogType.INFO)(items));
     return (
       <Card key={name}>
         <Card.Content extra>

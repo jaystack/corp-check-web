@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Container, Statistic, Message, Button } from 'semantic-ui-react';
-import getListing from '../utils/getListing';
+import { getListing, LogType } from 'corp-check-core';
 
 const getIconByType = type => {
   switch (type) {
-    case 'ERROR':
+    case LogType.ERROR:
       return 'announcement';
-    case 'WARNING':
+    case LogType.WARNING:
       return 'warning sign';
     default:
       return 'info circle';
@@ -32,8 +32,8 @@ export default class extends React.PureComponent {
       <Message
         key={index}
         size="tiny"
-        negative={type === 'ERROR'}
-        warning={type === 'WARNING'}
+        negative={type === LogType.ERROR}
+        warning={type === LogType.WARNING}
         icon={getIconByType(type)}
         header={message}
         content={path.join(' > ')}
@@ -45,9 +45,9 @@ export default class extends React.PureComponent {
     const { rootEvaluation } = this.props;
     const { showWarnings } = this.state;
     const { items, errorCount, warningCount } = getListing(rootEvaluation);
-    const errors = items.filter(({ type }) => type === 'ERROR');
-    const warnings = items.filter(({ type }) => type === 'WARNING');
-    const infos = items.filter(({ type }) => type === 'INFO');
+    const errors = items.filter(({ type }) => type === LogType.ERROR);
+    const warnings = items.filter(({ type }) => type === LogType.WARNING);
+    const infos = items.filter(({ type }) => type === LogType.INFO);
     return (
       <Container>
         <div>

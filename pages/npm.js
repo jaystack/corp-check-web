@@ -4,7 +4,7 @@ import Page from '../components/Page';
 import Tab from '../components/Tab';
 import CollapsableTextUploader from '../components/CollapsableTextUploader';
 import { Search, Message, Form } from 'semantic-ui-react';
-import isValidJson from '../utils/isValidJson';
+import { isValidJson } from 'corp-check-core';
 import {
   validateByName,
   getNpmSuggestions,
@@ -36,7 +36,7 @@ export default class extends React.PureComponent {
     const { ruleSet } = this.state;
     this.setState({ isFetchingValidation: true });
     try {
-      const { cid } = await validateByName(name, ruleSet && isValidJson(ruleSet) ? ruleSet : null);
+      const { cid } = await validateByName(name, isValidJson(ruleSet) ? ruleSet : null);
       this.setState({ validationError: null });
       if (cid) Router.push({ pathname: '/result', query: { cid } });
     } catch (error) {

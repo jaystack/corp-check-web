@@ -5,7 +5,7 @@ import Tab from '../components/Tab';
 import TextUploader from '../components/TextUploader';
 import CollapsableTextUploader from '../components/CollapsableTextUploader';
 import { Form, TextArea, Button, Message } from 'semantic-ui-react';
-import isValidJson from '../utils/isValidJson';
+import { isValidJson } from 'corp-check-core';
 import { validateByJson, getPopularPackages, getReadme } from '../api';
 
 export default class extends React.PureComponent {
@@ -30,8 +30,8 @@ export default class extends React.PureComponent {
     try {
       const { cid } = await validateByJson(
         packageJson,
-        packageLock && isValidJson(packageLock) ? packageLock : null,
-        ruleSet && isValidJson(ruleSet) ? ruleSet : null,
+        isValidJson(packageLock) ? packageLock : null,
+        isValidJson(ruleSet) ? ruleSet : null,
         isProduction
       );
       this.setState({ validationError: null });
@@ -61,7 +61,7 @@ export default class extends React.PureComponent {
 
   isButtonDisabled() {
     const { packageJson, packageLock, ruleSet } = this.state;
-    return !packageJson || !isValidJson(packageJson) || !isValidJson(packageLock) || !isValidJson(ruleSet);
+    return !isValidJson(packageJson) || !isValidJson(packageLock, true) || !isValidJson(ruleSet, true);
   }
 
   render() {

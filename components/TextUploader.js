@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Form, Button } from 'semantic-ui-react';
+import { isValidJson } from 'corp-check-core';
 import FileSelect from './FileSelect';
-import isValidJson from '../utils/isValidJson';
 
 export default class extends React.PureComponent {
   static propTypes = {
@@ -38,7 +38,7 @@ export default class extends React.PureComponent {
   };
 
   isBeautifyJsonButtonDisabled() {
-    return !this.state.value || !isValidJson(this.state.value);
+    return !isValidJson(this.state.value);
   }
 
   render() {

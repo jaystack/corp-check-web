@@ -1,16 +1,17 @@
 import React from 'react';
 import classnames from 'classnames';
 import { Popup, Label, Icon } from 'semantic-ui-react';
+import { LogType } from 'corp-check-core';
 import getColorByScore from '../utils/getColorByScore';
 import getPercentage from '../utils/getPercentage';
 
-const flatArray = array => array.reduce((prev, next) => [ ...prev, ...next ], []);
+const flatArray = array => array.reduce((prev, next) => [...prev, ...next], []);
 
 const getLogColor = type => {
   switch (type) {
-    case 'ERROR':
+    case LogType.ERROR:
       return 'red';
-    case 'WARNING':
+    case LogType.WARNING:
       return 'orange';
     default:
       return 'black';
@@ -73,7 +74,7 @@ export default class Tree extends React.PureComponent {
   };
 
   augmentDependecyRefs = dependency => {
-    this.dependencies = [ ...this.dependencies, dependency ];
+    this.dependencies = [...this.dependencies, dependency];
   };
 
   renderNode() {
@@ -86,13 +87,12 @@ export default class Tree extends React.PureComponent {
         </span>
         <span className="score">{getPercentage(nodeScore)}%</span>
         <span className="icon">
-          {dependencies.length > 0 && (
+          {dependencies.length > 0 &&
             <Icon
               name={isOpen ? 'chevron circle left' : 'chevron circle right'}
               size="large"
               onClick={this.handleOpenClick}
-            />
-          )}
+            />}
         </span>
       </div>
     );

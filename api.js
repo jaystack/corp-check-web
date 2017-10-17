@@ -1,8 +1,6 @@
 import 'isomorphic-fetch';
 import { stringify } from 'querystring';
-
-const dummyPackagePattern = /^(@?[^@]*)(@(.*))?$/;
-const fullPackagePattern = /^((@([^@]+)\/)?([^@]+))(@(.*))?$/;
+import { resolveNpmPackageName } from 'corp-check-core';
 
 const getEnvVars = () => (global.window ? window.env : process.env);
 const isDev = () => getEnvVars().NODE_ENV === 'development';
@@ -20,16 +18,9 @@ const getEndpoint = () => {
   }
 };
 
-const resolvePackage = pkg => {
-  if (!fullPackagePattern.test(pkg)) return {};
-  const [, fullName, rawScope, scope, name, rawVersion, version] = fullPackagePattern.exec(pkg);
-  return { name: fullName, version: version === 'latest' ? undefined : version };
-};
-
 export const splitNameAndVersion = pkg => {
-  if (!dummyPackagePattern.test(pkg)) return { name: '' };
-  const [, name, , version] = dummyPackagePattern.exec(pkg);
-  return { name, version };
+  const signature = resolveNpmPackageName(pkg);
+  return signature ? { name: signature.fullName, version: signature.version } : { name: '' };
 };
 
 const prepareQuery = query => stringify(JSON.parse(JSON.stringify(query)));

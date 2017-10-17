@@ -1,7 +1,6 @@
 import React from 'react';
 import { Accordion, Form, TextArea } from 'semantic-ui-react';
 import TextUploader from './TextUploader';
-import isValidJson from '../utils/isValidJson';
 
 export default class extends React.PureComponent {
   render() {

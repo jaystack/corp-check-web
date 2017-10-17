@@ -1,21 +1,23 @@
+import { Qualification } from 'corp-check-core';
+
 export const getQualificationLabel = qualification => {
   switch (qualification) {
-    case 'RECOMMENDED':
+    case Qualification.RECOMMENDED:
       return 'Recommended';
-    case 'ACCEPTED':
+    case Qualification.ACCEPTED:
       return 'Accepted';
-    case 'REJECTED':
+    case Qualification.REJECTED:
       return 'Rejected';
   }
 };
 
 export const getQualificationColor = qualification => {
   switch (qualification) {
-    case 'RECOMMENDED':
+    case Qualification.RECOMMENDED:
       return 'green';
-    case 'ACCEPTED':
+    case Qualification.ACCEPTED:
       return 'orange';
-    case 'REJECTED':
+    case Qualification.REJECTED:
       return 'red';
   }
 };
