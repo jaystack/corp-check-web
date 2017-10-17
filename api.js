@@ -3,8 +3,11 @@ import { stringify } from 'querystring';
 import { resolveNpmPackageName } from 'corp-check-core';
 
 const getEnvVars = () => (global.window ? window.env : process.env);
+
 const isDev = () => getEnvVars().NODE_ENV === 'development';
+
 const getEnvironment = () => getEnvVars().ENV;
+
 const getEndpoint = () => {
   switch (getEnvironment()) {
     case 'dev':
