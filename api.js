@@ -4,22 +4,7 @@ import { resolveNpmPackageName } from 'corp-check-core';
 
 const getEnvVars = () => (global.window ? window.env : process.env);
 
-const isDev = () => getEnvVars().NODE_ENV === 'development';
-
-const getEnvironment = () => getEnvVars().ENV;
-
-const getEndpoint = () => {
-  switch (getEnvironment()) {
-    case 'dev':
-      return 'https://api.corp-check.dev.jaystack.com';
-    case 'stage':
-      return 'https://api.corp-check.stage.jaystack.com';
-    case 'prod':
-      return 'https://api.corp-check.jaystack.com';
-    default:
-      return 'http://localhost:3001';
-  }
-};
+const getEndpoint = () => getEnvVars().API_URL || 'http://localhost:3001';
 
 export const splitNameAndVersion = pkg => {
   const signature = resolveNpmPackageName(pkg);
