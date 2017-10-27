@@ -11,6 +11,14 @@ export const splitNameAndVersion = pkg => {
   return signature ? { name: signature.fullName, version: signature.version } : { name: '' };
 };
 
+const getProgress = message => {
+  if (!message) return null;
+  const parts = message.split(' - ');
+  if (parts.length < 2) return null;
+  const [ value, total ] = parts[0].split('/');
+  return { value, total, message: parts[1] };
+};
+
 const prepareQuery = query => stringify(JSON.parse(JSON.stringify(query)));
 
 const invoke = method => async (path, { query = {}, body } = {}) => {
@@ -31,7 +39,8 @@ const api = {
   delete: invoke('DELETE')
 };
 
-export const validateByName = (packageName, ruleSet) => api.post('validation', { body: { packageName, ruleSet } });
+export const validateByName = (packageName, ruleSet) =>
+  api.post('validation', { body: { packageName, ruleSet } });
 
 export const validateByJson = (packageJSON, packageLock, ruleSet, isProduction) =>
   api.post('validation', { body: { packageJSON, packageLock, ruleSet, isProduction } });
@@ -40,8 +49,9 @@ export const getResult = async cid => {
   if (!cid) return { completed: false };
   const result = await api.get('package', { query: { cid } });
   return {
-    completed: ['SUCCEEDED', 'FAILED'].includes(result.state.type),
+    completed: [ 'SUCCEEDED', 'FAILED' ].includes(result.state.type),
     state: result.state.type,
+    progress: getProgress(result.state.message),
     date: result.state.date,
     name: result.name,
     ...result.result
