@@ -57,16 +57,16 @@ const getEvaluationDisplayName = evaluation => {
 
 const getItemsOf = type => items => (items.find(({ name }) => name === type) || { items: [] }).items;
 const filterByPath = max => items => items.filter(({ path }) => path.length <= max);
+const getLastItemOf = items => items[items.length - 1];
 
 const getTypePanel = (evaluation, type, items, color, icon) =>
-  (items.length > 0
+  items.length > 0
     ? {
         title: (
           <Accordion.Title key={`${type}-title`}>
             <Icon name={icon} color={color} />
             <span style={{ userSelect: 'none' }}>
-              {`We have found ${items.length}`}
-              {' '}
+              {`We have found ${items.length}`}{' '}
               <b>{`${getEvaluationDisplayName(evaluation)} ${type}${items.length > 1 ? 's' : ''}`}</b>
             </span>
           </Accordion.Title>
@@ -76,14 +76,23 @@ const getTypePanel = (evaluation, type, items, color, icon) =>
             <Message size="small" color={color}>
               <List>
                 {items.map(({ message, path }, i) => (
-                  <Popup key={i} trigger={<List.Item>{message}</List.Item>}>{path.join(' > ')}</Popup>
+                  <Popup
+                    key={i}
+                    trigger={
+                      <List.Item>
+                        {message} in <b>{getLastItemOf(path)}</b>
+                      </List.Item>
+                    }
+                  >
+                    {path.join(' > ')}
+                  </Popup>
                 ))}
               </List>
             </Message>
           </Accordion.Content>
         )
       }
-    : null);
+    : null;
 
 export default class extends React.PureComponent {
   static propTypes = {
@@ -108,25 +117,23 @@ export default class extends React.PureComponent {
           />
           <Header as="h2" icon color="grey">
             <Icon name={getIconOfEvaluation(name)} />
-            <Header.Content>
-              {`${getEvaluationDisplayName(name).toUpperCase()} CHECK`}
-            </Header.Content>
+            <Header.Content>{`${getEvaluationDisplayName(name).toUpperCase()} CHECK`}</Header.Content>
           </Header>
-          <Card.Description>
-            {getDescriptionOfEvaluation(name)}
-          </Card.Description>
+          <Card.Description>{getDescriptionOfEvaluation(name)}</Card.Description>
         </Card.Content>
         <Card.Content>
-          {errors.length > 0 || warnings.length > 0 || infos.length > 0
-            ? <Accordion
-                exclusive={false}
-                panels={[
-                  getTypePanel(name, 'error', errors, 'red', 'announcement'),
-                  getTypePanel(name, 'warning', warnings, 'orange', 'warning sign'),
-                  getTypePanel(name, 'info', infos, 'grey', 'info')
-                ].filter(_ => _)}
-              />
-            : <h4>Everything was fine</h4>}
+          {errors.length > 0 || warnings.length > 0 || infos.length > 0 ? (
+            <Accordion
+              exclusive={false}
+              panels={[
+                getTypePanel(name, 'error', errors, 'red', 'announcement'),
+                getTypePanel(name, 'warning', warnings, 'orange', 'warning sign'),
+                getTypePanel(name, 'info', infos, 'grey', 'info')
+              ].filter(_ => _)}
+            />
+          ) : (
+            <h4>Everything was fine</h4>
+          )}
         </Card.Content>
       </Card>
     );
