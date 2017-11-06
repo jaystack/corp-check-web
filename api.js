@@ -39,8 +39,7 @@ const api = {
   delete: invoke('DELETE')
 };
 
-export const validateByName = (packageName, ruleSet) =>
-  api.post('validation', { body: { packageName, ruleSet } });
+export const validateByName = (packageName, ruleSet) => api.post('validation', { body: { packageName, ruleSet } });
 
 export const validateByJson = (packageJSON, packageLock, ruleSet, isProduction) =>
   api.post('validation', { body: { packageJSON, packageLock, ruleSet, isProduction } });
@@ -67,7 +66,17 @@ export const getNpmSuggestions = (name, version) => {
 
 export const getPopularPackages = () => api.get('popular-packages');
 
-export const getReadme = async () => {
+export const getRulesReadme = async () => {
   const response = await fetch('https://raw.githubusercontent.com/jaystack/corp-check-web/master/static/rules.md');
+  return await response.text();
+};
+
+export const getCliReadme = async () => {
+  const response = await fetch('https://raw.githubusercontent.com/jaystack/corp-check-cli/master/README.md');
+  return await response.text();
+};
+
+export const getBadgesReadme = async () => {
+  const response = await fetch('https://raw.githubusercontent.com/jaystack/corp-check-cli/master/README.md');
   return await response.text();
 };

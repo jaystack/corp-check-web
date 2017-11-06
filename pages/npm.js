@@ -11,7 +11,9 @@ import {
   splitNameAndVersion,
   getNpmVersionSuggestions,
   getPopularPackages,
-  getReadme
+  getRulesReadme,
+  getCliReadme,
+  getBadgesReadme
 } from '../api';
 
 const TYPING_TIMEOUT = 300;
@@ -19,8 +21,10 @@ const TYPING_TIMEOUT = 300;
 export default class extends React.PureComponent {
   static async getInitialProps() {
     const popularPackages = await getPopularPackages();
-    const mdRules = await getReadme();
-    return { popularPackages, mdRules };
+    const mdRules = await getRulesReadme();
+    const mdCli = await getCliReadme();
+    const mdBadges = await getBadgesReadme();
+    return { popularPackages, mdRules, mdCli, mdBadges };
   }
 
   state = {
@@ -83,7 +87,7 @@ export default class extends React.PureComponent {
   }
 
   render() {
-    const { url, popularPackages, mdRules } = this.props;
+    const { url, popularPackages, mdRules, mdCli, mdBadges } = this.props;
     const { value, results, isFetchingValidation, isFetchingSuggestions, validationError, ruleSet } = this.state;
     return (
       <Page>
@@ -92,6 +96,8 @@ export default class extends React.PureComponent {
           inProgress={isFetchingValidation}
           popularPackages={popularPackages}
           mdRules={mdRules}
+          mdCli={mdCli}
+          mdBadges={mdCli}
         >
           <Search
             ref="search"
@@ -108,10 +114,11 @@ export default class extends React.PureComponent {
             placeholder="Enter package name"
             showNoResults={false}
           />
-          {validationError &&
+          {validationError && (
             <Message negative>
               <p>{validationError}</p>
-            </Message>}
+            </Message>
+          )}
           <Form>
             <Form.Field>
               <CollapsableTextUploader

@@ -1,12 +1,20 @@
 import React from 'react';
 import Link from 'next/link';
-import { Segment, Menu, Grid, Message, Container, Header } from 'semantic-ui-react';
+import { Segment, Menu, Grid, Message, Container, Header, Tab } from 'semantic-ui-react';
 import Markdown from 'react-markdown';
 import PopularPackages from './PopularPackages';
 
 export default class extends React.PureComponent {
   render() {
-    const { pathname, inProgress, children, popularPackages = [], mdRules = '' } = this.props;
+    const {
+      pathname,
+      inProgress,
+      children,
+      popularPackages = [],
+      mdRules = '',
+      mdCli = '',
+      mdBadges = ''
+    } = this.props;
     return (
       <Container>
         <Grid columns={16}>
@@ -69,9 +77,35 @@ export default class extends React.PureComponent {
           </Grid.Row>
           <Grid.Row>
             <Grid.Column largeScreen={16} widescreen={16} mobile={16}>
-              <Segment>
-                <Markdown source={mdRules} />
-              </Segment>
+              <Tab
+                renderActiveOnly={false}
+                panes={[
+                  {
+                    menuItem: 'Rules',
+                    pane: (
+                      <Tab.Pane key="rules">
+                        <Markdown source={mdRules} />
+                      </Tab.Pane>
+                    )
+                  },
+                  {
+                    menuItem: 'CLI',
+                    pane: (
+                      <Tab.Pane key="cli">
+                        <Markdown source={mdCli} />
+                      </Tab.Pane>
+                    )
+                  },
+                  {
+                    menuItem: 'Badges',
+                    pane: (
+                      <Tab.Pane key="badges">
+                        <Markdown source={mdBadges} />
+                      </Tab.Pane>
+                    )
+                  }
+                ]}
+              />
             </Grid.Column>
           </Grid.Row>
         </Grid>

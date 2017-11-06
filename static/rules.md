@@ -86,4 +86,4 @@ Example:
 
 ## The default corporate ruleset
 
-Find [here]().
+Find [here](https://raw.githubusercontent.com/jaystack/corp-check-rest/master/default-rules.json).
