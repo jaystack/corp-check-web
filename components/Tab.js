@@ -15,16 +15,32 @@ export default class extends React.PureComponent {
               <Segment>
                 <Header as="h3" icon="pin" content="About Corp-Check" />
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse fringilla arcu sem, vitae pulvinar purus auctor nec. Suspendisse tempus ex sed nisi iaculis, sit amet pellentesque diam eleifend. Duis porttitor erat a risus molestie, nec lobortis enim vulputate. Nam tincidunt nunc ac velit tempus gravida sit amet quis dolor. Quisque quis condimentum lorem, at euismod ipsum. Nullam tristique dictum interdum. Praesent orci massa, rhoncus elementum fringilla id, sagittis sit amet est.
+                  Use CorpCheck to identify risks in packages you’d like to include into your precious code. Define rule
+                  sets in your build process to prohibit dangerous packages jeopardizing your module and to get warning
+                  messages about potentially risky includes.
+                </p>
+                <p>
+                  Understand which included modules might cause trouble in the future, create an overall report about
+                  your whole product.
+                </p>
+                <p>
+                  CorpCheck will analyze included packages and dependencies for licensing, versioning and popularity
+                  risks. A hidden GPLv2 license might destroy your business. An unreleased alpha version might change so
+                  drastically in days that your whole product crashes. An abandoned package might cause serious support
+                  troubles just weeks after releasing your software.
                 </p>
               </Segment>
               <Segment loading={inProgress}>
                 <Menu fluid widths={2}>
                   <Link prefetch href="/npm">
-                    <Menu.Item name="name" active={pathname === '/npm'}>Enter package name</Menu.Item>
+                    <Menu.Item name="name" active={pathname === '/npm'}>
+                      Enter package name
+                    </Menu.Item>
                   </Link>
                   <Link prefetch href="/json">
-                    <Menu.Item name="json" active={pathname === '/json'}>Upload package.json</Menu.Item>
+                    <Menu.Item name="json" active={pathname === '/json'}>
+                      Upload package.json
+                    </Menu.Item>
                   </Link>
                 </Menu>
                 {children}
