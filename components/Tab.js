@@ -21,7 +21,7 @@ export default class extends React.PureComponent {
           <Grid.Row>
             <Grid.Column largeScreen={11} widescreen={11} mobile={16}>
               <Segment>
-                <Header as="h3" icon="pin" content="About Corp-Check" />
+                <Header as="h1" icon="checkmark box" content="CorpCheck" />
                 <p>
                   Use CorpCheck to identify risks in packages you’d like to include into your precious code. Define rule
                   sets in your build process to prohibit dangerous packages jeopardizing your module and to get warning
