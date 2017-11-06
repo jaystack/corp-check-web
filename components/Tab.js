@@ -81,25 +81,25 @@ export default class extends React.PureComponent {
                 renderActiveOnly={false}
                 panes={[
                   {
-                    menuItem: 'Rules',
+                    menuItem: { key: 'rules', content: 'Rules', icon: 'sliders' },
                     pane: (
-                      <Tab.Pane key="rules">
+                      <Tab.Pane>
                         <Markdown source={mdRules} />
                       </Tab.Pane>
                     )
                   },
                   {
-                    menuItem: 'CLI',
+                    menuItem: { key: 'cli', content: 'CLI', icon: 'terminal' },
                     pane: (
-                      <Tab.Pane key="cli">
+                      <Tab.Pane>
                         <Markdown source={mdCli} />
                       </Tab.Pane>
                     )
                   },
                   {
-                    menuItem: 'Badges',
+                    menuItem: { key: 'badges', content: 'Badges', icon: 'tag' },
                     pane: (
-                      <Tab.Pane key="badges">
+                      <Tab.Pane>
                         <Markdown source={mdBadges} />
                       </Tab.Pane>
                     )
