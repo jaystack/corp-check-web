@@ -25,9 +25,6 @@ export default () => (
             <Menu.Item name="twitter" className="twitter" href="https://twitter.com/Corp_JS" target="_blank">
               <Icon name="twitter" />
             </Menu.Item>
-            <Menu.Item name="instagram" className="instagram" href="https://www.instagram.com/corpjs/" target="_blank">
-              <Icon name="instagram" />
-            </Menu.Item>
             <Menu.Item name="github" className="github" href="https://github.com/CorpJSBp" target="_blank">
               <Icon name="github" />
             </Menu.Item>
