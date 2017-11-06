@@ -11,7 +11,7 @@ export default class extends React.PureComponent {
       <Container>
         <Grid columns={16}>
           <Grid.Row>
-            <Grid.Column largeScreen={12} widescreen={12} mobile={16}>
+            <Grid.Column largeScreen={11} widescreen={11} mobile={16}>
               <Segment>
                 <Header as="h3" icon="pin" content="About Corp-Check" />
                 <p>
@@ -46,10 +46,24 @@ export default class extends React.PureComponent {
                 {children}
               </Segment>
             </Grid.Column>
-            <Grid.Column largeScreen={4} widescreen={4} mobile={16}>
+            <Grid.Column largeScreen={5} widescreen={5} mobile={16}>
               <Segment size="small">
                 <h3>Popular packages</h3>
                 <PopularPackages popularPackages={popularPackages} />
+              </Segment>
+              <Segment size="small">
+                <h3>
+                  <a href="https://www.npmjs.com/package/corp-check-cli" target="_blank">
+                    Command Line Interface
+                  </a>
+                </h3>
+                <pre className="cli">npm install --save-dev corp-check-cli</pre>
+                <p>
+                  If you want to use CorpCheck for more than just as a web tool to check packages for risks, you can
+                  integrate the CLI module into your build and deployment process to actually prohibit the deployment of
+                  risky packages. The CLI will use the ruleset you define and stop if it encounters a viral license, an
+                  unreleased package or an abandoned package will tons of open issues.
+                </p>
               </Segment>
             </Grid.Column>
           </Grid.Row>
