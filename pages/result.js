@@ -9,7 +9,7 @@ const RETRY = 1500;
 export default class extends React.PureComponent {
   static async getInitialProps({ query }) {
     try {
-      const result = await getResult(query.cid);
+      const result = await getResult(query);
       return { result, error: result.state === 'FAILED' ? 'Something went wrong' : null };
     } catch (error) {
       return { result: { completed: true, state: 'FAILED' }, error: error.message };
@@ -26,7 +26,7 @@ export default class extends React.PureComponent {
 
   fetchResult = async () => {
     try {
-      const result = await getResult(this.props.url.query.cid);
+      const result = await getResult(this.props.url.query);
       if (result.state === 'PENDING') {
         this.setState({ result });
         return;

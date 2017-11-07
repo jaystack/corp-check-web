@@ -83,7 +83,7 @@ export default class extends React.PureComponent {
                   {
                     menuItem: { key: 'rules', content: 'Rules', icon: 'sliders' },
                     pane: (
-                      <Tab.Pane>
+                      <Tab.Pane key="rules">
                         <Markdown source={mdRules} />
                       </Tab.Pane>
                     )
@@ -91,7 +91,7 @@ export default class extends React.PureComponent {
                   {
                     menuItem: { key: 'cli', content: 'CLI', icon: 'terminal' },
                     pane: (
-                      <Tab.Pane>
+                      <Tab.Pane key="cli">
                         <Markdown source={mdCli} />
                       </Tab.Pane>
                     )
@@ -99,7 +99,7 @@ export default class extends React.PureComponent {
                   {
                     menuItem: { key: 'badges', content: 'Badges', icon: 'tag' },
                     pane: (
-                      <Tab.Pane>
+                      <Tab.Pane key="badges">
                         <Markdown source={mdBadges} />
                       </Tab.Pane>
                     )

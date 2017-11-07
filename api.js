@@ -44,7 +44,16 @@ export const validateByName = (packageName, ruleSet) => api.post('validation', {
 export const validateByJson = (packageJSON, packageLock, ruleSet, isProduction) =>
   api.post('validation', { body: { packageJSON, packageLock, ruleSet, isProduction } });
 
-export const getResult = async cid => {
+export const getResult = async ({ cid, name, version: rawVersion, scope: rawScope }) => {
+  if (cid) return getResultByCid(cid);
+  if (!name) return getResultByCid(undefined);
+  const scope = rawScope ? '@' + rawScope + '/' : '';
+  const version = rawVersion ? '@' + rawVersion : '';
+  const fullPackageName = `${scope}${name}${version}`;
+  return getResultByCid((await validateByName(fullPackageName)).cid);
+};
+
+const getResultByCid = async cid => {
   if (!cid) return { completed: false };
   const result = await api.get('package', { query: { cid } });
   return {
