@@ -81,9 +81,9 @@ export const getReadme = url => async () => {
 };
 
 export const getRulesReadme = getReadme(
-  'https://raw.githubusercontent.com/jaystack/corp-check-web/master/static/rules.md'
+  'https://raw.githubusercontent.com/jaystack/corp-check-rest/master/rules-README.md'
 );
 
 export const getCliReadme = getReadme('https://raw.githubusercontent.com/jaystack/corp-check-cli/master/README.md');
 
-export const getBadgesReadme = getReadme('https://raw.githubusercontent.com/jaystack/corp-check-cli/master/README.md');
+export const getBadgesReadme = getReadme('https://raw.githubusercontent.com/jaystack/corp-check-rest/master/badge-README.md');
