@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Segment, Message, Container, Progress } from 'semantic-ui-react';
+import { Grid, Segment, Message, Container, Progress, Dimmer, Loader } from 'semantic-ui-react';
 import Page from '../components/Page';
 import Result from '../components/Result';
 import { getResult, sleep } from '../api';
@@ -66,6 +66,9 @@ export default class extends React.PureComponent {
             <Grid columns={16}>
               <Grid.Column largeScreen={16} mobile={16}>
                 <Segment padded={!result.completed && 'very'}>
+                  <Dimmer active={loading && progress === null} inverted>
+                    <Loader content="Pending ..." inverted />
+                  </Dimmer>
                   {loading &&
                   progress && (
                     <Progress
