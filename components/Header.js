@@ -28,7 +28,7 @@ export default () => (
             <Menu.Item name="github" className="github" href="https://github.com/CorpJSBp" target="_blank">
               <Icon name="github" />
             </Menu.Item>
-            <Menu.Item name="feedback" className="feedback" href="http://corpjs.com/contact/" target="_blank">
+            <Menu.Item name="feedback" className="feedback" href="http://corpjs.com/feedback/" target="_blank">
               <Icon name="send" />
             </Menu.Item>
           </Menu>
