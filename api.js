@@ -86,4 +86,6 @@ export const getRulesReadme = getReadme(
 
 export const getCliReadme = getReadme('https://raw.githubusercontent.com/jaystack/corp-check-cli/master/README.md');
 
-export const getBadgesReadme = getReadme('https://raw.githubusercontent.com/jaystack/corp-check-rest/master/badge-README.md');
+export const getBadgesReadme = getReadme(
+  'https://raw.githubusercontent.com/jaystack/corp-check-rest/master/badge-README.md'
+);
