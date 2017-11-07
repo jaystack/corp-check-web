@@ -75,17 +75,15 @@ export const getNpmSuggestions = (name, version) => {
 
 export const getPopularPackages = () => api.get('popular-packages');
 
-export const getRulesReadme = async () => {
-  const response = await fetch('https://raw.githubusercontent.com/jaystack/corp-check-web/master/static/rules.md');
+export const getReadme = url => async () => {
+  const response = await fetch(url);
   return await response.text();
 };
 
-export const getCliReadme = async () => {
-  const response = await fetch('https://raw.githubusercontent.com/jaystack/corp-check-cli/master/README.md');
-  return await response.text();
-};
+export const getRulesReadme = getReadme(
+  'https://raw.githubusercontent.com/jaystack/corp-check-web/master/static/rules.md'
+);
 
-export const getBadgesReadme = async () => {
-  const response = await fetch('https://raw.githubusercontent.com/jaystack/corp-check-cli/master/README.md');
-  return await response.text();
-};
+export const getCliReadme = getReadme('https://raw.githubusercontent.com/jaystack/corp-check-cli/master/README.md');
+
+export const getBadgesReadme = getReadme('https://raw.githubusercontent.com/jaystack/corp-check-cli/master/README.md');
