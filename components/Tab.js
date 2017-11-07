@@ -65,7 +65,7 @@ export default class extends React.PureComponent {
                     Command Line Interface
                   </a>
                 </h3>
-                <pre className="cli">npm install --save-dev corp-check-cli</pre>
+                <pre className="cli">npm install corp-check-cli</pre>
                 <p>
                   If you want to use CorpCheck for more than just as a web tool to check packages for risks, you can
                   integrate the CLI module into your build and deployment process to actually prohibit the deployment of
