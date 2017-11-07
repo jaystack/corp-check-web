@@ -1,5 +1,5 @@
 body {
-  background-color: #F8F8F8;
+  background-color: #f8f8f8;
 }
 
 #root > div {
@@ -74,17 +74,21 @@ h2#logo a {
   flex-grow: 0 !important;
 }
 
-#root > header .menu a.twitter:hover {
-  color: #5091fb !important;
+#root > header .menu a:hover {
+  color: #f1d960 !important;
 }
 
-#root > header .menu a.instagram:hover {
-  color: #51769a !important;
+#root > header .menu a.feedback > i {
+  font-size: 26px;
+}
+
+/* #root > header .menu a.twitter:hover {
+  color: #5091fb !important;
 }
 
 #root > header .menu a.github:hover {
   color: #456fb7 !important;
-}
+} */
 
 .menu i {
   font-size: 32px;
