@@ -77,7 +77,7 @@ export default class extends React.PureComponent {
           popularPackages={popularPackages}
           mdRules={mdRules}
           mdCli={mdCli}
-          mdBadges={mdCli}
+          mdBadges={mdBadges}
         >
           <Form>
             {validationError && (
