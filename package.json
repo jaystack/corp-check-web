@@ -1,7 +1,7 @@
 {
   "name": "corp-check-web",
   "version": "1.0.0",
-  "description": "Webpage for corp-check",
+  "description": "Webpage for Corp-Check",
   "main": "index.js",
   "scripts": {
     "dev": "next",

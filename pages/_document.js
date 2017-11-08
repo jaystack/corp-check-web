@@ -12,7 +12,7 @@ export default class MyDocument extends Document {
     return (
       <html>
         <Head>
-          <title>corp-check</title>
+          <title>Corp-Check</title>
           <link rel="icon" type="image/png" href="/static/favicon.png" />
           <meta name="viewport" content="width=device-width" />
           <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.12/semantic.min.css" />

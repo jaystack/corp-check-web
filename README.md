@@ -1,5 +1,5 @@
 # corp-check-web
-Webpage for corp-check
+Webpage for Corp-Check
 
 ## Developing
 
