@@ -21,9 +21,9 @@ export default class extends React.PureComponent {
           <Grid.Row>
             <Grid.Column largeScreen={11} widescreen={11} mobile={16}>
               <Segment>
-                <Header as="h1" icon="checkmark box" content="CorpCheck" />
+                <Header as="h1" icon="checkmark box" content="Corp-Check" />
                 <p>
-                  Use CorpCheck to identify risks in packages you’d like to include into your precious code. Define rule
+                  Use Corp-Check to identify risks in packages you’d like to include into your precious code. Define rule
                   sets in your build process to prohibit dangerous packages jeopardizing your module and to get warning
                   messages about potentially risky includes.
                 </p>
@@ -32,7 +32,7 @@ export default class extends React.PureComponent {
                   your whole product.
                 </p>
                 <p>
-                  CorpCheck will analyze included packages and dependencies for licensing, versioning and popularity
+                  Corp-Check will analyze included packages and dependencies for licensing, versioning and popularity
                   risks. A hidden GPLv2 license might destroy your business. An unreleased alpha version might change so
                   drastically in days that your whole product crashes. An abandoned package might cause serious support
                   troubles just weeks after releasing your software.
@@ -67,7 +67,7 @@ export default class extends React.PureComponent {
                 </h3>
                 <pre className="cli">npm install corp-check-cli</pre>
                 <p>
-                  If you want to use CorpCheck for more than just as a web tool to check packages for risks, you can
+                  If you want to use Corp-Check for more than just as a web tool to check packages for risks, you can
                   integrate the CLI module into your build and deployment process to actually prohibit the deployment of
                   risky packages. The CLI will use the ruleset you define and stop if it encounters a viral license, an
                   unreleased package or an abandoned package will tons of open issues.
