@@ -36,10 +36,17 @@ export default class extends React.PureComponent {
         <Grid divided="vertically">
           <Grid.Row>
             <Grid.Column width={10}>
-              {qualification &&
-                <Label size="massive" as="a" color={getQualificationColor(qualification)} ribbon>
+              {qualification && (
+                <Label
+                  size="massive"
+                  as="a"
+                  color={getQualificationColor(qualification)}
+                  ribbon
+                  style={{ cursor: 'default' }}
+                >
                   {getQualificationLabel(qualification)}
-                </Label>}
+                </Label>
+              )}
               <Header
                 size="huge"
                 style={{ display: 'inline' }}
@@ -60,7 +67,7 @@ export default class extends React.PureComponent {
         </Grid>
         <div className="date-container">
           <Label size="big">
-            <Icon name="calendar" />CorpChecked at<Label.Detail>{new Date(date).toLocaleString()}</Label.Detail>
+            <Icon name="calendar" />Corp-Checked at<Label.Detail>{new Date(date).toLocaleString()}</Label.Detail>
           </Label>
         </div>
         <Tab
@@ -68,11 +75,19 @@ export default class extends React.PureComponent {
           panes={[
             {
               menuItem: 'Summary',
-              pane: <Tab.Pane key="summary"><Summary rootEvaluation={rootEvaluation} /></Tab.Pane>
+              pane: (
+                <Tab.Pane key="summary">
+                  <Summary rootEvaluation={rootEvaluation} />
+                </Tab.Pane>
+              )
             },
             {
               menuItem: 'Listing',
-              pane: <Tab.Pane key="listing"><Listing rootEvaluation={rootEvaluation} /></Tab.Pane>
+              pane: (
+                <Tab.Pane key="listing">
+                  <Listing rootEvaluation={rootEvaluation} />
+                </Tab.Pane>
+              )
             },
             {
               menuItem: 'Details',

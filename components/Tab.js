@@ -21,17 +21,17 @@ export default class extends React.PureComponent {
           <Grid.Row>
             <Grid.Column largeScreen={11} widescreen={11} mobile={16}>
               <Segment>
-                <Header as="h1" icon="checkmark box" content="Corp-Check" />
-                <p>
-                  Use Corp-Check to identify risks in packages you’d like to include into your precious code. Define rule
-                  sets in your build process to prohibit dangerous packages jeopardizing your module and to get warning
-                  messages about potentially risky includes.
+                <Header as="h1" content="Corp-Check" />
+                <p className="justified">
+                  Use Corp-Check to identify risks in packages you’d like to include into your precious code. Define
+                  rule sets in your build process to prohibit dangerous packages jeopardizing your module and to get
+                  warning messages about potentially risky includes.
                 </p>
-                <p>
+                <p className="justified">
                   Understand which included modules might cause trouble in the future, create an overall report about
                   your whole product.
                 </p>
-                <p>
+                <p className="justified">
                   Corp-Check will analyze included packages and dependencies for licensing, versioning and popularity
                   risks. A hidden GPLv2 license might destroy your business. An unreleased alpha version might change so
                   drastically in days that your whole product crashes. An abandoned package might cause serious support
@@ -66,11 +66,14 @@ export default class extends React.PureComponent {
                   </a>
                 </h3>
                 <pre className="cli">npm install corp-check-cli</pre>
-                <p>
+                <p className="justified">
                   If you want to use Corp-Check for more than just as a web tool to check packages for risks, you can
                   integrate the CLI module into your build and deployment process to actually prohibit the deployment of
-                  risky packages. The CLI will use the ruleset you define and stop if it encounters a viral license, an
-                  unreleased package or an abandoned package will tons of open issues.
+                  risky packages.
+                </p>
+                <p className="justified">
+                  The CLI will use the ruleset you define and stop if it encounters a viral license, an unreleased
+                  package or an abandoned package will tons of open issues.[
                 </p>
               </Segment>
             </Grid.Column>

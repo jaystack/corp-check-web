@@ -112,16 +112,22 @@ export default class extends React.PureComponent {
           </Card.Description>
         </Card.Content>
         <Card.Content>
-          {errors.length > 0 || warnings.length > 0 || infos.length > 0
-            ? <Accordion
-                exclusive={false}
-                panels={[
-                  getTypePanel(name, 'error', errors, 'red', 'announcement'),
-                  getTypePanel(name, 'warning', warnings, 'orange', 'warning sign'),
-                  getTypePanel(name, 'info', infos, 'grey', 'info')
-                ].filter(_ => _)}
-              />
-            : <h4>Everything was fine</h4>}
+          {errors.length > 0 || warnings.length > 0 || infos.length > 0 ? (
+            <Accordion
+              exclusive={false}
+              panels={[
+                getTypePanel(name, 'error', errors, 'red', 'announcement'),
+                getTypePanel(name, 'warning', warnings, 'orange', 'warning sign'),
+                getTypePanel(name, 'info', infos, 'grey', 'info')
+              ].filter(_ => _)}
+            />
+          ) : (
+            <Accordion>
+              <Accordion.Title style={{ cursor: 'default' }}>
+                <b>Everything was fine</b>
+              </Accordion.Title>
+            </Accordion>
+          )}
         </Card.Content>
       </Card>
     );
@@ -129,15 +135,16 @@ export default class extends React.PureComponent {
 }
 
 const getTypePanel = (evaluation, type, items, color, icon) =>
-  (items.length > 0
+  items.length > 0
     ? {
         title: (
           <Accordion.Title key={`${type}-title`}>
             <Icon name={icon} color={color} />
             <span style={{ userSelect: 'none' }}>
               {`We have found ${items.length}`}{' '}
-              <b
-              >{`${getEvaluationDisplayName(evaluation)} ${type}${items.length > 1 && type !== 'info' ? 's' : ''}`}</b>
+              <b>{`${getEvaluationDisplayName(evaluation)} ${type}${items.length > 1 && type !== 'info'
+                ? 's'
+                : ''}`}</b>
             </span>
           </Accordion.Title>
         ),
@@ -162,4 +169,4 @@ const getTypePanel = (evaluation, type, items, color, icon) =>
           </Accordion.Content>
         )
       }
-    : null);
+    : null;

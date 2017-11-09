@@ -2,6 +2,10 @@
   display: none !important;
 }
 
+.justified {
+  text-align: justify;
+}
+
 .search-fluid-fix {
   margin-bottom: 10px !important;
 }
