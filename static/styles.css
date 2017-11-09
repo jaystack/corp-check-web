@@ -19,7 +19,7 @@ nav .container {
 
 #root > header {
   margin-bottom: 30px;
-  border-bottom: 6px solid #f8dc3d;
+  border-bottom: 6px solid #f3da51;
   padding-top: 1px;
   min-height: 150px;
 
@@ -98,7 +98,7 @@ h2#logo a {
   flex-grow: 1;
   text-align: center;
   font-size: 25px;
-  color: #f8dc3d;
+  color: #f3da51;
   text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.50);
 }
 
@@ -173,12 +173,22 @@ h2#logo a {
 #root > footer {
   position: relative;
   border-top: 15px solid #212121;
-  border-bottom: 3px solid #f8dc3d;
+  border-bottom: 3px solid #f3da51;
   margin-top: 25px;
   padding-top: 28px;
   height: 166px;
   background-color: #2e2e2c;
   color: #fff;
+}
+
+.footer-left {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+#copy_text {
 }
 
 .footer_logo {
