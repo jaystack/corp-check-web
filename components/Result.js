@@ -42,7 +42,7 @@ export default class extends React.PureComponent {
                   as="a"
                   color={getQualificationColor(qualification)}
                   ribbon
-                  style={{ cursor: 'default' }}
+                  active={false}
                 >
                   {getQualificationLabel(qualification)}
                 </Label>

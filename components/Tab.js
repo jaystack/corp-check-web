@@ -73,7 +73,7 @@ export default class extends React.PureComponent {
                 </p>
                 <p className="justified">
                   The CLI will use the ruleset you define and stop if it encounters a viral license, an unreleased
-                  package or an abandoned package will tons of open issues.[
+                  package or an abandoned package will tons of open issues.
                 </p>
               </Segment>
             </Grid.Column>
