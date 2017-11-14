@@ -1,5 +1,4 @@
 {
-  "family": "corp-check-web",
   "taskRoleArn": "arn:aws:iam::856324650258:role/corp-check-complete",
   "containerDefinitions": [
     {
