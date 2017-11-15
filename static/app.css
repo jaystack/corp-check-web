@@ -105,6 +105,7 @@ pre.cli {
 
 .md table {
   border-collapse: collapse;
+  margin-bottom: 1em;
 }
 
 .md table tr {
@@ -120,7 +121,7 @@ pre.cli {
 }
 
 .md pre {
-  background-color: #efefef;
+  background-color: #f8f8f8;
   padding: 10px;
 }
 
