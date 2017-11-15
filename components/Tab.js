@@ -13,7 +13,8 @@ export default class extends React.PureComponent {
       popularPackages = [],
       mdRules = '',
       mdCli = '',
-      mdBadges = ''
+      mdBadges = '',
+      mdConcept = ''
     } = this.props;
     return (
       <Container>
@@ -83,6 +84,14 @@ export default class extends React.PureComponent {
               <Tab
                 renderActiveOnly={false}
                 panes={[
+                  {
+                    menuItem: { key: 'concept', content: 'Concept', icon: 'idea' },
+                    pane: (
+                      <Tab.Pane key="concept">
+                        <Markdown source={mdConcept} />
+                      </Tab.Pane>
+                    )
+                  },
                   {
                     menuItem: { key: 'rules', content: 'Rules', icon: 'sliders' },
                     pane: (

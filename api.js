@@ -15,7 +15,7 @@ const getProgress = message => {
   if (!message) return null;
   const parts = message.split(' - ');
   if (parts.length < 2) return null;
-  const [ value, total ] = parts[0].split('/');
+  const [value, total] = parts[0].split('/');
   return { value, total, message: parts[1] };
 };
 
@@ -57,7 +57,7 @@ const getResultByCid = async cid => {
   if (!cid) return { completed: false };
   const result = await api.get('package', { query: { cid } });
   return {
-    completed: [ 'SUCCEEDED', 'FAILED' ].includes(result.state.type),
+    completed: ['SUCCEEDED', 'FAILED'].includes(result.state.type),
     state: result.state.type,
     progress: getProgress(result.state.message),
     date: result.state.date,
@@ -88,4 +88,8 @@ export const getCliReadme = getReadme('https://raw.githubusercontent.com/jaystac
 
 export const getBadgesReadme = getReadme(
   'https://raw.githubusercontent.com/jaystack/corp-check-rest/master/badge-README.md'
+);
+
+export const getConceptReadme = getReadme(
+  'https://raw.githubusercontent.com/jaystack/corp-check-rest/master/concept-README.md'
 );

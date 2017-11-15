@@ -6,7 +6,14 @@ import TextUploader from '../components/TextUploader';
 import CollapsableTextUploader from '../components/CollapsableTextUploader';
 import { Form, TextArea, Button, Message } from 'semantic-ui-react';
 import { isValidJson } from 'corp-check-core';
-import { validateByJson, getPopularPackages, getRulesReadme, getCliReadme, getBadgesReadme } from '../api';
+import {
+  validateByJson,
+  getPopularPackages,
+  getRulesReadme,
+  getCliReadme,
+  getBadgesReadme,
+  getConceptReadme
+} from '../api';
 
 export default class extends React.PureComponent {
   static async getInitialProps() {
@@ -14,7 +21,8 @@ export default class extends React.PureComponent {
     const mdRules = await getRulesReadme();
     const mdCli = await getCliReadme();
     const mdBadges = await getBadgesReadme();
-    return { popularPackages, mdRules, mdCli, mdBadges };
+    const mdConcept = await getConceptReadme();
+    return { popularPackages, mdRules, mdCli, mdBadges, mdConcept };
   }
 
   state = {
@@ -67,7 +75,7 @@ export default class extends React.PureComponent {
   }
 
   render() {
-    const { url, popularPackages, mdRules, mdCli, mdBadges } = this.props;
+    const { url, popularPackages, mdRules, mdCli, mdBadges, mdConcept } = this.props;
     const { packageJson, isFetchingValidation, validationError, ruleSet } = this.state;
     return (
       <Page>
@@ -78,13 +86,13 @@ export default class extends React.PureComponent {
           mdRules={mdRules}
           mdCli={mdCli}
           mdBadges={mdBadges}
+          mdConcept={mdConcept}
         >
           <Form>
-            {validationError && (
+            {validationError &&
               <Message negative>
                 <p>{validationError}</p>
-              </Message>
-            )}
+              </Message>}
             <Form.Field>
               <TextUploader
                 label="package.json"

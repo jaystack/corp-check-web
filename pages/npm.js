@@ -13,7 +13,8 @@ import {
   getPopularPackages,
   getRulesReadme,
   getCliReadme,
-  getBadgesReadme
+  getBadgesReadme,
+  getConceptReadme
 } from '../api';
 
 const TYPING_TIMEOUT = 300;
@@ -24,7 +25,8 @@ export default class extends React.PureComponent {
     const mdRules = await getRulesReadme();
     const mdCli = await getCliReadme();
     const mdBadges = await getBadgesReadme();
-    return { popularPackages, mdRules, mdCli, mdBadges };
+    const mdConcept = await getConceptReadme();
+    return { popularPackages, mdRules, mdCli, mdBadges, mdConcept };
   }
 
   state = {
@@ -87,7 +89,7 @@ export default class extends React.PureComponent {
   }
 
   render() {
-    const { url, popularPackages, mdRules, mdCli, mdBadges } = this.props;
+    const { url, popularPackages, mdRules, mdCli, mdBadges, mdConcept } = this.props;
     const { value, results, isFetchingValidation, isFetchingSuggestions, validationError, ruleSet } = this.state;
     return (
       <Page>
@@ -98,6 +100,7 @@ export default class extends React.PureComponent {
           mdRules={mdRules}
           mdCli={mdCli}
           mdBadges={mdBadges}
+          mdConcept={mdConcept}
         >
           <Search
             ref="search"
@@ -114,11 +117,10 @@ export default class extends React.PureComponent {
             placeholder="Enter package name"
             showNoResults={false}
           />
-          {validationError && (
+          {validationError &&
             <Message negative>
               <p>{validationError}</p>
-            </Message>
-          )}
+            </Message>}
           <Form>
             <Form.Field>
               <CollapsableTextUploader
