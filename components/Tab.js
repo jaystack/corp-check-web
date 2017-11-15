@@ -23,21 +23,32 @@ export default class extends React.PureComponent {
             <Grid.Column largeScreen={11} widescreen={11} mobile={16}>
               <Segment>
                 <Header as="h1" content="Corp-Check" />
-                <p className="justified">
-                  Use Corp-Check to identify risks in packages you’d like to include into your precious code. Define
-                  rule sets in your build process to prohibit dangerous packages jeopardizing your module and to get
-                  warning messages about potentially risky includes.
-                </p>
-                <p className="justified">
-                  Understand which included modules might cause trouble in the future, create an overall report about
-                  your whole product.
-                </p>
-                <p className="justified">
-                  Corp-Check will analyze included packages and dependencies for licensing, versioning and popularity
-                  risks. A hidden GPLv2 license might destroy your business. An unreleased alpha version might change so
-                  drastically in days that your whole product crashes. An abandoned package might cause serious support
-                  troubles just weeks after releasing your software.
-                </p>
+                <Grid columns={2}>
+                  <Grid.Row>
+                    <Grid.Column largeScreen={16} mobile={16}>
+                      <img
+                        alt="screenshots"
+                        src="/static/images/montage.png"
+                        style={{ display: 'inline', float: 'right', margin: '1em', width: '350px' }}
+                      />
+                      <p className="justified">
+                        Use Corp-Check to identify risks in packages you’d like to include into your precious code. Define
+                        rule sets in your build process to prohibit dangerous packages jeopardizing your module and to get
+                        warning messages about potentially risky includes.
+                      </p>
+                      <p className="justified">
+                        Understand which included modules might cause trouble in the future, create an overall report about
+                        your whole product.
+                      </p>
+                      <p className="justified">
+                        Corp-Check will analyze included packages and dependencies for licensing, versioning and popularity
+                        risks. A hidden GPLv2 license might destroy your business. An unreleased alpha version might change so
+                        drastically in days that your whole product crashes. An abandoned package might cause serious support
+                        troubles just weeks after releasing your software.
+                      </p>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
               </Segment>
               <Segment loading={inProgress}>
                 <Menu fluid widths={2}>
