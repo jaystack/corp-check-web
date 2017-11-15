@@ -88,7 +88,7 @@ export default class extends React.PureComponent {
                     menuItem: { key: 'concept', content: 'Concept', icon: 'idea' },
                     pane: (
                       <Tab.Pane key="concept">
-                        <Markdown source={mdConcept} />
+                        <Markdown source={mdConcept} className="md" />
                       </Tab.Pane>
                     )
                   },
@@ -96,7 +96,7 @@ export default class extends React.PureComponent {
                     menuItem: { key: 'rules', content: 'Rules', icon: 'sliders' },
                     pane: (
                       <Tab.Pane key="rules">
-                        <Markdown source={mdRules} />
+                        <Markdown source={mdRules} className="md" />
                       </Tab.Pane>
                     )
                   },
@@ -104,7 +104,7 @@ export default class extends React.PureComponent {
                     menuItem: { key: 'cli', content: 'CLI', icon: 'terminal' },
                     pane: (
                       <Tab.Pane key="cli">
-                        <Markdown source={mdCli} />
+                        <Markdown source={mdCli} className="md" />
                       </Tab.Pane>
                     )
                   },
@@ -112,7 +112,7 @@ export default class extends React.PureComponent {
                     menuItem: { key: 'badges', content: 'Badges', icon: 'tag' },
                     pane: (
                       <Tab.Pane key="badges">
-                        <Markdown source={mdBadges} />
+                        <Markdown source={mdBadges} className="md" />
                       </Tab.Pane>
                     )
                   }

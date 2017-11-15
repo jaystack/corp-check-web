@@ -102,3 +102,28 @@ pre.cli {
 .evaluation-log:last-child {
   margin-bottom: 0px !important;
 }
+
+.md table {
+  border-collapse: collapse;
+}
+
+.md table tr {
+  border-bottom: 1px solid grey;
+}
+
+.md table tr:last-child {
+  border-bottom: 0;
+}
+
+.md table td {
+  padding: 5px 10px;
+}
+
+.md pre {
+  background-color: #efefef;
+  padding: 10px;
+}
+
+.md code {
+  font-family: Courier New, Courier, monospace;
+}
