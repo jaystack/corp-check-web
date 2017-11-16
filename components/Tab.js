@@ -96,7 +96,7 @@ export default class extends React.PureComponent {
                 renderActiveOnly={false}
                 panes={[
                   {
-                    menuItem: { key: 'concept', content: 'Concept', icon: 'idea' },
+                    menuItem: { key: 'concept', content: <span className="tab-label">Concept</span>, icon: 'idea' },
                     pane: (
                       <Tab.Pane key="concept">
                         <Markdown source={mdConcept} className="md" />
@@ -104,7 +104,7 @@ export default class extends React.PureComponent {
                     )
                   },
                   {
-                    menuItem: { key: 'rules', content: 'Rules', icon: 'sliders' },
+                    menuItem: { key: 'rules', content: <span className="tab-label">Rules</span>, icon: 'sliders' },
                     pane: (
                       <Tab.Pane key="rules">
                         <Markdown source={mdRules} className="md" />
@@ -112,7 +112,7 @@ export default class extends React.PureComponent {
                     )
                   },
                   {
-                    menuItem: { key: 'cli', content: 'CLI', icon: 'terminal' },
+                    menuItem: { key: 'cli', content: <span className="tab-label">CLI</span>, icon: 'terminal' },
                     pane: (
                       <Tab.Pane key="cli">
                         <Markdown source={mdCli} className="md" />
@@ -120,7 +120,7 @@ export default class extends React.PureComponent {
                     )
                   },
                   {
-                    menuItem: { key: 'badges', content: 'Badges', icon: 'tag' },
+                    menuItem: { key: 'badges', content: <span className="tab-label">Badges</span>, icon: 'tag' },
                     pane: (
                       <Tab.Pane key="badges">
                         <Markdown source={mdBadges} className="md" />

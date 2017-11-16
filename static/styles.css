@@ -138,6 +138,10 @@ h2#logo a {
   .ui.stackable.cards {
     margin-top: 0;
   }
+
+  .tab-label {
+    display: none;
+  }
 }
 
 .ui.column.grid > [class*="sixteen wide"].column,
@@ -194,14 +198,22 @@ h2#logo a {
 .footer_logo {
   float: right;
   display: block;
-  width: 257px;
-  height: 96px;
-  background: url('./images/footer_logo.png') right no-repeat;
+  height: 80px;
+  margin-top: 3px;
+  transition: width 0.222s linear;
+}
+
+.footer_jaystack_logo {
+  height: 50px;
+  margin-top: 25px;
+  float: left;
+  display: block;
   transition: width 0.222s linear;
 }
 
 @media (max-width: 990px) {
   .footer_logo {
-    width: 96px;
+    overflow: hidden;
+    margin-left: -133px;
   }
 }

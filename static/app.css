@@ -123,8 +123,20 @@ pre.cli {
 .md pre {
   background-color: #f8f8f8;
   padding: 10px;
+  overflow-x: auto;
 }
 
 .md code {
   font-family: Courier New, Courier, monospace;
+}
+
+.md code {
+  white-space: nowrap;
+  background-color: #f8f8f8;
+  padding: 3px;
+}
+
+.md pre code {
+  white-space: inherit !important;
+  padding: 0px;
 }
