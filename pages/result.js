@@ -7,12 +7,9 @@ import { getResult, sleep } from '../api';
 const RETRY = 1500;
 
 export default class extends React.PureComponent {
-  static async getInitialProps({ query, res }) {
+  static async getInitialProps({ query }) {
     try {
       const result = await getResult(query);
-      if (result.state === 'PENDING' && res) {
-        res.setHeader('X-Corp-Check-Penindg', '1');
-      }
       return { result, error: result.state === 'FAILED' ? 'Something went wrong' : null };
     } catch (error) {
       return { result: { completed: true, state: 'FAILED' }, error: error.message };
@@ -64,7 +61,7 @@ export default class extends React.PureComponent {
     const progress = result && result.progress;
     return (
       <Page>
-        <div className="result-page">
+        <div>
           <Container>
             <Grid columns={16}>
               <Grid.Column largeScreen={16} mobile={16}>
