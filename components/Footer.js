@@ -4,11 +4,12 @@ import { Container } from 'semantic-ui-react';
 export default () => (
   <footer>
     <Container>
-      <a href="http://jaystack.com/">
-        <img alt="jaystack-logo" src="/static/images/jaystacklogo_white_blue.png" className="footer_jaystack_logo" />
+      <a href="http://jaystack.com/" target="_blank" className="footer_logo jaystack">
+        <img alt="jaystack-logo" src="/static/images/jaystacklogo_white_blue.png" />
+        <span>Corporate products from JayStack</span>
       </a>
-      <a href="http://corpjs.com/" className="footer_logo ">
-        <img alt="corpjs-logo" src="/static/images/footer_logo.png" className="footer_logo" />
+      <a href="http://corpjs.com/" target="_blank" className="footer_logo corpjs">
+        <img alt="corpjs-logo" src="/static/images/footer_logo.png" />
       </a>
     </Container>
   </footer>

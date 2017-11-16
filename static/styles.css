@@ -185,6 +185,10 @@ h2#logo a {
   color: #fff;
 }
 
+footer a {
+  color: white;
+}
+
 .footer-left {
   height: 100%;
   display: flex;
@@ -192,28 +196,41 @@ h2#logo a {
   justify-content: flex-end;
 }
 
-#copy_text {
-}
-
 .footer_logo {
-  float: right;
   display: block;
-  height: 80px;
-  margin-top: 3px;
+  overflow: auto;
   transition: width 0.222s linear;
 }
 
-.footer_jaystack_logo {
-  height: 50px;
-  margin-top: 25px;
-  float: left;
-  display: block;
-  transition: width 0.222s linear;
+.footer_logo.corpjs {
+  float: right;
+  margin-top: 3px;
 }
 
 @media (max-width: 990px) {
-  .footer_logo {
+  .footer_logo.corpjs img {
     overflow: hidden;
     margin-left: -133px;
   }
+}
+
+.footer_logo.corpjs img {
+  height: 80px;
+}
+
+.footer_logo.jaystack {
+  float: left;
+  margin-top: 10px;
+}
+
+.footer_logo.jaystack:hover {
+  color: white;
+}
+
+.footer_logo.jaystack img {
+  height: 50px;
+}
+
+.footer_logo.jaystack span {
+  display: block;
 }
