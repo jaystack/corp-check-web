@@ -16,7 +16,7 @@ export default () => (
               <ReactRotatingText
                 pause={3500}
                 typingInterval={75}
-                items={['module', 'package', 'system', 'application', 'service']}
+                items={[ 'module', 'package', 'system', 'application', 'service' ]}
               />
             </strong>{' '}
             is just as weak as its weakest dependency
@@ -32,6 +32,14 @@ export default () => (
               target="_blank"
             >
               <Icon name="github" />
+            </Menu.Item>
+            <Menu.Item
+              name="meetup"
+              className="meetup"
+              href="https://www.meetup.com/Corporate-JavaScript-Meetup-Budapest/?_cookie-check=SzKdy8Q7J7RtbpXd"
+              target="_blank"
+            >
+              <Icon name="meetup" />
             </Menu.Item>
             <Menu.Item name="feedback" className="feedback" href="http://corpjs.com/feedback/" target="_blank">
               <Icon name="send" />
