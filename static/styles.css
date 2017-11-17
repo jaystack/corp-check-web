@@ -234,3 +234,16 @@ footer a {
 .footer_logo.jaystack span {
   display: block;
 }
+
+footer .link-1 {
+  display: block;
+  margin-top: 22px;
+  float: left;
+  margin-left: 20px;
+}
+
+@media (max-width: 990px) {
+  footer .link-1 {
+    display: none;
+  }
+}
