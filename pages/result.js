@@ -10,7 +10,7 @@ export default class extends React.PureComponent {
   static async getInitialProps({ query }) {
     try {
       const result = await getResult(query);
-      return { result, error: result.state === 'FAILED' ? 'Something went wrong' : null };
+      return { result, error: result.state === 'FAILED' ? result.errorMessage || 'Something went wrong' : null };
     } catch (error) {
       return { result: { completed: true, state: 'FAILED' }, error: error.message };
     }
@@ -32,7 +32,10 @@ export default class extends React.PureComponent {
         return;
       }
       this.stopRetry();
-      this.setState({ result, error: result.state === 'FAILED' ? 'Something went wrong' : null });
+      this.setState({
+        result,
+        error: result.state === 'FAILED' ? result.errorMessage || 'Something went wrong' : null
+      });
     } catch (error) {
       this.stopRetry();
       this.setState({ error: error.message });
@@ -66,7 +69,7 @@ export default class extends React.PureComponent {
             <Grid columns={16}>
               <Grid.Column largeScreen={16} mobile={16}>
                 <Segment padded={!result.completed && 'very'}>
-                  {loading &&
+                  {loading && (
                     <Progress
                       value={progress ? progress.value : 0}
                       total={progress ? progress.total : 0}
@@ -76,12 +79,14 @@ export default class extends React.PureComponent {
                       color="teal"
                     >
                       {progress ? progress.message : 'Pending'} ...
-                    </Progress>}
+                    </Progress>
+                  )}
                   {result.completed && !error && <Result result={result} />}
-                  {error &&
+                  {error && (
                     <Message negative>
                       <p>{error}</p>
-                    </Message>}
+                    </Message>
+                  )}
                 </Segment>
               </Grid.Column>
             </Grid>

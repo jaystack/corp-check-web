@@ -15,7 +15,7 @@ const getProgress = message => {
   if (!message) return null;
   const parts = message.split(' - ');
   if (parts.length < 2) return null;
-  const [value, total] = parts[0].split('/');
+  const [ value, total ] = parts[0].split('/');
   return { value, total, message: parts[1] };
 };
 
@@ -57,9 +57,10 @@ const getResultByCid = async cid => {
   if (!cid) return { completed: false };
   const result = await api.get('package', { query: { cid } });
   return {
-    completed: ['SUCCEEDED', 'FAILED'].includes(result.state.type),
+    completed: [ 'SUCCEEDED', 'FAILED' ].includes(result.state.type),
     state: result.state.type,
-    progress: getProgress(result.state.message),
+    progress: result.state.type === 'PENDING' ? getProgress(result.state.message) : '',
+    errorMessage: result.state.type === 'FAILED' ? result.state.message : '',
     date: result.state.date,
     name: result.name,
     ...result.result
