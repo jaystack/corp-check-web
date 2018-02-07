@@ -102,7 +102,7 @@ export default class Tree extends React.PureComponent {
     const { depth, node: { dependencies } } = this.props;
     const { isOpen } = this.state;
     return (
-      <div className="dependencies" className={!isOpen && 'hidden'}>
+      <div className="dependencies" className={classnames(!isOpen && 'hidden')}>
         {dependencies.map(dependency => (
           <Tree key={dependency.nodeName} node={dependency} depth={depth + 1} ref={this.augmentDependecyRefs} />
         ))}

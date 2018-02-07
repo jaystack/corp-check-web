@@ -25,11 +25,11 @@
     "corp-check-core": "^1.0.6",
     "d3-scale": "^1.0.6",
     "isomorphic-fetch": "^2.2.1",
-    "next": "^3.2.2",
-    "react": "^15.6.2",
-    "react-dom": "^15.6.2",
+    "next": "^5.0.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
     "react-markdown": "^2.5.0",
-    "react-rotating-text": "^1.2.0",
+    "react-rotating-text": "^1.2.1",
     "semantic-ui-react": "^0.74.2"
   }
 }
